@@ -40,15 +40,17 @@ class VerifyCommand extends Command
         $validatorRegistry->add(new EqualsValidator());
         $validatorRegistry->add(new RequiredValidator());
 
-        $specification = require dirname(__DIR__, 3) . '/stubs/env.spec.php';
-
-        $parser = new SpecVerificationService(
+        $service = new SpecVerificationService(
             new EnvStateProvider(),
-            new SpecificationLoader(new SpecificationPhpArrayReader($specification)),
+            new SpecificationLoader(
+                new SpecificationPhpArrayReader(
+                    require dirname(__DIR__, 3) . '/stubs/env.spec.php'
+                )
+            ),
             $validatorRegistry,
         );
 
-        $messages = $parser->verify($input->getArgument('env'));
+        $messages = $service->verify($input->getArgument('env'));
 
         if ($messages !== []) {
             $output->writeln('<error>Application environment is not valid.</error>');

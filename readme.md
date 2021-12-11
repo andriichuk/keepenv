@@ -1,7 +1,4 @@
-Environment variables manager
-
-Env
-
+TODO:
 * variables validation and fix
 * split by environment
 * check in .env.example
