@@ -6,5 +6,5 @@ namespace Andriichuk\Enviro\Reader;
 
 interface SpecificationReaderInterface
 {
-    public function read(): array;
+    public function read(string $environment): array;
 }

@@ -7,6 +7,10 @@ namespace Andriichuk\Enviro\Specification;
 class Specification
 {
     private string $environmentName;
+
+    /**
+     * @var array<Variable>
+     */
     private array $variables = [];
 
     public function __construct(string $environmentName)
@@ -27,5 +31,13 @@ class Specification
     public function get(string $variable)
     {
         return $this->variables[$variable] ?? null;
+    }
+
+    /**
+     * @var array<Variable>
+     */
+    public function all(): array
+    {
+        return $this->variables;
     }
 }

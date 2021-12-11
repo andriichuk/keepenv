@@ -14,4 +14,12 @@ class Variable
      */
     public $default;
     public array $rules = [];
+
+    public function __construct(string $name, string $description, $default, array $rules)
+    {
+        $this->name = $name;
+        $this->description = $description;
+        $this->default = $default;
+        $this->rules = $rules;
+    }
 }

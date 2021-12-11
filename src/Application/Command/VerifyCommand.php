@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Andriichuk\Enviro\Application\Command;
 
-use Andriichuk\Enviro\Reader\SpecificationReader;
+use Andriichuk\Enviro\Reader\SpecificationPhpArrayReader;
+use Andriichuk\Enviro\Specification\SpecificationLoader;
 use Andriichuk\Enviro\State\EnvStateProvider;
 use Andriichuk\Enviro\Verification\SpecVerificationService;
 use Andriichuk\Enviro\Validation\EmailValidator;
@@ -43,7 +44,7 @@ class VerifyCommand extends Command
 
         $parser = new SpecVerificationService(
             new EnvStateProvider(),
-            new SpecificationReader($specification),
+            new SpecificationLoader(new SpecificationPhpArrayReader($specification)),
             $validatorRegistry,
         );
 
