@@ -3,7 +3,7 @@
 
 declare(strict_types=1);
 
-use Andriichuk\EnvValidator\Application\Command\VerifyCommand;
+use Andriichuk\Enviro\Application\Command\VerifyCommand;
 use Dotenv\Dotenv;
 use Symfony\Component\Console\Application;
 

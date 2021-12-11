@@ -42,7 +42,7 @@ class ComposerStaticInite508f0b52cc41fbe7df7046bf0af3e99
         ),
         'A' => 
         array (
-            'Andriichuk\\EnvValidator\\' => 24,
+            'Andriichuk\\Enviro\\' => 18,
         ),
     );
 
@@ -95,7 +95,7 @@ class ComposerStaticInite508f0b52cc41fbe7df7046bf0af3e99
         array (
             0 => __DIR__ . '/..' . '/vlucas/phpdotenv/src',
         ),
-        'Andriichuk\\EnvValidator\\' => 
+        'Andriichuk\\Enviro\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',
         ),

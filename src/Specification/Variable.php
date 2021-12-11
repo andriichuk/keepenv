@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\EnvValidator;
+namespace Andriichuk\Enviro\Specification;
 
-class EnvVariable
+class Variable
 {
     public string $name;
     public string $description;

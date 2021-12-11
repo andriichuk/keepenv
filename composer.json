@@ -2,7 +2,7 @@
     "name": "andriichuk/env-validator",
     "autoload": {
         "psr-4": {
-            "Andriichuk\\EnvValidator\\": "src/"
+            "Andriichuk\\Enviro\\": "src/"
         }
     },
     "authors": [

@@ -2,22 +2,22 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\EnvValidator\Verification;
+namespace Andriichuk\Enviro\Verification;
 
-use Andriichuk\EnvValidator\EnvSpecReaderInterface;
-use Andriichuk\EnvValidator\EnvStateProviderInterface;
-use Andriichuk\EnvValidator\Validation\ValidatorRegistryInterface;
+use Andriichuk\Enviro\Reader\SpecificationReaderInterface;
+use Andriichuk\Enviro\State\EnvStateProviderInterface;
+use Andriichuk\Enviro\Validation\ValidatorRegistryInterface;
 
 class SpecVerificationService
 {
     private EnvStateProviderInterface $environmentStateProvider;
-    private EnvSpecReaderInterface $environmentSpecProvider;
+    private SpecificationReaderInterface $environmentSpecProvider;
     private ValidatorRegistryInterface $validatorRegistry;
 
     public function __construct(
-        EnvStateProviderInterface  $environmentStateProvider,
-        EnvSpecReaderInterface     $environmentSpecProvider,
-        ValidatorRegistryInterface $validatorRegistry
+        EnvStateProviderInterface    $environmentStateProvider,
+        SpecificationReaderInterface $environmentSpecProvider,
+        ValidatorRegistryInterface   $validatorRegistry
     ) {
         $this->environmentStateProvider = $environmentStateProvider;
         $this->environmentSpecProvider = $environmentSpecProvider;

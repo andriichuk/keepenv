@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\EnvValidator\Application\Command;
+namespace Andriichuk\Enviro\Application\Command;
 
-use Andriichuk\EnvValidator\EnvSpecReader;
-use Andriichuk\EnvValidator\EnvStateProvider;
-use Andriichuk\EnvValidator\Verification\SpecVerificationService;
-use Andriichuk\EnvValidator\Validation\EmailValidator;
-use Andriichuk\EnvValidator\Validation\EnumValidator;
-use Andriichuk\EnvValidator\Validation\EqualsValidator;
-use Andriichuk\EnvValidator\Validation\IntegerValidator;
-use Andriichuk\EnvValidator\Validation\RequiredValidator;
-use Andriichuk\EnvValidator\Validation\ValidatorRegistry;
+use Andriichuk\Enviro\Reader\SpecificationReader;
+use Andriichuk\Enviro\State\EnvStateProvider;
+use Andriichuk\Enviro\Verification\SpecVerificationService;
+use Andriichuk\Enviro\Validation\EmailValidator;
+use Andriichuk\Enviro\Validation\EnumValidator;
+use Andriichuk\Enviro\Validation\EqualsValidator;
+use Andriichuk\Enviro\Validation\IntegerValidator;
+use Andriichuk\Enviro\Validation\RequiredValidator;
+use Andriichuk\Enviro\Validation\ValidatorRegistry;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -43,7 +43,7 @@ class VerifyCommand extends Command
 
         $parser = new SpecVerificationService(
             new EnvStateProvider(),
-            new EnvSpecReader($specification),
+            new SpecificationReader($specification),
             $validatorRegistry,
         );
 

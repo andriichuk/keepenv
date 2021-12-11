@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\EnvValidator;
+namespace Andriichuk\Enviro\State;
 
 interface EnvStateProviderInterface
 {

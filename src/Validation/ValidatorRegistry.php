@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\EnvValidator\Validation;
+namespace Andriichuk\Enviro\Validation;
 
 class ValidatorRegistry implements ValidatorRegistryInterface
 {

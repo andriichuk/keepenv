@@ -2,9 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\EnvValidator;
+namespace Andriichuk\Enviro\Reader;
 
-class EnvSpecReader implements EnvSpecReaderInterface
+use Andriichuk\Enviro\Reader\SpecificationReaderInterface;
+
+class SpecificationReader implements SpecificationReaderInterface
 {
     private array $specification;
 
