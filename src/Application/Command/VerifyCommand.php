@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Andriichuk\Enviro\Application\Command;
 
 use Andriichuk\Enviro\Reader\SpecificationPhpArrayReader;
+use Andriichuk\Enviro\Reader\SpecificationYamlReader;
 use Andriichuk\Enviro\Specification\SpecificationLoader;
 use Andriichuk\Enviro\State\EnvStateProvider;
 use Andriichuk\Enviro\Verification\SpecVerificationService;
@@ -27,6 +28,7 @@ class VerifyCommand extends Command
     {
         $this
             ->addArgument('env', InputArgument::REQUIRED, 'Target environment name.')
+            ->addArgument('source', InputArgument::REQUIRED, 'Source file.')
             ->setDescription('Application environment verification.')
             ->setHelp('This command allows you to verify environment specification.');
     }
@@ -40,13 +42,27 @@ class VerifyCommand extends Command
         $validatorRegistry->add(new EqualsValidator());
         $validatorRegistry->add(new RequiredValidator());
 
+        $source = $input->getArgument('source');
+        $sourcePath = dirname(__DIR__, 3) . '/stubs/' . $source;
+        $parts = explode('.', $source);
+        $type = end($parts);
+
+        switch ($type) {
+            case 'php':
+                $reader = new SpecificationPhpArrayReader($sourcePath);
+                break;
+
+            case 'yaml':
+                $reader = new SpecificationYamlReader($sourcePath);
+                break;
+
+            default:
+                throw new \InvalidArgumentException("Unsupported type `{$type}`");
+        }
+
         $service = new SpecVerificationService(
             new EnvStateProvider(),
-            new SpecificationLoader(
-                new SpecificationPhpArrayReader(
-                    require dirname(__DIR__, 3) . '/stubs/env.spec.php'
-                )
-            ),
+            new SpecificationLoader($reader),
             $validatorRegistry,
         );
 

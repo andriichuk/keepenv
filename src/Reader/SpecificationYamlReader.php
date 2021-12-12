@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Andriichuk\Enviro\Reader;
 
-class SpecificationPhpArrayReader implements SpecificationReaderInterface
+use Symfony\Component\Yaml\Yaml;
+
+class SpecificationYamlReader implements SpecificationReaderInterface
 {
     private string $sourceFile;
 
@@ -15,7 +17,8 @@ class SpecificationPhpArrayReader implements SpecificationReaderInterface
 
     public function read(string $environment): array
     {
-        $specification = include $this->sourceFile;
+        $specification = Yaml::parseFile($this->sourceFile);
+
         $common = $specification['common'] ?? [];
         $environmentSpecification = $specification[$environment] ?? null;
 
