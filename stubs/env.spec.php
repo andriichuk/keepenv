@@ -6,7 +6,7 @@ return [
             'description' => 'Application environment',
             'default' => 'production',
             'rules' => [
-                'required',
+                'required' => true,
                 'enum' => [
                     'strict' => true,
                     'cases' => ['local', 'production'],
@@ -17,7 +17,7 @@ return [
             'description' => 'Application debug mode.',
             'default' => 'true',
             'rules' => [
-                'required',
+                'required' => true,
                 'enum' => [
                     'strict' => true,
                     'cases' => ['true', 'false'],
@@ -28,7 +28,7 @@ return [
             'description' => 'Log channel.',
             'default' => 'stack',
             'rules' => [
-                'required',
+                'required' => true,
                 'enum' => [
                     'strict' => true,
                     'cases' => ['stack', 'daily'],

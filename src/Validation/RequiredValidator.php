@@ -18,6 +18,13 @@ class RequiredValidator implements ValidatorInterface
 
     public function validate($value, array $options): bool
     {
-        return !empty($value);
+        $isEmpty = empty($value);
+        $isRequired = (bool) reset($options); // TODO: check type
+
+        if (!$isRequired) {
+            return true;
+        }
+
+        return !$isEmpty;
     }
 }

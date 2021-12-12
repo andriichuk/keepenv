@@ -6,7 +6,7 @@ namespace Andriichuk\Enviro\Application\Command;
 
 use Andriichuk\Enviro\Reader\SpecificationPhpArrayReader;
 use Andriichuk\Enviro\Reader\SpecificationYamlReader;
-use Andriichuk\Enviro\Specification\SpecificationLoader;
+use Andriichuk\Enviro\Specification\SpecificationArrayBuilder;
 use Andriichuk\Enviro\State\EnvStateProvider;
 use Andriichuk\Enviro\Verification\SpecVerificationService;
 use Andriichuk\Enviro\Validation\EmailValidator;
@@ -49,24 +49,19 @@ class VerifyCommand extends Command
 
         switch ($type) {
             case 'php':
-                $reader = new SpecificationPhpArrayReader($sourcePath);
+                $reader = new SpecificationPhpArrayReader(new SpecificationArrayBuilder());
                 break;
 
             case 'yaml':
-                $reader = new SpecificationYamlReader($sourcePath);
+                $reader = new SpecificationYamlReader(new SpecificationArrayBuilder());
                 break;
 
             default:
                 throw new \InvalidArgumentException("Unsupported type `{$type}`");
         }
 
-        $service = new SpecVerificationService(
-            new EnvStateProvider(),
-            new SpecificationLoader($reader),
-            $validatorRegistry,
-        );
-
-        $messages = $service->verify($input->getArgument('env'));
+        $service = new SpecVerificationService(new EnvStateProvider(), $reader, $validatorRegistry);
+        $messages = $service->verify($sourcePath, $input->getArgument('env'));
 
         if ($messages !== []) {
             $output->writeln('<error>Application environment is not valid.</error>');

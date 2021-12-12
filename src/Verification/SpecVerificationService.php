@@ -4,29 +4,29 @@ declare(strict_types=1);
 
 namespace Andriichuk\Enviro\Verification;
 
-use Andriichuk\Enviro\Specification\SpecificationLoader;
+use Andriichuk\Enviro\Reader\SpecificationReaderInterface;
 use Andriichuk\Enviro\State\EnvStateProviderInterface;
 use Andriichuk\Enviro\Validation\ValidatorRegistryInterface;
 
 class SpecVerificationService
 {
     private EnvStateProviderInterface $environmentStateProvider;
-    private SpecificationLoader $specificationLoader;
+    private SpecificationReaderInterface $specificationReader;
     private ValidatorRegistryInterface $validatorRegistry;
 
     public function __construct(
         EnvStateProviderInterface    $environmentStateProvider,
-        SpecificationLoader $specificationLoader,
+        SpecificationReaderInterface $specificationReader,
         ValidatorRegistryInterface   $validatorRegistry
     ) {
         $this->environmentStateProvider = $environmentStateProvider;
-        $this->specificationLoader = $specificationLoader;
+        $this->specificationReader = $specificationReader;
         $this->validatorRegistry = $validatorRegistry;
     }
 
-    public function verify(string $environment): array
+    public function verify(string $source, string $environment): array
     {
-        $specification = $this->specificationLoader->load($environment);
+        $specification = $this->specificationReader->read($source, $environment);
         $messages = [];
 
         foreach ($specification->all() as $variable) {

@@ -4,28 +4,26 @@ declare(strict_types=1);
 
 namespace Andriichuk\Enviro\Reader;
 
+use Andriichuk\Enviro\Specification\Specification;
+use Andriichuk\Enviro\Specification\SpecificationBuilderInterface;
+
 class SpecificationPhpArrayReader implements SpecificationReaderInterface
 {
-    private string $sourceFile;
+    private SpecificationBuilderInterface $builder;
 
-    public function __construct(string $sourceFile)
+    public function __construct(SpecificationBuilderInterface $builder)
     {
-        $this->sourceFile = $sourceFile;
+        $this->builder = $builder;
     }
 
-    public function read(string $environment): array
+    public function read(string $source, string $environment): Specification
     {
-        $specification = include $this->sourceFile;
-        $common = $specification['common'] ?? [];
-        $environmentSpecification = $specification[$environment] ?? null;
-
-        if ($environmentSpecification === null) {
-            throw new \InvalidArgumentException("Environment with the name `{$environment}` is not exists.");
+        if (!file_exists($source)) {
+            throw new \InvalidArgumentException('Source file must exists.');
         }
 
-        return array_replace_recursive(
-            $common,
-            $environmentSpecification,
-        );
+        $specification = include $source;
+
+        return $this->builder->build($environment, $specification);
     }
 }
