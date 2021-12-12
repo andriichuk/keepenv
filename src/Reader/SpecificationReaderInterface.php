@@ -8,5 +8,5 @@ use Andriichuk\Enviro\Specification\Specification;
 
 interface SpecificationReaderInterface
 {
-    public function read(string $source, string $environment): Specification;
+    public function read(string $source): Specification;
 }

@@ -6,5 +6,5 @@ namespace Andriichuk\Enviro\Specification;
 
 interface SpecificationBuilderInterface
 {
-    public function build(string $environment, array $variables): Specification;
+    public function build(array $rawDefinition): Specification;
 }

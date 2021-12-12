@@ -7,3 +7,6 @@ TODO:
 * dry run
 * create from existing
 * generate or remove .env.example
+* validate pattern/string/numeric/email/ip/required/
+* bidirect sync (spec/env)
+* 

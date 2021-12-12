@@ -26,7 +26,7 @@ class SpecVerificationService
 
     public function verify(string $source, string $environment): array
     {
-        $specification = $this->specificationReader->read($source, $environment);
+        $specification = $this->specificationReader->read($source)->get($environment);
         $messages = [];
 
         foreach ($specification->all() as $variable) {

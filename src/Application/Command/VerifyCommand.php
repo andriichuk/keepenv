@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace Andriichuk\Enviro\Application\Command;
 
-use Andriichuk\Enviro\Reader\SpecificationPhpArrayReader;
-use Andriichuk\Enviro\Reader\SpecificationYamlReader;
-use Andriichuk\Enviro\Specification\SpecificationArrayBuilder;
+use Andriichuk\Enviro\Reader\ReaderFactory;
 use Andriichuk\Enviro\State\EnvStateProvider;
 use Andriichuk\Enviro\Verification\SpecVerificationService;
 use Andriichuk\Enviro\Validation\EmailValidator;
@@ -44,21 +42,9 @@ class VerifyCommand extends Command
 
         $source = $input->getArgument('source');
         $sourcePath = dirname(__DIR__, 3) . '/stubs/' . $source;
-        $parts = explode('.', $source);
-        $type = end($parts);
 
-        switch ($type) {
-            case 'php':
-                $reader = new SpecificationPhpArrayReader(new SpecificationArrayBuilder());
-                break;
-
-            case 'yaml':
-                $reader = new SpecificationYamlReader(new SpecificationArrayBuilder());
-                break;
-
-            default:
-                throw new \InvalidArgumentException("Unsupported type `{$type}`");
-        }
+        $factory = new ReaderFactory();
+        $reader = $factory->basedOnFileExtension($sourcePath);
 
         $service = new SpecVerificationService(new EnvStateProvider(), $reader, $validatorRegistry);
         $messages = $service->verify($sourcePath, $input->getArgument('env'));

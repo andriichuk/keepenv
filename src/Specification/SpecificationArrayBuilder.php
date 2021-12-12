@@ -6,31 +6,37 @@ namespace Andriichuk\Enviro\Specification;
 
 class SpecificationArrayBuilder implements SpecificationBuilderInterface
 {
-    public function build(string $environment, array $variablesRaw): Specification
+    public function build(array $rawDefinition): Specification
     {
-        $common = $variablesRaw['common'] ?? [];
-        $environmentSpecification = $variablesRaw[$environment] ?? null;
+        $environments = array_keys($rawDefinition);
+        $common = $rawDefinition['common'] ?? [];
 
-        if ($environmentSpecification === null) {
-            throw new \InvalidArgumentException("Environment with the name `{$environment}` is not exists.");
-        }
+        $specification = new Specification();
 
-        $variables = array_replace_recursive(
-            $common,
-            $environmentSpecification,
-        );
+        foreach ($environments as $environment) {
+            if ($environment === 'common') {
+                $variables = $common;
+            } else {
+                $variables = array_replace_recursive(
+                    $common,
+                    !empty($rawDefinition[$environment]) ? $rawDefinition[$environment] : [], // TODO: check that value is an array
+                );
+            }
 
-        $specification = new Specification($environment);
+            $envSpecification = new EnvSpecification($environment);
 
-        foreach ($variables as $name => $definition) {
-            $specification->add(
-                new Variable(
-                    $name,
-                    $definition['description'] ?? '',
-                    $definition['default'] ?? '',
-                    $definition['rules'] ?? [],
-                ),
-            );
+            foreach ($variables as $name => $definition) {
+                $envSpecification->add(
+                    new Variable(
+                        $name,
+                        $definition['description'] ?? '',
+                        $definition['rules'] ?? null,
+                        $definition['default'] ?? null,
+                    ),
+                );
+            }
+
+            $specification->add($envSpecification);
         }
 
         return $specification;

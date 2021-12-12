@@ -7,10 +7,7 @@ return [
             'default' => 'production',
             'rules' => [
                 'required' => true,
-                'enum' => [
-                    'strict' => true,
-                    'cases' => ['local', 'production'],
-                ],
+                'enum' => ['local', 'production'],
             ],
         ],
         'APP_DEBUG' => [
@@ -18,10 +15,7 @@ return [
             'default' => 'true',
             'rules' => [
                 'required' => true,
-                'enum' => [
-                    'strict' => true,
-                    'cases' => ['true', 'false'],
-                ],
+                'enum' => ['true', 'false'],
             ],
         ],
         'LOG_CHANNEL' => [
@@ -29,15 +23,20 @@ return [
             'default' => 'stack',
             'rules' => [
                 'required' => true,
-                'enum' => [
-                    'strict' => true,
-                    'cases' => ['stack', 'daily'],
-                ],
+                'enum' => ['stack', 'daily'],
             ],
+        ],
+        'MAIL_HOST' => [
+            'required' => true,
+            'enum' => ['mailhog', 'mailgun'],
         ],
     ],
     'local' => [
-
+        'MAIL_HOST' => [
+            'rules' => [
+                'equals' => 'mailhog',
+            ],
+        ],
     ],
     'production' => [
         'APP_DEBUG' => [

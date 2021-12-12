@@ -16,14 +16,12 @@ class SpecificationPhpArrayReader implements SpecificationReaderInterface
         $this->builder = $builder;
     }
 
-    public function read(string $source, string $environment): Specification
+    public function read(string $source): Specification
     {
         if (!file_exists($source)) {
             throw new \InvalidArgumentException('Source file must exists.');
         }
 
-        $specification = include $source;
-
-        return $this->builder->build($environment, $specification);
+        return $this->builder->build(include $source);
     }
 }
