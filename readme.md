@@ -5,8 +5,7 @@ TODO:
 * smart autocomplete on pull new changes
 * change env value (CRUD) create/set/update/delete/read
 * dry run
-* create from existing
+* create from existing (add key to group by name)
 * generate or remove .env.example
 * validate pattern/string/numeric/email/ip/required/
 * bidirect sync (spec/env)
-* 
