@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Andriichuk\Enviro\Verification;
 
-use Andriichuk\Enviro\Reader\SpecificationReaderInterface;
+use Andriichuk\Enviro\Reader\Specification\SpecificationReaderInterface;
 use Andriichuk\Enviro\State\EnvStateProviderInterface;
 use Andriichuk\Enviro\Validation\ValidatorRegistryInterface;
 

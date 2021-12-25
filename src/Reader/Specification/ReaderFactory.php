@@ -2,8 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\Enviro\Reader;
+namespace Andriichuk\Enviro\Reader\Specification;
 
+use Andriichuk\Enviro\Reader\Specification\SpecificationPhpArrayReader;
+use Andriichuk\Enviro\Reader\Specification\SpecificationReaderInterface;
+use Andriichuk\Enviro\Reader\Specification\SpecificationYamlReader;
 use Andriichuk\Enviro\Specification\SpecificationArrayBuilder;
 
 class ReaderFactory

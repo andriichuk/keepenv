@@ -5,7 +5,10 @@ declare(strict_types=1);
 namespace Andriichuk\Enviro\Application\Command;
 
 use Andriichuk\Enviro\Manager\AddNewVariableManager;
+use Andriichuk\Enviro\Manager\AddVariableCommand;
+use Andriichuk\Enviro\Reader\Specification\ReaderFactory;
 use Andriichuk\Enviro\Specification\Variable;
+use Andriichuk\Enviro\State\EnvStateProvider;
 use Andriichuk\Enviro\Writer\Env\EnvFileWriter;
 use Andriichuk\Enviro\Writer\Specification\SpecificationWriterFactory;
 use Symfony\Component\Console\Command\Command;
@@ -24,7 +27,8 @@ class AddCommand extends Command
     {
         $this
             ->addOption('env',  'e', InputOption::VALUE_REQUIRED, 'Target environment name.')
-            ->addOption('source', 's', InputOption::VALUE_REQUIRED, 'Source file.')
+            ->addOption('env-file', 'ef', InputOption::VALUE_REQUIRED, '.env file path.')
+            ->addOption('spec-file', 'sf', InputOption::VALUE_REQUIRED, '.env spec file path.')
             ->setDescription('Application environment verification.')
             ->setHelp('This command allows you to verify environment specification.')
         ;
@@ -32,27 +36,35 @@ class AddCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $source = $input->getOption('source');
-        $sourcePath = dirname(__DIR__, 3) . '/stubs/' . $source;
-
-        $factory = new SpecificationWriterFactory();
-        $writer = $factory->basedOnFileExtension($sourcePath);
-
         $name = $this->askForName($input, $output);
         $description = $this->askForDescription($input, $output);
         $required = $this->askForRequired($input, $output);
         $type = $this->askForType($input, $output);
+        $value = $this->askForValue($input, $output);
 
         $variable = new Variable($name, $description, [
             $type,
         ], $required);
 
+        $writerFactory = new SpecificationWriterFactory();
+        $readerFactory = new ReaderFactory();
+
         $manager = new AddNewVariableManager(
-            new EnvFileWriter(),
-            $writer,
+            new EnvStateProvider(),
+            new EnvFileWriter($input->getOption('env-file')),
+            $readerFactory->basedOnFileExtension($input->getOption('spec-file')),
+            $writerFactory->basedOnFileExtension($input->getOption('spec-file')),
         );
 
-        $manager->add($variable);
+        $manager->add(
+            new AddVariableCommand(
+                $variable,
+                $value,
+                $input->getOption('env'),
+                $input->getOption('env-file'),
+                $input->getOption('spec-file'),
+            )
+        );
 
         return Command::SUCCESS;
     }
@@ -116,6 +128,27 @@ class AddCommand extends Command
             0
         );
         $question->setErrorMessage('Type %s is invalid.');
+
+        return $helper->ask($input, $output, $question);
+    }
+
+    private function askForValue(InputInterface $input, OutputInterface $output): string
+    {
+        $helper = $this->getHelper('question');
+        $question = new Question('Please enter value: ');
+        $question->setNormalizer(static function (string $value): string {
+            return trim($value);
+        });
+        $question->setValidator(static function (string $variableName): string {
+            if (!is_string($variableName)) {
+                throw new \RuntimeException(
+                    'The description of the variable is not valid.'
+                );
+            }
+
+            return $variableName;
+        });
+        $question->setMaxAttempts(2);
 
         return $helper->ask($input, $output, $question);
     }

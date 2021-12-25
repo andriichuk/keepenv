@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\Enviro\Reader;
+namespace Andriichuk\Enviro\Reader\Specification;
 
+use Andriichuk\Enviro\Reader\Specification\SpecificationReaderInterface;
 use Andriichuk\Enviro\Specification\Specification;
 use Andriichuk\Enviro\Specification\SpecificationBuilderInterface;
-use Symfony\Component\Yaml\Yaml;
 
-class SpecificationYamlReader implements SpecificationReaderInterface
+class SpecificationPhpArrayReader implements SpecificationReaderInterface
 {
     private SpecificationBuilderInterface $builder;
 
@@ -23,6 +23,6 @@ class SpecificationYamlReader implements SpecificationReaderInterface
             throw new \InvalidArgumentException('Source file must exists.');
         }
 
-        return $this->builder->build(Yaml::parseFile($source));
+        return $this->builder->build(include $source);
     }
 }
