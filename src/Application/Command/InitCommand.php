@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Andriichuk\Enviro\Application\Command;
 
-use Andriichuk\Enviro\Specification\EnvSpecification;
+use Andriichuk\Enviro\Specification\EnvVariables;
 use Andriichuk\Enviro\Specification\Specification;
 use Andriichuk\Enviro\Specification\Variable;
 use Andriichuk\Enviro\Writer\Specification\SpecificationWriterFactory;
@@ -30,11 +30,11 @@ class InitCommand extends Command
     {
         $variables = \Dotenv\Dotenv::createArrayBacked(dirname(__DIR__, 3) . '/stubs', '.env.demo')->load();
 
-        $specification = new Specification();
-        $envSpecification = new EnvSpecification($input->getOption('env'));
+        $specification = new Specification('1.0');
+        $envSpecification = new EnvVariables($input->getOption('env'));
 
         foreach ($variables as $key => $value) {
-            $required = trim($value) === '';
+            $required = trim((string) $value) === '';
             $rules = $this->guessType($value);
 
             if ($required) {
@@ -80,7 +80,7 @@ class InitCommand extends Command
         return ucfirst(str_replace(array_keys($replace), array_values($replace), $sentence)) . '.';
     }
 
-    private function guessType(string $value)
+    private function guessType(string $value): array
     {
         if (is_numeric($value)) {
             return ['numeric' => true];

@@ -53,7 +53,7 @@ class EnvFileWriter
         }
     }
 
-    public function add(string $key, string $value)
+    public function add(string $key, string $value): void
     {
         if ($this->has($key)) {
             throw new \RuntimeException("$key is already defined.");
@@ -72,13 +72,13 @@ class EnvFileWriter
         $content = preg_replace(
             "#^$key=([^\n]+)?#miu",
             "$key=\"$value\"" . PHP_EOL,
-            self::$content,
+            $this->content(),
         );
 
         $this->write($content);
     }
 
-    public function remove(string $key)
+    public function remove(string $key): void
     {
 
     }

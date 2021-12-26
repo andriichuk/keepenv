@@ -8,10 +8,16 @@ class SpecificationArrayBuilder implements SpecificationBuilderInterface
 {
     public function build(array $rawDefinition): Specification
     {
-        $environments = array_keys($rawDefinition);
+        $version = $rawDefinition['version'] ?? null;
+
+        if ($version === null) {
+            throw new \InvalidArgumentException('Missing version key.');
+        }
+
+        $environments = array_keys($rawDefinition['environments']);
         $common = $rawDefinition['common'] ?? [];
 
-        $specification = new Specification();
+        $specification = new Specification($version);
 
         foreach ($environments as $environment) {
             if ($environment === 'common') {
@@ -23,7 +29,7 @@ class SpecificationArrayBuilder implements SpecificationBuilderInterface
                 );
             }
 
-            $envSpecification = new EnvSpecification($environment);
+            $envSpecification = new EnvVariables($environment);
 
             foreach ($variables as $name => $definition) {
                 $envSpecification->add(

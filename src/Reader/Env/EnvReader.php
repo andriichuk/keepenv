@@ -35,7 +35,7 @@ class EnvReader
         return self::$content;
     }
 
-    public function readWithComment(string $key)
+    public function readWithComment(string $key): void
     {
         $this->content();
     }

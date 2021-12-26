@@ -18,6 +18,6 @@ class IntegerValidator implements ValidatorInterface
 
     public function validate($value, array $options): bool
     {
-        return filter_var($value, FILTER_VALIDATE_INT);
+        return filter_var($value, FILTER_VALIDATE_INT) !== false;
     }
 }

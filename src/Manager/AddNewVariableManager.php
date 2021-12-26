@@ -28,7 +28,7 @@ class AddNewVariableManager
         $this->specificationWriter = $specificationWriter;
     }
 
-    public function add(AddVariableCommand $command)
+    public function add(AddVariableCommand $command): void
     {
         $specification = $this->specificationReader->read($command->specificationFilePath);
 

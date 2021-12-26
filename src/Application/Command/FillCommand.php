@@ -28,6 +28,10 @@ class FillCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        dd(
+            filter_var('0111', FILTER_VALIDATE_INT)
+        );
+
         $factory = new ReaderFactory();
         $reader = $factory->basedOnFileExtension($input->getOption('env-spec'));
         $specification = $reader->read($input->getOption('env-spec'));

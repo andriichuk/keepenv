@@ -6,23 +6,23 @@ namespace Andriichuk\Enviro\Specification;
 
 use Andriichuk\Enviro\Contracts\ArraySerializable;
 
-class EnvSpecification implements ArraySerializable
+class EnvVariables implements ArraySerializable
 {
-    private string $environmentName;
+    private string $envName;
 
     /**
-     * @var array<Variable>
+     * @var Variable[]
      */
     private array $variables = [];
 
-    public function __construct(string $environmentName)
+    public function __construct(string $envName)
     {
-        $this->environmentName = $environmentName;
+        $this->envName = $envName;
     }
 
-    public function getEnvironmentName(): string
+    public function getEnvName(): string
     {
-        return $this->environmentName;
+        return $this->envName;
     }
 
     public function add(Variable $variable): void
@@ -41,7 +41,7 @@ class EnvSpecification implements ArraySerializable
     }
 
     /**
-     * @var array<Variable>
+     * @return Variable[]
      */
     public function all(): array
     {
