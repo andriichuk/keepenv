@@ -80,6 +80,6 @@ class EnvFileWriter
 
     public function remove(string $key): void
     {
-
+        $this->write(preg_replace("#([\r\n]+)?^$key=([^\n]+)?#miu", '', $this->content()));
     }
 }

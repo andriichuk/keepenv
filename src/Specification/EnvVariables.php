@@ -35,9 +35,19 @@ class EnvVariables implements ArraySerializable
         return $this->variables[$variable] ?? null;
     }
 
+    public function has(string $variable): bool
+    {
+        return isset($this->variables[$variable]);
+    }
+
     public function set(Variable $variable): void
     {
         $this->variables[$variable->name] = $variable;
+    }
+
+    public function remove(string $variable): void
+    {
+        unset($this->variables[$variable]);
     }
 
     /**

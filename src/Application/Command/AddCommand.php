@@ -19,6 +19,9 @@ use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
 
+/**
+ * @author Serhii Andriichuk <andriichuk29@gmail.com>
+ */
 class AddCommand extends Command
 {
     protected static $defaultName = 'add';

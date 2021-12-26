@@ -15,7 +15,7 @@ class SpecificationArrayBuilder implements SpecificationBuilderInterface
         }
 
         $environments = array_keys($rawDefinition['environments']);
-        $common = $rawDefinition['common'] ?? [];
+        $common = $rawDefinition['environments']['common'] ?? [];
 
         $specification = new Specification($version);
 
@@ -29,10 +29,10 @@ class SpecificationArrayBuilder implements SpecificationBuilderInterface
                 );
             }
 
-            $envSpecification = new EnvVariables($environment);
+            $envVariables = new EnvVariables($environment);
 
             foreach ($variables as $name => $definition) {
-                $envSpecification->add(
+                $envVariables->add(
                     new Variable(
                         $name,
                         $definition['description'] ?? '',
@@ -42,7 +42,7 @@ class SpecificationArrayBuilder implements SpecificationBuilderInterface
                 );
             }
 
-            $specification->add($envSpecification);
+            $specification->add($envVariables);
         }
 
         return $specification;

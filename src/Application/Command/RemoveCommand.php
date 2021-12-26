@@ -6,22 +6,24 @@ namespace Andriichuk\Enviro\Application\Command;
 
 use Andriichuk\Enviro\Reader\Specification\ReaderFactory;
 use Andriichuk\Enviro\Writer\Env\EnvFileWriter;
+use Andriichuk\Enviro\Writer\Specification\SpecificationWriterFactory;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\Question;
 
 /**
  * @author Serhii Andriichuk <andriichuk29@gmail.com>
  */
-class FillCommand extends Command
+class RemoveCommand extends Command
 {
-    protected static $defaultName = 'fill';
+    protected static $defaultName = 'remove';
 
     protected function configure(): void
     {
         $this
+            ->addArgument('variable', InputArgument::REQUIRED, 'Variable name')
             ->addOption('env', 'e', InputOption::VALUE_REQUIRED, 'Target environment name.')
             ->addOption('env-file', 'ef', InputOption::VALUE_REQUIRED, 'Target environment name.')
             ->addOption('env-spec', 'es', InputOption::VALUE_REQUIRED, 'Spec file.')
@@ -33,35 +35,25 @@ class FillCommand extends Command
     {
         $factory = new ReaderFactory();
         $reader = $factory->basedOnFileExtension($input->getOption('env-spec'));
+
+        $writerFactory = new SpecificationWriterFactory();
+        $writer = $writerFactory->basedOnFileExtension($input->getOption('env-spec'));
         $specification = $reader->read($input->getOption('env-spec'));
         $envSpec = $specification->get($input->getOption('env'));
-        $envFileWriter = new EnvFileWriter($input->getOption('env-file'));
 
-        foreach ($envSpec->all() as $envSpec) {
-            $envFileWriter->save($envSpec->name, $this->askForValue($envSpec->name, $input, $output));
+        if (!$envSpec->has($input->getArgument('variable'))) {
+            $output->writeln('Variable does not exists.');
+
+            return Command::FAILURE;
         }
 
+        $envSpec->remove($input->getArgument('variable'));
+        $specification->add($envSpec);
+        $writer->write($input->getOption('env-spec'), $specification);
+
+        $envFileWriter = new EnvFileWriter($input->getOption('env-file'));
+        $envFileWriter->remove($input->getArgument('variable'));
+
         return Command::SUCCESS;
-    }
-
-    private function askForValue(string $key, InputInterface $input, OutputInterface $output): string
-    {
-        $helper = $this->getHelper('question');
-        $question = new Question("Please enter value for key <info>`$key`</info>: ");
-        $question->setNormalizer(static function (string $value): string {
-            return trim($value);
-        });
-        $question->setValidator(static function (string $variableName): string {
-            if (!is_string($variableName)) {
-                throw new \RuntimeException(
-                    'The description of the variable is not valid.'
-                );
-            }
-
-            return $variableName;
-        });
-        $question->setMaxAttempts(2);
-
-        return $helper->ask($input, $output, $question);
     }
 }

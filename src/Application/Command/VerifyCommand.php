@@ -18,6 +18,9 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * @author Serhii Andriichuk <andriichuk29@gmail.com>
+ */
 class VerifyCommand extends Command
 {
     protected static $defaultName = 'verify';
