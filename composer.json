@@ -1,5 +1,12 @@
 {
     "name": "andriichuk/env-validator",
+    "description": "PHP dot env file manager based on specification.",
+    "keywords": [
+        "env",
+        "env-spec",
+        "env-manager"
+    ],
+    "license": "MIT",
     "autoload": {
         "psr-4": {
             "Andriichuk\\Enviro\\": "src/"
@@ -17,11 +24,13 @@
         }
     ],
     "require": {
+        "php": "^7.4 | ^8.0 | ^8.1",
         "vlucas/phpdotenv": "^5.4",
         "symfony/console": "^6.0",
         "symfony/yaml": "^6.0"
     },
     "require-dev": {
+        "roave/security-advisories": "dev-latest",
         "symfony/var-dumper": "^6.0",
         "phpunit/phpunit": "^9.5",
         "vimeo/psalm": "^4.16"
