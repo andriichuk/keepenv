@@ -16,6 +16,9 @@ class IntegerValidator implements ValidatorInterface
         return 'The must an integer.';
     }
 
+    /**
+     * @inheritDoc
+     */
     public function validate($value, array $options): bool
     {
         return filter_var($value, FILTER_VALIDATE_INT) !== false;

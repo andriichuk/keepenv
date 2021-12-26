@@ -16,6 +16,9 @@ class RequiredValidator implements ValidatorInterface
         return 'The value cannot be empty.';
     }
 
+    /**
+     * @inheritDoc
+     */
     public function validate($value, array $options): bool
     {
         $isEmpty = empty($value);

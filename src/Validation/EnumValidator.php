@@ -16,6 +16,9 @@ class EnumValidator implements ValidatorInterface
         return 'The must an enum.';
     }
 
+    /**
+     * @inheritDoc
+     */
     public function validate($value, array $options): bool
     {
         return in_array($value, $options); // TODO: check options type and emptiness

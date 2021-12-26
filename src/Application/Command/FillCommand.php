@@ -51,15 +51,6 @@ class FillCommand extends Command
         $question->setNormalizer(static function (string $value): string {
             return trim($value);
         });
-        $question->setValidator(static function (string $variableName): string {
-            if (!is_string($variableName)) {
-                throw new \RuntimeException(
-                    'The description of the variable is not valid.'
-                );
-            }
-
-            return $variableName;
-        });
         $question->setMaxAttempts(2);
 
         return $helper->ask($input, $output, $question);

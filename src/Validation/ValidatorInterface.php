@@ -10,5 +10,8 @@ interface ValidatorInterface
 
     public function message(): string;
 
+    /**
+     * @param mixed $value
+     */
     public function validate($value, array $options): bool;
 }

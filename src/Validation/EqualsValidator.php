@@ -16,6 +16,9 @@ class EqualsValidator implements ValidatorInterface
         return 'The must be the same.';
     }
 
+    /**
+     * @inheritDoc
+     */
     public function validate($value, array $options): bool
     {
         return $value === reset($options); // TODO: check false

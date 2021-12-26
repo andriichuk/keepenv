@@ -79,15 +79,6 @@ class AddCommand extends Command
         $question->setNormalizer(static function (string $value): string {
             return mb_strtoupper(str_replace(' ', '_', trim($value)));
         });
-        $question->setValidator(static function (string $variableName): string {
-            if (!is_string($variableName)) {
-                throw new \RuntimeException(
-                    'The name of the variable is not valid.'
-                );
-            }
-
-            return $variableName;
-        });
         $question->setMaxAttempts(2);
 
         return $helper->ask($input, $output, $question);
@@ -99,15 +90,6 @@ class AddCommand extends Command
         $question = new Question('Please enter variable description: ');
         $question->setNormalizer(static function (string $value): string {
             return trim($value);
-        });
-        $question->setValidator(static function (string $variableName): string {
-            if (!is_string($variableName)) {
-                throw new \RuntimeException(
-                    'The description of the variable is not valid.'
-                );
-            }
-
-            return $variableName;
         });
         $question->setMaxAttempts(2);
 
@@ -141,15 +123,6 @@ class AddCommand extends Command
         $question = new Question('Please enter value: ');
         $question->setNormalizer(static function (string $value): string {
             return trim($value);
-        });
-        $question->setValidator(static function (string $variableName): string {
-            if (!is_string($variableName)) {
-                throw new \RuntimeException(
-                    'The description of the variable is not valid.'
-                );
-            }
-
-            return $variableName;
         });
         $question->setMaxAttempts(2);
 

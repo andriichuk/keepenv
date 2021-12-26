@@ -16,6 +16,9 @@ class EmailValidator implements ValidatorInterface
         return 'The must an email.';
     }
 
+    /**
+     * @inheritDoc
+     */
     public function validate($value, array $options): bool
     {
         return filter_var($value, FILTER_VALIDATE_EMAIL) !== false;

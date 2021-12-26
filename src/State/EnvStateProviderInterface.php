@@ -6,5 +6,5 @@ namespace Andriichuk\Enviro\State;
 
 interface EnvStateProviderInterface
 {
-    public function get(string $variable);
+    public function get(string $variable): ?string;
 }

@@ -38,7 +38,7 @@ class InitCommand extends Command
 
         foreach ($variables as $key => $value) {
             $required = trim((string) $value) === '';
-            $rules = $this->guessType($value);
+            $rules = $this->guessType($value ?? '');
 
             if ($required) {
                 $rules['required'] = true;

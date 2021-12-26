@@ -13,10 +13,13 @@ class Variable implements ArraySerializable
     public ?array $rules;
 
     /**
-     * @var mixed|null
+     * @var mixed
      */
     public $default;
 
+    /**
+     * @param mixed $default
+     */
     public function __construct(string $name, string $description, ?array $rules = null, $default = null)
     {
         $this->name = $name;
