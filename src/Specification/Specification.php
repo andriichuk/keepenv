@@ -8,6 +8,8 @@ use Andriichuk\Enviro\Contracts\ArraySerializable;
 
 class Specification implements ArraySerializable
 {
+    private string $version;
+
     /**
      * @var array<EnvSpecification>
      */

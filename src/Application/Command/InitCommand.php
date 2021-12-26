@@ -28,7 +28,7 @@ class InitCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $variables = \Dotenv\Dotenv::createArrayBacked(dirname(__DIR__, 3) . '/stubs')->load();
+        $variables = \Dotenv\Dotenv::createArrayBacked(dirname(__DIR__, 3) . '/stubs', '.env.demo')->load();
 
         $specification = new Specification();
         $envSpecification = new EnvSpecification($input->getOption('env'));
@@ -69,8 +69,12 @@ class InitCommand extends Command
             'url' => 'URL',
             'api' => 'API',
             'id' => 'ID',
+            'dsn' => 'DSN',
+            'js' => 'JS',
+            'CSS' => 'CSS',
             'db' => 'database',
-            'log' => 'Logging',
+            's3' => 'S3',
+            'log' => 'Logging', // Loggingin
         ];
 
         return ucfirst(str_replace(array_keys($replace), array_values($replace), $sentence)) . '.';
@@ -82,7 +86,7 @@ class InitCommand extends Command
             return ['numeric' => true];
         }
 
-        $boolean = in_array($value, ["true", "false", "On", "1", "Yes", "Off", "0", "No"], true);
+        $boolean = in_array(strtolower($value), ["true", "false", "on", "1", "yes", "off", "0", "no"], true);
 
         if ($boolean) {
             return ['enum' => ['On', 'Off']];

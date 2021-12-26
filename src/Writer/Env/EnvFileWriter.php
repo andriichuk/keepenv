@@ -44,13 +44,22 @@ class EnvFileWriter
         self::$content = $content;
     }
 
+    public function save(string $key, string $value): void
+    {
+        if ($this->has($key)) {
+            $this->update($key, $value);
+        } else {
+            $this->add($key, $value);
+        }
+    }
+
     public function add(string $key, string $value)
     {
         if ($this->has($key)) {
             throw new \RuntimeException("$key is already defined.");
         }
 
-        $this->write($this->content() . "$key=$value");
+        $this->write($this->content() . "$key=$value\r\n");
     }
 
     public function has(string $key): bool
@@ -58,12 +67,18 @@ class EnvFileWriter
         return preg_match("#^($key=([^\n]+)?)#miu", $this->content()) === 1;
     }
 
-    public function change()
+    public function update(string $key, string $value): void
     {
+        $content = preg_replace(
+            "#^$key=([^\n]+)?#miu",
+            "$key=\"$value\"" . PHP_EOL,
+            self::$content,
+        );
 
+        $this->write($content);
     }
 
-    public function remove()
+    public function remove(string $key)
     {
 
     }

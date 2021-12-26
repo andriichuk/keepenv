@@ -9,3 +9,5 @@ TODO:
 * generate or remove .env.example
 * validate pattern/string/numeric/email/ip/required/
 * bidirect sync (spec/env)
+* disabled by comment #TRUSTED_HOSTS='^(localhost|example\.com)$'
+* add version and environment fields

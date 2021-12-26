@@ -4,6 +4,7 @@
 declare(strict_types=1);
 
 use Andriichuk\Enviro\Application\Command\AddCommand;
+use Andriichuk\Enviro\Application\Command\FillCommand;
 use Andriichuk\Enviro\Application\Command\InitCommand;
 use Andriichuk\Enviro\Application\Command\VerifyCommand;
 use Dotenv\Dotenv;
@@ -18,4 +19,5 @@ $application = new Application();
 $application->add(new InitCommand());
 $application->add(new VerifyCommand());
 $application->add(new AddCommand());
+$application->add(new FillCommand());
 $application->run();
