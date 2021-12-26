@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Andriichuk\Enviro\Application\Command;
 
-use Andriichuk\Enviro\Reader\Specification\ReaderFactory;
+use Andriichuk\Enviro\Reader\Specification\SpecificationReaderFactory;
 use Andriichuk\Enviro\State\EnvStateProvider;
 use Andriichuk\Enviro\Verification\SpecVerificationService;
 use Andriichuk\Enviro\Validation\EmailValidator;
@@ -46,8 +46,8 @@ class VerifyCommand extends Command
         $source = $input->getArgument('source');
         $sourcePath = dirname(__DIR__, 3) . '/stubs/' . $source;
 
-        $factory = new ReaderFactory();
-        $reader = $factory->basedOnFileExtension($sourcePath);
+        $factory = new SpecificationReaderFactory();
+        $reader = $factory->basedOnResource($sourcePath);
 
         $service = new SpecVerificationService(new EnvStateProvider(), $reader, $validatorRegistry);
         $messages = $service->verify($sourcePath, $input->getArgument('env'));

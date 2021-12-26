@@ -6,7 +6,7 @@ namespace Andriichuk\Enviro\Application\Command;
 
 use Andriichuk\Enviro\Manager\AddNewVariableManager;
 use Andriichuk\Enviro\Manager\AddVariableCommand;
-use Andriichuk\Enviro\Reader\Specification\ReaderFactory;
+use Andriichuk\Enviro\Reader\Specification\SpecificationReaderFactory;
 use Andriichuk\Enviro\Specification\Variable;
 use Andriichuk\Enviro\State\EnvStateProvider;
 use Andriichuk\Enviro\Writer\Env\EnvFileWriter;
@@ -50,13 +50,13 @@ class AddCommand extends Command
         ], $required);
 
         $writerFactory = new SpecificationWriterFactory();
-        $readerFactory = new ReaderFactory();
+        $readerFactory = new SpecificationReaderFactory();
 
         $manager = new AddNewVariableManager(
             new EnvStateProvider(),
             new EnvFileWriter($input->getOption('env-file')),
-            $readerFactory->basedOnFileExtension($input->getOption('spec-file')),
-            $writerFactory->basedOnFileExtension($input->getOption('spec-file')),
+            $readerFactory->basedOnResource($input->getOption('spec-file')),
+            $writerFactory->basedOnResource($input->getOption('spec-file')),
         );
 
         $manager->add(

@@ -4,24 +4,22 @@ declare(strict_types=1);
 
 namespace Andriichuk\Enviro\Writer\Specification;
 
-use Andriichuk\Enviro\Specification\SpecificationArrayBuilder;
-
 class SpecificationWriterFactory
 {
-    public function basedOnFileExtension(string $sourcePath): SpecificationWriterInterface
+    public function basedOnResource(string $sourcePath): SpecificationWriterInterface
     {
-        $parts = explode('.', $sourcePath);
-        $type = (string) end($parts);
+        $type = pathinfo($sourcePath, PATHINFO_EXTENSION);
 
         switch ($type) {
             case 'php':
                 throw new \InvalidArgumentException('Not implemented yet.');
 
+            case 'yml':
             case 'yaml':
                 return new SpecificationYamlWriter();
 
             default:
-                throw new \InvalidArgumentException("Unsupported type `{$type}`");
+                throw new \InvalidArgumentException("Unsupported writer type `{$type}`.");
         }
     }
 }

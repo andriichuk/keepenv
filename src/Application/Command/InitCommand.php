@@ -55,7 +55,7 @@ class InitCommand extends Command
 
         $specification->add($envSpecification);
 
-        $writer = (new SpecificationWriterFactory())->basedOnFileExtension($input->getOption('target'));
+        $writer = (new SpecificationWriterFactory())->basedOnResource($input->getOption('target'));
         $writer->write($input->getOption('target'), $specification);
 
         return Command::SUCCESS;

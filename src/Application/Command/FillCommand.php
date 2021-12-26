@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Andriichuk\Enviro\Application\Command;
 
-use Andriichuk\Enviro\Reader\Specification\ReaderFactory;
+use Andriichuk\Enviro\Reader\Specification\SpecificationReaderFactory;
 use Andriichuk\Enviro\Writer\Env\EnvFileWriter;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -31,8 +31,8 @@ class FillCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $factory = new ReaderFactory();
-        $reader = $factory->basedOnFileExtension($input->getOption('env-spec'));
+        $factory = new SpecificationReaderFactory();
+        $reader = $factory->basedOnResource($input->getOption('env-spec'));
         $specification = $reader->read($input->getOption('env-spec'));
         $envSpec = $specification->get($input->getOption('env'));
         $envFileWriter = new EnvFileWriter($input->getOption('env-file'));
