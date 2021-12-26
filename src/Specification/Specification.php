@@ -28,6 +28,11 @@ class Specification implements ArraySerializable
         $this->envVariables = [];
     }
 
+    public static function default(): self
+    {
+        return new self(self::VERSION);
+    }
+
     public function add(EnvVariables $envVariables): void
     {
         $this->envVariables[$envVariables->getEnvName()] = $envVariables;
@@ -54,7 +59,9 @@ class Specification implements ArraySerializable
     public function toArray(): array
     {
         $envVariables = [];
-        $common = $this->get(self::COMMON_ENV_NAME)->toArray();
+        $common = isset($this->envVariables[self::COMMON_ENV_NAME])
+            ? $this->envVariables[self::COMMON_ENV_NAME]->toArray()
+            : [];
 
         foreach ($this->envVariables as $envSpecification) {
             $envVariables[$envSpecification->getEnvName()] = $envSpecification->getEnvName() === self::COMMON_ENV_NAME
