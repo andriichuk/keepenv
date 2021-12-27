@@ -30,13 +30,13 @@ class AddNewVariableManagerTest extends TestCase
         $this->rootFolder->addChild(
             (new vfsStreamFile('.env'))
                 ->setContent(
-                    file_get_contents(dirname(__DIR__, 3) . '/stubs/.env'),
+                    file_get_contents(dirname(__DIR__, 2) . '/stubs/.env'),
                 ),
         );
         $this->rootFolder->addChild(
             (new vfsStreamFile('env.spec.yaml'))
                 ->setContent(
-                    file_get_contents(dirname(__DIR__, 3) . '/stubs/env.spec.yaml'),
+                    file_get_contents(dirname(__DIR__, 2) . '/stubs/env.spec.yaml'),
                 ),
         );
 
