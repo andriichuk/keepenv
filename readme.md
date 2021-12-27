@@ -1,4 +1,5 @@
 [![GitHub stars](https://img.shields.io/github/stars/andriichuk/enviro)](https://github.com/andriichuk/enviro)
+![Tests](https://github.com/andriichuk/enviro/actions/workflows/test.yml/badge.svg)
 [![Psalm type coverage](https://shepherd.dev/github/andriichuk/enviro/coverage.svg)](https://packagist.org/packages/andriichuk/enviro)
 [![Psalm enabled](https://shepherd.dev/github/andriichuk/enviro/level.svg)](https://packagist.org/packages/andriichuk/enviro)
 [![License](https://poser.pugx.org/andriichuk/enviro/license?format=flat)](https://packagist.org/packages/andriichuk/enviro)

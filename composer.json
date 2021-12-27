@@ -33,6 +33,6 @@
         "symfony/var-dumper": "^v5.4",
         "phpunit/phpunit": "^9.5",
         "vimeo/psalm": "^4.16",
-        "mikey179/vfsstream": "^1.6"
+        "mikey179/vfsstream": "1.6.10"
     }
 }
