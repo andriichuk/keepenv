@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Andriichuk\Enviro\Reader\Specification;
 
 use Andriichuk\Enviro\Specification\SpecificationArrayBuilder;
+use OutOfBoundsException;
 
 /**
  * @author Serhii Andriichuk <andriichuk29@gmail.com>
@@ -24,7 +25,7 @@ class SpecificationReaderFactory
                 return new SpecificationYamlReader(new SpecificationArrayBuilder());
 
             default:
-                throw new \InvalidArgumentException("Unsupported reader type `{$type}`.");
+                throw new OutOfBoundsException("Unsupported reader type `$type`.");
         }
     }
 }

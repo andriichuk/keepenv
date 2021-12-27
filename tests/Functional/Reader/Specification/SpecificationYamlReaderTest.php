@@ -5,13 +5,16 @@ declare(strict_types=1);
 namespace Andriichuk\Enviro\Functional\Reader\Specification;
 
 use Andriichuk\Enviro\Reader\Specification\SpecificationYamlReader;
-use Andriichuk\Enviro\Specification\Specification;
 use Andriichuk\Enviro\Specification\SpecificationArrayBuilder;
+use InvalidArgumentException;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
 use org\bovigo\vfs\vfsStreamFile;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @author Serhii Andriichuk <andriichuk29@gmail.com>
+ */
 class SpecificationYamlReaderTest extends TestCase
 {
     private vfsStreamDirectory $rootFolder;
@@ -29,12 +32,19 @@ class SpecificationYamlReaderTest extends TestCase
         );
     }
 
-    public function testReading(): void
+    public function testExceptionThrownOnAttemptToReadMissingFile(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        $reader = new SpecificationYamlReader(new SpecificationArrayBuilder());
+        $reader->read('not-exists-env.spec.yaml');
+    }
+
+    public function testReadingFlow(): void
     {
         $reader = new SpecificationYamlReader(new SpecificationArrayBuilder());
         $specification = $reader->read($this->rootFolder->getChild('env.spec.yaml')->url());
 
-        $this->assertInstanceOf(Specification::class, $specification);
         $this->assertEquals(
             [
                 'version' => '1.0',

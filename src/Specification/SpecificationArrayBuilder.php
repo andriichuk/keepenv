@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Andriichuk\Enviro\Specification;
 
+use OutOfBoundsException;
+
 class SpecificationArrayBuilder implements SpecificationBuilderInterface
 {
     public function build(array $rawDefinition): Specification
@@ -11,7 +13,11 @@ class SpecificationArrayBuilder implements SpecificationBuilderInterface
         $version = $rawDefinition['version'] ?? null;
 
         if ($version === null) {
-            throw new \InvalidArgumentException('Missing version key.');
+            throw new OutOfBoundsException('Missing `version` key.');
+        }
+
+        if (!isset($rawDefinition['environments'])) {
+            throw new OutOfBoundsException('Missing `environments` key.');
         }
 
         $environments = array_keys($rawDefinition['environments']);

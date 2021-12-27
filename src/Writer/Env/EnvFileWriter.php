@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Andriichuk\Enviro\Writer\Env;
 
+/**
+ * @author Serhii Andriichuk <andriichuk29@gmail.com>
+ */
 class EnvFileWriter
 {
     private string $filePath;
@@ -12,6 +15,7 @@ class EnvFileWriter
     public function __construct(string $filePath)
     {
         $this->filePath = $filePath;
+        self::$content = null;
     }
 
     private function content(): string
@@ -65,6 +69,17 @@ class EnvFileWriter
     public function has(string $key): bool
     {
         return preg_match("#^($key=([^\n]+)?)#miu", $this->content()) === 1;
+    }
+
+    public function get(string $key): ?string
+    {
+        preg_match("#^$key=([^\n]+)?#miu", $this->content(), $match);
+
+        if (!isset($match[1])) {
+            return null;
+        }
+
+        return trim($match[1]);
     }
 
     public function update(string $key, string $value): void
