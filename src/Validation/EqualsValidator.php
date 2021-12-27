@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Andriichuk\Enviro\Validation;
 
+/**
+ * @author Serhii Andriichuk <andriichuk29@gmail.com>
+ */
 class EqualsValidator implements ValidatorInterface
 {
     public function alias(): string
@@ -11,9 +14,14 @@ class EqualsValidator implements ValidatorInterface
         return 'equals';
     }
 
-    public function message(): string
+    public function message(array $placeholders): string
     {
-        return 'The must be the same.';
+        return sprintf(
+            'The `%s` variable must be equal to `%s`. Given `%s`',
+            $placeholders['name'] ?? '',
+            $placeholders['equals'] ?? '',
+            $placeholders['value'] ?? '',
+        );
     }
 
     /**

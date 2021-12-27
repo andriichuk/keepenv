@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Andriichuk\Enviro\Validation;
 
+/**
+ * @author Serhii Andriichuk <andriichuk29@gmail.com>
+ */
 class IntegerValidator implements ValidatorInterface
 {
     public function alias(): string
@@ -11,7 +14,7 @@ class IntegerValidator implements ValidatorInterface
         return 'int';
     }
 
-    public function message(): string
+    public function message(array $placeholders): string
     {
         return 'The must an integer.';
     }

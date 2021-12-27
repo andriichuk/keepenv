@@ -8,6 +8,9 @@ use Andriichuk\Enviro\Reader\Specification\SpecificationReaderInterface;
 use Andriichuk\Enviro\Specification\Specification;
 use Andriichuk\Enviro\Specification\SpecificationBuilderInterface;
 
+/**
+ * @author Serhii Andriichuk <andriichuk29@gmail.com>
+ */
 class SpecificationPhpArrayReader implements SpecificationReaderInterface
 {
     private SpecificationBuilderInterface $builder;

@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Andriichuk\Enviro\Validation;
 
+/**
+ * @author Serhii Andriichuk <andriichuk29@gmail.com>
+ */
 class EnumValidator implements ValidatorInterface
 {
     public function alias(): string
@@ -11,9 +14,14 @@ class EnumValidator implements ValidatorInterface
         return 'enum';
     }
 
-    public function message(): string
+    public function message(array $placeholders): string
     {
-        return 'The must an enum.';
+        return sprintf(
+            'The value of the `%s` variable must match one of the values: %s. Given `%s`.',
+            $placeholders['name'] ?? '',
+            implode(', ', $placeholders['cases'] ?? []),
+            $placeholders['value'] ?? '',
+        );
     }
 
     /**

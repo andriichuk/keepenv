@@ -19,3 +19,17 @@ TODO:
 - [x] add version and environment fields
 - [ ] fill all descriptions and messages
 - [ ] support PHP and JSON format
+
+### Verification
+
+Command:
+
+```shell
+./enviro verify local
+```
+
+To customize:
+
+```shell
+./enviro verify local --env-file=./.env --spec=./env.spec.yaml
+```

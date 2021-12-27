@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Andriichuk\Enviro\Validation;
 
+/**
+ * @author Serhii Andriichuk <andriichuk29@gmail.com>
+ */
 class EmailValidator implements ValidatorInterface
 {
     public function alias(): string
@@ -11,9 +14,13 @@ class EmailValidator implements ValidatorInterface
         return 'email';
     }
 
-    public function message(): string
+    public function message(array $placeholders): string
     {
-        return 'The must an email.';
+        return sprintf(
+            'The variable `%s` must be a valid email address. Given `%s`.',
+            $placeholders['name'] ?? '',
+            $placeholders['value'] ?? '',
+        );
     }
 
     /**

@@ -5,24 +5,24 @@ declare(strict_types=1);
 namespace Andriichuk\Enviro\Verification;
 
 use Andriichuk\Enviro\Reader\Specification\SpecificationReaderInterface;
-use Andriichuk\Enviro\State\EnvStateProviderInterface;
 use Andriichuk\Enviro\Validation\ValidatorRegistryInterface;
+use Andriichuk\Enviro\Writer\Env\EnvFileWriter;
 
 /**
  * @author Serhii Andriichuk <andriichuk29@gmail.com>
  */
 class SpecVerificationService
 {
-    private EnvStateProviderInterface $environmentStateProvider;
+    private EnvFileWriter $envFileWriter;
     private SpecificationReaderInterface $specificationReader;
     private ValidatorRegistryInterface $validatorRegistry;
 
     public function __construct(
-        EnvStateProviderInterface $environmentStateProvider,
+        EnvFileWriter $envFileWriter,
         SpecificationReaderInterface $specificationReader,
         ValidatorRegistryInterface $validatorRegistry
     ) {
-        $this->environmentStateProvider = $environmentStateProvider;
+        $this->envFileWriter = $envFileWriter;
         $this->specificationReader = $specificationReader;
         $this->validatorRegistry = $validatorRegistry;
     }
@@ -41,13 +41,16 @@ class SpecVerificationService
                 $ruleName = is_string($ruleName) ? $ruleName : $options;
                 $validator = $this->validatorRegistry->get($ruleName);
 
-                $isValid = $validator->validate(
-                    $this->environmentStateProvider->get($variable->name),
-                    is_array($options) ? $options : [$options],
-                );
+                $value = $this->envFileWriter->get($variable->name);
+                $isValid = $validator->validate($value, is_array($options) ? $options : [$options]);
 
                 if (!$isValid) {
-                    $messages[] = "{$variable->name} violates the rule `{$ruleName}`. {$validator->message()}";
+                    $messages[] = $validator->message([
+                        'name' => $variable->name,
+                        'value' => $value,
+                        'cases' => $options,
+                        'equals' => $variable->rules['equals'] ?? '',
+                    ]);
                 }
             }
         }

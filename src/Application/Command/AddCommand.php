@@ -8,7 +8,6 @@ use Andriichuk\Enviro\Manager\AddNewVariableManager;
 use Andriichuk\Enviro\Manager\AddVariableCommand;
 use Andriichuk\Enviro\Reader\Specification\SpecificationReaderFactory;
 use Andriichuk\Enviro\Specification\Variable;
-use Andriichuk\Enviro\State\EnvStateProvider;
 use Andriichuk\Enviro\Writer\Env\EnvFileWriter;
 use Andriichuk\Enviro\Writer\Specification\SpecificationWriterFactory;
 use Symfony\Component\Console\Command\Command;
@@ -53,7 +52,6 @@ class AddCommand extends Command
         $readerFactory = new SpecificationReaderFactory();
 
         $manager = new AddNewVariableManager(
-            new EnvStateProvider(),
             new EnvFileWriter($input->getOption('env-file')),
             $readerFactory->basedOnResource($input->getOption('spec-file')),
             $writerFactory->basedOnResource($input->getOption('spec-file')),

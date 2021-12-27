@@ -9,6 +9,9 @@ use Andriichuk\Enviro\Writer\Env\EnvFileWriter;
 use Andriichuk\Enviro\Writer\Specification\SpecificationWriterInterface;
 use InvalidArgumentException;
 
+/**
+ * @author Serhii Andriichuk <andriichuk29@gmail.com>
+ */
 class AddNewVariableManager
 {
     private EnvFileWriter $envFileWriter;

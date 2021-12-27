@@ -6,6 +6,9 @@ namespace Andriichuk\Enviro\Manager;
 
 use Andriichuk\Enviro\Specification\Variable;
 
+/**
+ * @author Serhii Andriichuk <andriichuk29@gmail.com>
+ */
 class AddVariableCommand
 {
     public Variable $variable;

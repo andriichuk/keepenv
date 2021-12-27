@@ -8,13 +8,9 @@ use Andriichuk\Enviro\Application\Command\FillCommand;
 use Andriichuk\Enviro\Application\Command\InitCommand;
 use Andriichuk\Enviro\Application\Command\RemoveCommand;
 use Andriichuk\Enviro\Application\Command\VerifyCommand;
-use Dotenv\Dotenv;
 use Symfony\Component\Console\Application;
 
 require_once 'vendor/autoload.php';
-
-$dotenv = Dotenv::createImmutable(__DIR__ . '/stubs');
-$dotenv->load();
 
 $application = new Application();
 $application->add(new InitCommand());

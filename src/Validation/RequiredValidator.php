@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Andriichuk\Enviro\Validation;
 
+/**
+ * @author Serhii Andriichuk <andriichuk29@gmail.com>
+ */
 class RequiredValidator implements ValidatorInterface
 {
     public function alias(): string
@@ -11,9 +14,13 @@ class RequiredValidator implements ValidatorInterface
         return 'required';
     }
 
-    public function message(): string
+    public function message(array $placeholders): string
     {
-        return 'The value cannot be empty.';
+        return sprintf(
+            'The variable `%s` is required. Given `%s`.',
+            $placeholders['name'] ?? '',
+            $placeholders['value'] ?? '',
+        );
     }
 
     /**

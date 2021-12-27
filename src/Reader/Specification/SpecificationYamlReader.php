@@ -9,6 +9,9 @@ use Andriichuk\Enviro\Specification\SpecificationBuilderInterface;
 use InvalidArgumentException;
 use Symfony\Component\Yaml\Yaml;
 
+/**
+ * @author Serhii Andriichuk <andriichuk29@gmail.com>
+ */
 class SpecificationYamlReader implements SpecificationReaderInterface
 {
     private SpecificationBuilderInterface $builder;
