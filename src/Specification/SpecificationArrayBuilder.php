@@ -25,7 +25,7 @@ class SpecificationArrayBuilder implements SpecificationBuilderInterface
             } else {
                 $variables = array_replace_recursive(
                     $common,
-                    !empty($rawDefinition[$environment]) ? $rawDefinition[$environment] : [], // TODO: check that value is an array
+                    !empty($rawDefinition['environments'][$environment]) ? $rawDefinition['environments'][$environment] : [], // TODO: check that value is an array
                 );
             }
 
