@@ -18,6 +18,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Throwable;
 
 /**
@@ -31,8 +32,8 @@ class VerifyCommand extends Command
     {
         $this
             ->addArgument('env', InputArgument::REQUIRED, 'The name of the environment to be verified.')
-            ->addOption('env-file', 'ef', InputOption::VALUE_REQUIRED, 'Dotenv file path to check.')
-            ->addOption('spec', 's', InputOption::VALUE_REQUIRED, 'Dotenv specification file path.')
+            ->addOption('env-file', 'ef', InputOption::VALUE_REQUIRED, 'Dotenv file path to check.', '.env')
+            ->addOption('spec', 's', InputOption::VALUE_REQUIRED, 'Dotenv specification file path.', 'env.spec.yaml')
             ->setDescription('Application environment verification.')
             ->setHelp('This command allows you to verify environment variables according to specification.');
     }
@@ -55,7 +56,13 @@ class VerifyCommand extends Command
             $validatorRegistry,
         );
 
-        $output->writeln("Start checking the content of the file <info>{$input->getOption('env-file')}</info>...");
+        $io = new SymfonyStyle($input, $output);
+        $io->title("Start checking the content of the file...");
+        $io->listing([
+            "Environment name: <info>{$input->getArgument('env')}</info>.",
+            "Environment file: <info>{$input->getOption('env-file')}</info>.",
+            "Environment specification: <info>{$input->getOption('spec')}</info>.",
+        ]);
 
         try {
             $messages = $service->verify($input->getOption('spec'), $input->getArgument('env'));
@@ -66,16 +73,20 @@ class VerifyCommand extends Command
         }
 
         if ($messages !== []) {
-            $output->writeln('Application environment is not valid.');
+            $list = [];
 
-            foreach ($messages as $message) {
-                $output->writeln("<error>$message</error>");
+            foreach ($messages as $key => $message) {
+                $list[] = "<bg=red;options=bold>$key</> $message";
             }
+
+            $io->section('Found errors:');
+            $io->listing($list);
+            $io->error('Application environment is not valid.');
 
             return Command::FAILURE;
         }
 
-        $output->writeln('<info>Application environment is valid.</info>');
+        $io->success('Application environment is valid.');
 
         return Command::SUCCESS;
     }

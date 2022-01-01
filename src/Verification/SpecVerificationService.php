@@ -45,7 +45,7 @@ class SpecVerificationService
                 $isValid = $validator->validate($value, is_array($options) ? $options : [$options]);
 
                 if (!$isValid) {
-                    $messages[] = $validator->message([
+                    $messages[$variable->name] = $validator->message([
                         'name' => $variable->name,
                         'value' => $value,
                         'cases' => $options,
