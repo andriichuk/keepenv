@@ -17,10 +17,8 @@ class EnumValidator implements ValidatorInterface
     public function message(array $placeholders): string
     {
         return sprintf(
-            'The value of the `%s` variable must match one of the values: %s. Given `%s`.',
-            $placeholders['name'] ?? '',
+            'The value must match one of the values: %s.',
             implode(', ', $placeholders['cases'] ?? []),
-            $placeholders['value'] ?? '',
         );
     }
 

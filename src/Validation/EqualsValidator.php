@@ -16,12 +16,7 @@ class EqualsValidator implements ValidatorInterface
 
     public function message(array $placeholders): string
     {
-        return sprintf(
-            'The `%s` variable must be equal to `%s`. Given `%s`',
-            $placeholders['name'] ?? '',
-            $placeholders['equals'] ?? '',
-            $placeholders['value'] ?? '',
-        );
+        return "The value must be equal to `{$placeholders['equals']}`.";
     }
 
     /**

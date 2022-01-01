@@ -12,6 +12,7 @@ use Andriichuk\Enviro\Validation\EqualsValidator;
 use Andriichuk\Enviro\Validation\IntegerValidator;
 use Andriichuk\Enviro\Validation\RequiredValidator;
 use Andriichuk\Enviro\Validation\ValidatorRegistry;
+use Andriichuk\Enviro\Verification\VerificationReport;
 use Andriichuk\Enviro\Writer\Env\EnvFileWriter;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -40,20 +41,13 @@ class VerifyCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $validatorRegistry = new ValidatorRegistry();
-        $validatorRegistry->add(new IntegerValidator());
-        $validatorRegistry->add(new EmailValidator());
-        $validatorRegistry->add(new EnumValidator());
-        $validatorRegistry->add(new EqualsValidator());
-        $validatorRegistry->add(new RequiredValidator());
-
-        $factory = new SpecificationReaderFactory();
-        $reader = $factory->basedOnResource($input->getOption('spec'));
+        $readerFactory = new SpecificationReaderFactory();
+        $specReader = $readerFactory->basedOnResource($input->getOption('spec'));
 
         $service = new SpecVerificationService(
             new EnvFileWriter($input->getOption('env-file')),
-            $reader,
-            $validatorRegistry,
+            $specReader,
+            $this->validationRules(),
         );
 
         $io = new SymfonyStyle($input, $output);
@@ -65,23 +59,15 @@ class VerifyCommand extends Command
         ]);
 
         try {
-            $messages = $service->verify($input->getOption('spec'), $input->getArgument('env'));
+            $verificationReport = $service->verify($input->getOption('spec'), $input->getArgument('env'));
         } catch (Throwable $exception) {
             $output->writeln("Error: {$exception->getMessage()}");
 
             return Command::FAILURE;
         }
 
-        if ($messages !== []) {
-            $list = [];
-
-            foreach ($messages as $key => $message) {
-                $list[] = "<bg=red;options=bold>$key</> $message";
-            }
-
-            $io->section('Found errors:');
-            $io->listing($list);
-            $io->error('Application environment is not valid.');
+        if (!$verificationReport->isEmpty()) {
+            $this->renderMessages($verificationReport, $io);
 
             return Command::FAILURE;
         }
@@ -89,5 +75,38 @@ class VerifyCommand extends Command
         $io->success('Application environment is valid.');
 
         return Command::SUCCESS;
+    }
+
+    private function validationRules(): ValidatorRegistry
+    {
+        $validatorRegistry = new ValidatorRegistry();
+        $validatorRegistry->add(new IntegerValidator());
+        $validatorRegistry->add(new EmailValidator());
+        $validatorRegistry->add(new EnumValidator());
+        $validatorRegistry->add(new EqualsValidator());
+        $validatorRegistry->add(new RequiredValidator());
+
+        return $validatorRegistry;
+    }
+
+    private function renderMessages(VerificationReport $reports, SymfonyStyle $io): void
+    {
+        $rows = [];
+        $variables = [];
+
+        foreach ($reports->all() as $report) {
+            $formattedVariable = "<bg=red;options=bold>$report->variable</>";
+
+            if (isset($variables[$report->variable])) {
+                $formattedVariable = '';
+            }
+
+            $variables[$report->variable] = true;
+            $rows[] = [$formattedVariable, $report->message];
+        }
+
+        $io->text("<options=bold>Found {$reports->count()} errors:</>");
+        $io->table(['Variable', 'Message'], $rows);
+        $io->error('Application environment is not valid.');
     }
 }

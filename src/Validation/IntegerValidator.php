@@ -16,7 +16,7 @@ class IntegerValidator implements ValidatorInterface
 
     public function message(array $placeholders): string
     {
-        return 'The must an integer.';
+        return 'The value must be an integer.';
     }
 
     /**

@@ -16,11 +16,7 @@ class EmailValidator implements ValidatorInterface
 
     public function message(array $placeholders): string
     {
-        return sprintf(
-            'The variable `%s` must be a valid email address. Given `%s`.',
-            $placeholders['name'] ?? '',
-            $placeholders['value'] ?? '',
-        );
+        return 'The value must be a valid email address.';
     }
 
     /**

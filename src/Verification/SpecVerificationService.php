@@ -27,10 +27,10 @@ class SpecVerificationService
         $this->validatorRegistry = $validatorRegistry;
     }
 
-    public function verify(string $source, string $envName): array
+    public function verify(string $source, string $envName): VerificationReport
     {
         $specification = $this->specificationReader->read($source)->get($envName);
-        $messages = [];
+        $verificationReport = new VerificationReport();
 
         foreach ($specification->all() as $variable) {
             if ($variable->rules === null) {
@@ -45,16 +45,21 @@ class SpecVerificationService
                 $isValid = $validator->validate($value, is_array($options) ? $options : [$options]);
 
                 if (!$isValid) {
-                    $messages[$variable->name] = $validator->message([
-                        'name' => $variable->name,
-                        'value' => $value,
-                        'cases' => $options,
-                        'equals' => $variable->rules['equals'] ?? '',
-                    ]);
+                    $verificationReport->add(
+                        new VariableReport(
+                            $variable->name,
+                            $validator->message([
+                                'name' => $variable->name,
+                                'value' => $value,
+                                'cases' => $options,
+                                'equals' => $variable->rules['equals'] ?? '',
+                            ])
+                        )
+                    );
                 }
             }
         }
 
-        return $messages;
+        return $verificationReport;
     }
 }

@@ -16,11 +16,7 @@ class RequiredValidator implements ValidatorInterface
 
     public function message(array $placeholders): string
     {
-        return sprintf(
-            'The variable `%s` is required. Given `%s`.',
-            $placeholders['name'] ?? '',
-            $placeholders['value'] ?? '',
-        );
+        return 'The value is required.';
     }
 
     /**
