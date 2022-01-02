@@ -6,11 +6,11 @@ namespace Andriichuk\Enviro\Functional\Manager;
 
 use Andriichuk\Enviro\Manager\AddNewVariableManager;
 use Andriichuk\Enviro\Manager\AddVariableCommand;
-use Andriichuk\Enviro\Reader\Specification\SpecificationYamlReader;
+use Andriichuk\Enviro\Specification\Reader\SpecificationYamlReader;
 use Andriichuk\Enviro\Specification\SpecificationArrayBuilder;
 use Andriichuk\Enviro\Specification\Variable;
-use Andriichuk\Enviro\Writer\Env\EnvFileWriter;
-use Andriichuk\Enviro\Writer\Specification\SpecificationYamlWriter;
+use Andriichuk\Enviro\Environment\Writer\EnvFileWriter;
+use Andriichuk\Enviro\Specification\Writer\SpecificationYamlWriter;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
 use org\bovigo\vfs\vfsStreamFile;

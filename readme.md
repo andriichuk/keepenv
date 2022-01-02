@@ -20,6 +20,8 @@ TODO:
 - [ ] fill all descriptions and messages
 - [ ] support PHP and JSON format
 - [ ] warning about variables from .env file that are missing in specification
+- [ ] support system variables
+- [ ] support `export` key 
 
 ### Verification
 

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\Enviro\Writer\Specification;
+namespace Andriichuk\Enviro\Specification\Writer;
 
 use Andriichuk\Enviro\Specification\Specification;
 

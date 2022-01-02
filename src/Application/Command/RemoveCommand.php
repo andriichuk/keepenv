@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Andriichuk\Enviro\Application\Command;
 
-use Andriichuk\Enviro\Reader\Specification\SpecificationReaderFactory;
-use Andriichuk\Enviro\Writer\Env\EnvFileWriter;
-use Andriichuk\Enviro\Writer\Specification\SpecificationWriterFactory;
+use Andriichuk\Enviro\Specification\Reader\SpecificationReaderFactory;
+use Andriichuk\Enviro\Environment\Writer\EnvFileWriter;
+use Andriichuk\Enviro\Specification\Writer\SpecificationWriterFactory;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;

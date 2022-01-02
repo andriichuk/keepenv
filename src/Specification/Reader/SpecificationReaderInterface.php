@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\Enviro\Reader\Specification;
+namespace Andriichuk\Enviro\Specification\Reader;
 
 use Andriichuk\Enviro\Specification\Specification;
 

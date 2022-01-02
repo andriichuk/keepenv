@@ -4,14 +4,15 @@ declare(strict_types=1);
 
 namespace Andriichuk\Enviro\Application\Command;
 
-use Andriichuk\Enviro\Specification\EnvVariables;
-use Andriichuk\Enviro\Specification\Specification;
-use Andriichuk\Enviro\Specification\Variable;
-use Andriichuk\Enviro\Writer\Specification\SpecificationWriterFactory;
+use Andriichuk\Enviro\Environment\Loader\EnvFileLoaderFactory;
+use Andriichuk\Enviro\Environment\Provider\EnvStateProvider;
+use Andriichuk\Enviro\Specification\SpecificationGenerator;
+use Andriichuk\Enviro\Specification\Writer\SpecificationWriterFactory;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
  * @author Serhii Andriichuk <andriichuk29@gmail.com>
@@ -23,78 +24,53 @@ class InitCommand extends Command
     protected function configure(): void
     {
         $this
-            ->addOption('env', 'e', InputOption::VALUE_REQUIRED, 'Target environment name.')
-            ->addOption('target', 't', InputOption::VALUE_REQUIRED, 'Source file.')
+            ->addOption('env', 'e', InputOption::VALUE_REQUIRED, 'The name of the environment to be initiated.', 'common')
+            ->addOption('env-file', 'ef', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Dotenv file path to check.', ['./'])
+            ->addOption('spec', 's', InputOption::VALUE_REQUIRED, 'Dotenv specification file path.', 'env.spec.yaml')
             ->setDescription('Application environment verification.')
             ->setHelp('This command allows you to verify environment specification.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $variables = \Dotenv\Dotenv::createArrayBacked(dirname(__DIR__, 3) . '/stubs', '.env.demo')->load();
+        $io = new SymfonyStyle($input, $output);
+        $io->title('Start generating a new specification based on environment.');
+        $io->listing([
+            "Environment name: <info>{$input->getOption('env')}</info>.",
+            "Environment file: <info>{$input->getOption('env-file')}</info>.",
+            "Environment specification: <info>{$input->getOption('spec')}</info>.",
+        ]);
 
-        $specification = new Specification('1.0');
-        $envSpecification = new EnvVariables($input->getOption('env'));
+        $override = false;
 
-        foreach ($variables as $key => $value) {
-            $required = trim((string) $value) === '';
-            $rules = $this->guessType($value ?? '');
+        if (file_exists($input->getOption('spec'))) {
+            $override = $io->confirm('Specification file already exists. Do you want to override it?', $override);
 
-            if ($required) {
-                $rules['required'] = true;
+            if (!$override) {
+                $io->warning('Specification file was not modified.');
+
+                return Command::FAILURE;
             }
-
-            $envSpecification->add(
-                new Variable(
-                    $key,
-                    $this->toSentence($key),
-                     $rules
-                )
-            );
         }
 
-        $specification->add($envSpecification);
+        $loaderFactory = new EnvFileLoaderFactory();
+        $writerFactory = new SpecificationWriterFactory();
 
-        $writer = (new SpecificationWriterFactory())->basedOnResource($input->getOption('target'));
-        $writer->write($input->getOption('target'), $specification);
+        $generator = new SpecificationGenerator(
+            $loaderFactory->baseOnAvailability(),
+            new EnvStateProvider(),
+            $writerFactory->basedOnResource($input->getOption('spec'))
+        );
+
+        $generator->generate(
+            $input->getOption('env'),
+            $input->getOption('env-file'),
+            $input->getOption('spec'),
+            $override,
+        );
+
+        $io->success("Environment specification was successfully created.");
 
         return Command::SUCCESS;
-    }
-
-    private function toSentence(string $key): string
-    {
-        $sentence = str_replace('_', ' ', strtolower($key));
-
-        $replace = [
-            'app' => 'application',
-            'env' => 'environment',
-            'aws' => 'AWS',
-            'url' => 'URL',
-            'api' => 'API',
-            'id' => 'ID',
-            'dsn' => 'DSN',
-            'js' => 'JS',
-            'CSS' => 'CSS',
-            'db' => 'database',
-            's3' => 'S3',
-            'log' => 'Logging', // Loggingin
-        ];
-
-        return ucfirst(str_replace(array_keys($replace), array_values($replace), $sentence)) . '.';
-    }
-
-    private function guessType(string $value): array
-    {
-        if (is_numeric($value)) {
-            return ['numeric' => true];
-        }
-
-        $boolean = in_array(strtolower($value), ["true", "false", "on", "1", "yes", "off", "0", "no"], true);
-
-        if ($boolean) {
-            return ['enum' => ['On', 'Off']];
-        }
-
-        return ['string' => true];
     }
 }

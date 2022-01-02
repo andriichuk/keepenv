@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Andriichuk\Enviro\Functional\Writer\Env;
 
-use Andriichuk\Enviro\Writer\Env\EnvFileWriter;
+use Andriichuk\Enviro\Environment\Writer\EnvFileWriter;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
 use org\bovigo\vfs\vfsStreamFile;
@@ -16,7 +16,7 @@ use PHPUnit\Framework\TestCase;
 class EnvFileWriterTest extends TestCase
 {
     private vfsStreamDirectory $rootFolder;
-    private EnvFileWriter $writer;
+    private \Andriichuk\Enviro\Environment\Writer\EnvFileWriter $writer;
 
     protected function setUp(): void
     {
@@ -28,7 +28,7 @@ class EnvFileWriterTest extends TestCase
                 ),
         );
 
-        $this->writer = new EnvFileWriter($this->rootFolder->getChild('.env')->url());
+        $this->writer = new \Andriichuk\Enviro\Environment\Writer\EnvFileWriter($this->rootFolder->getChild('.env')->url());
     }
 
     public function testVariableReading(): void

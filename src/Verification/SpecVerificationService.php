@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Andriichuk\Enviro\Verification;
 
-use Andriichuk\Enviro\Reader\Specification\SpecificationReaderInterface;
+use Andriichuk\Enviro\Specification\Reader\SpecificationReaderInterface;
 use Andriichuk\Enviro\Validation\ValidatorRegistryInterface;
-use Andriichuk\Enviro\Writer\Env\EnvFileWriter;
+use Andriichuk\Enviro\Environment\Writer\EnvFileWriter;
 
 /**
  * @author Serhii Andriichuk <andriichuk29@gmail.com>

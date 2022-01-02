@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Andriichuk\Enviro\Manager;
 
-use Andriichuk\Enviro\Reader\Specification\SpecificationReaderInterface;
-use Andriichuk\Enviro\Writer\Env\EnvFileWriter;
-use Andriichuk\Enviro\Writer\Specification\SpecificationWriterInterface;
+use Andriichuk\Enviro\Specification\Reader\SpecificationReaderInterface;
+use Andriichuk\Enviro\Environment\Writer\EnvFileWriter;
+use Andriichuk\Enviro\Specification\Writer\SpecificationWriterInterface;
 use InvalidArgumentException;
 
 /**

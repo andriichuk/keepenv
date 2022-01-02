@@ -1,5 +1,5 @@
 {
-    "name": "andriichuk/env-validator",
+    "name": "andriichuk/env-spec",
     "description": "PHP dot env file manager based on specification.",
     "keywords": [
         "env",
@@ -24,7 +24,6 @@
         }
     ],
     "require": {
-        "vlucas/phpdotenv": "^5.4",
         "symfony/console": "^5.4",
         "symfony/yaml": "^5.4"
     },
@@ -33,6 +32,8 @@
         "symfony/var-dumper": "^v5.4",
         "phpunit/phpunit": "^9.5",
         "vimeo/psalm": "^4.16",
-        "mikey179/vfsstream": "1.6.10"
+        "mikey179/vfsstream": "1.6.10",
+        "symfony/dotenv": "^5.4",
+        "vlucas/phpdotenv": "^5.4"
     }
 }

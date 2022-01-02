@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Andriichuk\Enviro\Application\Command;
 
-use Andriichuk\Enviro\Reader\Specification\SpecificationReaderFactory;
+use Andriichuk\Enviro\Specification\Reader\SpecificationReaderFactory;
 use Andriichuk\Enviro\Verification\SpecVerificationService;
 use Andriichuk\Enviro\Validation\EmailValidator;
 use Andriichuk\Enviro\Validation\EnumValidator;
@@ -13,7 +13,7 @@ use Andriichuk\Enviro\Validation\IntegerValidator;
 use Andriichuk\Enviro\Validation\RequiredValidator;
 use Andriichuk\Enviro\Validation\ValidatorRegistry;
 use Andriichuk\Enviro\Verification\VerificationReport;
-use Andriichuk\Enviro\Writer\Env\EnvFileWriter;
+use Andriichuk\Enviro\Environment\Writer\EnvFileWriter;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -61,7 +61,7 @@ class VerifyCommand extends Command
         try {
             $verificationReport = $service->verify($input->getOption('spec'), $input->getArgument('env'));
         } catch (Throwable $exception) {
-            $output->writeln("Error: {$exception->getMessage()}");
+            $io->error($exception->getMessage());
 
             return Command::FAILURE;
         }
