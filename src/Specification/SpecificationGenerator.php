@@ -48,7 +48,9 @@ class SpecificationGenerator
                 new Variable(
                     $key,
                     $this->toSentence($key),
-                    $rules
+                    false,
+                    $rules,
+                    null,
                 )
             );
         }

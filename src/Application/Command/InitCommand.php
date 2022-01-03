@@ -35,9 +35,10 @@ class InitCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
         $io->title('Start generating a new specification based on environment.');
+        $envFiles = implode(', ', $input->getOption('env-file'));
         $io->listing([
             "Environment name: <info>{$input->getOption('env')}</info>.",
-            "Environment file: <info>{$input->getOption('env-file')}</info>.",
+            "Environment files: <info>{$envFiles}</info>.",
             "Environment specification: <info>{$input->getOption('spec')}</info>.",
         ]);
 

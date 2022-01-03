@@ -17,6 +17,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
  * @author Serhii Andriichuk <andriichuk29@gmail.com>
@@ -38,15 +39,19 @@ class AddCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $io = new SymfonyStyle($input, $output);
+
         $name = $this->askForName($input, $output);
         $description = $this->askForDescription($input, $output);
-        $required = $this->askForRequired($input, $output);
+        $required = $io->confirm('Variable is required?', true);
+        $export = $io->confirm('Should `contain` export keyword?', false);
         $type = $this->askForType($input, $output);
         $value = $this->askForValue($input, $output);
 
-        $variable = new Variable($name, $description, [
+        // TODO check default
+        $variable = new Variable($name, $description, $required, $export, array_filter([
             $type,
-        ], $required);
+        ]));
 
         $writerFactory = new SpecificationWriterFactory();
         $readerFactory = new SpecificationReaderFactory();
@@ -92,14 +97,6 @@ class AddCommand extends Command
         $question->setMaxAttempts(2);
 
         return $helper->ask($input, $output, $question);
-    }
-
-    private function askForRequired(InputInterface $input, OutputInterface $output): bool
-    {
-        $helper = $this->getHelper('question');
-        $requiredQuestion = new ConfirmationQuestion('Required?', true);
-
-        return $helper->ask($input, $output, $requiredQuestion);
     }
 
     private function askForType(InputInterface $input, OutputInterface $output): string

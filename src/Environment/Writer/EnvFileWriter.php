@@ -63,7 +63,7 @@ class EnvFileWriter
             throw new \RuntimeException("$key is already defined.");
         }
 
-        $this->write($this->content() . "$key=$value\r\n");
+        $this->write($this->content() . "$key=$value" . PHP_EOL);
     }
 
     public function has(string $key): bool
@@ -86,7 +86,7 @@ class EnvFileWriter
     {
         $content = preg_replace(
             "#^$key=([^\n]+)?#miu",
-            "$key=\"$value\"" . PHP_EOL,
+            "$key=\"$value\"",
             $this->content(),
         );
 

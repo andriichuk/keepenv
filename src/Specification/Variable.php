@@ -6,11 +6,15 @@ namespace Andriichuk\Enviro\Specification;
 
 use Andriichuk\Enviro\Contracts\ArraySerializable;
 
+/**
+ * @psalm-immutable
+ */
 class Variable implements ArraySerializable
 {
     public string $name;
     public string $description;
-    public ?array $rules;
+    public bool $export;
+    public array $rules;
 
     /**
      * @var mixed
@@ -20,20 +24,22 @@ class Variable implements ArraySerializable
     /**
      * @param mixed $default
      */
-    public function __construct(string $name, string $description, ?array $rules = null, $default = null)
+    public function __construct(string $name, string $description, bool $export = false, array $rules = [], $default = null)
     {
         $this->name = $name;
         $this->description = $description;
-        $this->default = $default;
+        $this->export = $export;
         $this->rules = $rules;
+        $this->default = $default;
     }
 
     public function toArray(): array
     {
         return array_filter([
             'description' => $this->description,
+            'export' => $this->export ?: null,
+            'rules' => $this->rules ?: null,
             'default' => $this->default,
-            'rules' => $this->rules,
         ]);
     }
 }

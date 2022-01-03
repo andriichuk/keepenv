@@ -29,6 +29,7 @@ class VariableTest extends TestCase
         $variable = new Variable(
             'APP_ENV',
             'Application environment.',
+            false,
             [
                 'string' => true,
             ]
@@ -50,6 +51,7 @@ class VariableTest extends TestCase
         $variable = new Variable(
             'APP_ENV',
             'Application environment.',
+            false,
             [
                 'required' => true,
                 'enum' => ['local', 'production'],
@@ -73,11 +75,12 @@ class VariableTest extends TestCase
         $variable = new Variable(
             'APP_ENV',
             'Application environment.',
+            false,
             [
                 'required' => true,
                 'enum' => ['local', 'production'],
             ],
-            'production'
+            'production',
         );
 
         $this->assertEquals(

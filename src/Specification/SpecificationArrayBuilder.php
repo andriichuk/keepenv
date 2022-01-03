@@ -42,7 +42,8 @@ class SpecificationArrayBuilder implements SpecificationBuilderInterface
                     new Variable(
                         $name,
                         $definition['description'] ?? '',
-                        $definition['rules'] ?? null,
+                        $definition['export'] ?? false,
+                        $definition['rules'] ?? [],
                         $definition['default'] ?? null,
                     ),
                 );

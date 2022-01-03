@@ -42,18 +42,24 @@ class EnvFileFillingService
         $specification = $this->specificationReader->read($specPath);
         $envSpec = $specification->get($environmentName);
 
-        $variables = $this->envFileLoader->load($envPaths);
+        $emptyVariables = array_filter($this->envFileLoader->load($envPaths), static function ($value): bool {
+            return $value === '';
+        });
 
-        foreach ($envSpec->all() as $variable) {
+        $variablesToFill = $envSpec->onlyWithKeys($emptyVariables);
+
+        foreach ($variablesToFill as $variable) {
             if (!empty($variable->rules['equals'])) {
                 $value = $variable->rules['equals'];
             } else {
-                $value = $valueProvider($variable, function (string $value) use ($variable): void {
+                $value = $valueProvider($variable, function ($value) use ($variable): string {
                     $report = $this->variableVerification->validate($variable, $value);
 
                     if ($report !== []) {
                         throw new RuntimeException(reset($report)->message);
                     }
+
+                    return $value;
                 });
             }
 

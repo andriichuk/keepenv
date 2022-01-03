@@ -33,12 +33,13 @@ class SpecificationTest extends TestCase
             new Variable(
                 'APP_ENV',
                 'Application environment.',
+                false,
                 [
                     'required' => true,
                     'string' => true,
                     'equals' => 'production',
                 ],
-                'production'
+                'production',
             )
         );
 
@@ -47,6 +48,7 @@ class SpecificationTest extends TestCase
             new Variable(
                 'APP_ENV',
                 'Application environment.',
+                false,
                 [
                     'required' => true,
                     'string' => true,

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Andriichuk\Enviro\Functional\Reader\Specification;
 
 use Andriichuk\Enviro\Specification\Reader\SpecificationReaderFactory;
+use Andriichuk\Enviro\Specification\Reader\SpecificationYamlReader;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
 use org\bovigo\vfs\vfsStreamFile;
@@ -30,7 +31,7 @@ class SpecificationReaderFactoryTest extends TestCase
         $factory = new SpecificationReaderFactory();
         $reader = $factory->basedOnResource($this->rootFolder->getChild('env.spec.yaml')->url());
 
-        $this->assertInstanceOf(\Andriichuk\Enviro\Specification\Reader\SpecificationYamlReader::class, $reader);
+        $this->assertInstanceOf(SpecificationYamlReader::class, $reader);
     }
 
     public function testExceptionThrownForUnsupportedFileType(): void

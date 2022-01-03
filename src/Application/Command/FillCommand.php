@@ -61,13 +61,13 @@ class FillCommand extends Command
                     return $io->choice(
                         "Please select value for the key `$variable->name`: ",
                         $variable->rules['enum'],
-                        $variable->rules['default'] ?? null,
+                        $variable->rules ?? null,
                     );
                 }
 
                 return $io->ask(
                     "Please enter value for key `$variable->name`: ",
-                    $variable->rules['default'] ?? null,
+                    $variable->default ?? null,
                     $validator,
                 );
             },
@@ -77,6 +77,8 @@ class FillCommand extends Command
                 }
             },
         );
+
+        $io->success('All variables were successfully filled.');
 
         return Command::SUCCESS;
     }
