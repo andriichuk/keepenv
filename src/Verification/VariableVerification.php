@@ -7,6 +7,9 @@ namespace Andriichuk\Enviro\Verification;
 use Andriichuk\Enviro\Specification\Variable;
 use Andriichuk\Enviro\Validation\ValidatorRegistryInterface;
 
+/**
+ * @author Serhii Andriichuk <andriichuk29@gmail.com>
+ */
 class VariableVerification
 {
     private ValidatorRegistryInterface $validatorRegistry;

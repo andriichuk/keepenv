@@ -52,7 +52,7 @@ class EnvFileFillingService
                     $report = $this->variableVerification->validate($variable, $value);
 
                     if ($report !== []) {
-                        throw new RuntimeException(reset($report));
+                        throw new RuntimeException(reset($report)->message);
                     }
                 });
             }
