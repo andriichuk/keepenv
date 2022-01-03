@@ -22,6 +22,27 @@ TODO:
 - [ ] warning about variables from .env file that are missing in specification
 - [ ] support system variables
 - [ ] support `export` key 
+- [ ] raw blueprint
+
+### Initialization
+
+Command:
+
+```shell
+./enviro init
+```
+
+To customize for `vlucas/dotenv`:
+
+```shell
+./enviro verify --env=local --env-file=./ --spec=./env.spec.yaml
+```
+
+To customize for `symfony/dotenv`:
+
+```shell
+./enviro verify --env=local --env-file=./.env --env-file=./.env.local --spec=./env.spec.yaml
+```
 
 ### Verification
 
@@ -35,4 +56,12 @@ To customize:
 
 ```shell
 ./enviro verify local --env-file=./.env --spec=./env.spec.yaml
+```
+
+### Filling
+
+Command:
+
+```shell
+./enviro fill
 ```

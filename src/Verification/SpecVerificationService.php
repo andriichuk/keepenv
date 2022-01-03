@@ -4,59 +4,39 @@ declare(strict_types=1);
 
 namespace Andriichuk\Enviro\Verification;
 
+use Andriichuk\Enviro\Environment\Loader\EnvFileLoaderInterface;
 use Andriichuk\Enviro\Specification\Reader\SpecificationReaderInterface;
-use Andriichuk\Enviro\Validation\ValidatorRegistryInterface;
-use Andriichuk\Enviro\Environment\Writer\EnvFileWriter;
 
 /**
  * @author Serhii Andriichuk <andriichuk29@gmail.com>
  */
 class SpecVerificationService
 {
-    private EnvFileWriter $envFileWriter;
+    private EnvFileLoaderInterface $envFileLoader;
     private SpecificationReaderInterface $specificationReader;
-    private ValidatorRegistryInterface $validatorRegistry;
+    private VariableVerification $variableVerification;
 
     public function __construct(
-        EnvFileWriter $envFileWriter,
         SpecificationReaderInterface $specificationReader,
-        ValidatorRegistryInterface $validatorRegistry
+        EnvFileLoaderInterface $envFileLoader,
+        VariableVerification $variableVerification
     ) {
-        $this->envFileWriter = $envFileWriter;
+        $this->envFileLoader = $envFileLoader;
         $this->specificationReader = $specificationReader;
-        $this->validatorRegistry = $validatorRegistry;
+        $this->variableVerification = $variableVerification;
     }
 
-    public function verify(string $source, string $envName): VerificationReport
+    public function verify(string $environmentName, array $envPaths, string $specPath): VerificationReport
     {
-        $specification = $this->specificationReader->read($source)->get($envName);
+        $specification = $this->specificationReader->read($specPath)->get($environmentName);
         $verificationReport = new VerificationReport();
+        $variableValues = $this->envFileLoader->load($envPaths);
 
         foreach ($specification->all() as $variable) {
-            if ($variable->rules === null) {
-                continue;
-            }
+            $report = $this->variableVerification->validate($variable, $variableValues[$variable->name] ?? null);
 
-            foreach ($variable->rules as $ruleName => $options) {
-                $ruleName = is_string($ruleName) ? $ruleName : $options;
-                $validator = $this->validatorRegistry->get($ruleName);
-
-                $value = $this->envFileWriter->get($variable->name);
-                $isValid = $validator->validate($value, is_array($options) ? $options : [$options]);
-
-                if (!$isValid) {
-                    $verificationReport->add(
-                        new VariableReport(
-                            $variable->name,
-                            $validator->message([
-                                'name' => $variable->name,
-                                'value' => $value,
-                                'cases' => $options,
-                                'equals' => $variable->rules['equals'] ?? '',
-                            ])
-                        )
-                    );
-                }
+            foreach ($report as $reportItem) {
+                $verificationReport->add($reportItem);
             }
         }
 

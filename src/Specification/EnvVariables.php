@@ -50,6 +50,11 @@ class EnvVariables implements ArraySerializable
         unset($this->variables[$variable]);
     }
 
+    public function exceptKeys()
+    {
+
+    }
+
     /**
      * @return Variable[]
      */

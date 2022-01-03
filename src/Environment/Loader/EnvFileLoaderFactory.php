@@ -14,8 +14,8 @@ class EnvFileLoaderFactory
     public function baseOnAvailability(): EnvFileLoaderInterface
     {
         switch (true) {
-            /*case class_exists(\Dotenv\Dotenv::class):
-                return new VlucasPhpDotenvLoader();*/
+            case class_exists(\Dotenv\Dotenv::class):
+                return new VlucasPhpDotenvLoader();
 
             case class_exists(\Symfony\Component\Dotenv\Dotenv::class):
                 return new SymfonyDotEnvLoader();

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Andriichuk\Enviro\Application\Command;
 
+use Andriichuk\Enviro\Environment\Loader\EnvFileLoaderFactory;
 use Andriichuk\Enviro\Specification\Reader\SpecificationReaderFactory;
 use Andriichuk\Enviro\Verification\SpecVerificationService;
 use Andriichuk\Enviro\Validation\EmailValidator;
@@ -12,6 +13,7 @@ use Andriichuk\Enviro\Validation\EqualsValidator;
 use Andriichuk\Enviro\Validation\IntegerValidator;
 use Andriichuk\Enviro\Validation\RequiredValidator;
 use Andriichuk\Enviro\Validation\ValidatorRegistry;
+use Andriichuk\Enviro\Verification\VariableVerification;
 use Andriichuk\Enviro\Verification\VerificationReport;
 use Andriichuk\Enviro\Environment\Writer\EnvFileWriter;
 use Symfony\Component\Console\Command\Command;
@@ -33,7 +35,7 @@ class VerifyCommand extends Command
     {
         $this
             ->addArgument('env', InputArgument::REQUIRED, 'The name of the environment to be verified.')
-            ->addOption('env-file', 'ef', InputOption::VALUE_REQUIRED, 'Dotenv file path to check.', '.env')
+            ->addOption('env-file', 'ef', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Dotenv file path to check.', ['./'])
             ->addOption('spec', 's', InputOption::VALUE_REQUIRED, 'Dotenv specification file path.', 'env.spec.yaml')
             ->setDescription('Application environment verification.')
             ->setHelp('This command allows you to verify environment variables according to specification.');
@@ -41,13 +43,13 @@ class VerifyCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $readerFactory = new SpecificationReaderFactory();
-        $specReader = $readerFactory->basedOnResource($input->getOption('spec'));
+        $specReaderFactory = new SpecificationReaderFactory();
+        $envLoaderFactory = new EnvFileLoaderFactory();
 
         $service = new SpecVerificationService(
-            new EnvFileWriter($input->getOption('env-file')),
-            $specReader,
-            $this->validationRules(),
+            $specReaderFactory->basedOnResource($input->getOption('spec')),
+            $envLoaderFactory->baseOnAvailability(),
+            new VariableVerification(ValidatorRegistry::default()),
         );
 
         $io = new SymfonyStyle($input, $output);
@@ -59,7 +61,11 @@ class VerifyCommand extends Command
         ]);
 
         try {
-            $verificationReport = $service->verify($input->getOption('spec'), $input->getArgument('env'));
+            $verificationReport = $service->verify(
+                $input->getArgument('env'),
+                $input->getOption('env-file'),
+                $input->getOption('spec'),
+            );
         } catch (Throwable $exception) {
             $io->error($exception->getMessage());
 
@@ -75,18 +81,6 @@ class VerifyCommand extends Command
         $io->success('Application environment is valid.');
 
         return Command::SUCCESS;
-    }
-
-    private function validationRules(): ValidatorRegistry
-    {
-        $validatorRegistry = new ValidatorRegistry();
-        $validatorRegistry->add(new IntegerValidator());
-        $validatorRegistry->add(new EmailValidator());
-        $validatorRegistry->add(new EnumValidator());
-        $validatorRegistry->add(new EqualsValidator());
-        $validatorRegistry->add(new RequiredValidator());
-
-        return $validatorRegistry;
     }
 
     private function renderMessages(VerificationReport $reports, SymfonyStyle $io): void

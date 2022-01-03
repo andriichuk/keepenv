@@ -14,6 +14,18 @@ class ValidatorRegistry implements ValidatorRegistryInterface
      */
     private array $validators = [];
 
+    public static function default(): self
+    {
+        $validatorRegistry = new self();
+        $validatorRegistry->add(new IntegerValidator());
+        $validatorRegistry->add(new EmailValidator());
+        $validatorRegistry->add(new EnumValidator());
+        $validatorRegistry->add(new EqualsValidator());
+        $validatorRegistry->add(new RequiredValidator());
+
+        return $validatorRegistry;
+    }
+
     public function add(ValidatorInterface $validator): void
     {
         $this->validators[$validator->alias()] = $validator;
