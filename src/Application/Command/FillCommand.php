@@ -61,7 +61,7 @@ class FillCommand extends Command
                     return $io->choice(
                         "Please select value for the key `$variable->name`: ",
                         $variable->rules['enum'],
-                        $variable->rules ?? null,
+                        $variable->default ?? null,
                     );
                 }
 

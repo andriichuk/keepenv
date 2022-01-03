@@ -49,9 +49,9 @@ class AddCommand extends Command
         $value = $this->askForValue($input, $output);
 
         // TODO check default
-        $variable = new Variable($name, $description, $required, $export, array_filter([
+        $variable = new Variable($name, $description, $export, array_filter([
             $type,
-        ]));
+        ]), $required);
 
         $writerFactory = new SpecificationWriterFactory();
         $readerFactory = new SpecificationReaderFactory();

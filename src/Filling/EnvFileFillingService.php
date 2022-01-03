@@ -52,7 +52,7 @@ class EnvFileFillingService
             if (!empty($variable->rules['equals'])) {
                 $value = $variable->rules['equals'];
             } else {
-                $value = $valueProvider($variable, function ($value) use ($variable): string {
+                $value = $valueProvider($variable, function (string $value) use ($variable): string {
                     $report = $this->variableVerification->validate($variable, $value);
 
                     if ($report !== []) {
