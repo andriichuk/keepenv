@@ -44,17 +44,15 @@ class VerifyCommandTest extends TestCase
         $application = new Application();
         $application->add(new VerifyCommand());
 
-        $this->assertTrue(true);
-
-        /*$command = $application->find('verify');
+        $command = $application->find('verify');
         $commandTester = new CommandTester($command);
 
         $commandTester->execute([
             'env' => 'local',
-            '--env-file' => $this->rootFolder->getChild('.env')->url(),
+            '--env-file' => [dirname($this->rootFolder->getChild('.env')->url())],
             '--spec' => $this->rootFolder->getChild('env.spec.yaml')->url(),
-        ]);*/
+        ]);
 
-        //$commandTester->assertCommandIsSuccessful();
+        $commandTester->assertCommandIsSuccessful();
     }
 }

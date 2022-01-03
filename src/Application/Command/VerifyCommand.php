@@ -54,9 +54,10 @@ class VerifyCommand extends Command
 
         $io = new SymfonyStyle($input, $output);
         $io->title("Start checking the content of the file...");
+  //      $files = implode(', ', $input->getOption('env-file'));
         $io->listing([
             "Environment name: <info>{$input->getArgument('env')}</info>.",
-            "Environment file: <info>{$input->getOption('env-file')}</info>.",
+//            "Environment file: <info>{$files}</info>.",
             "Environment specification: <info>{$input->getOption('spec')}</info>.",
         ]);
 
