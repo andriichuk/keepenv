@@ -28,7 +28,7 @@ class VariableVerification
     {
         $report = [];
 
-        if ($variable->rules === null) {
+        if ($variable->rules === []) {
             return $report;
         }
 
