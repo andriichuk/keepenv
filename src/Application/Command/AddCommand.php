@@ -2,20 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\Enviro\Application\Command;
+namespace Andriichuk\KeepEnv\Application\Command;
 
-use Andriichuk\Enviro\Manager\AddNewVariableManager;
-use Andriichuk\Enviro\Manager\AddVariableCommand;
-use Andriichuk\Enviro\Specification\Reader\SpecificationReaderFactory;
-use Andriichuk\Enviro\Specification\Variable;
-use Andriichuk\Enviro\Environment\Writer\EnvFileWriter;
-use Andriichuk\Enviro\Specification\Writer\SpecificationWriterFactory;
+use Andriichuk\KeepEnv\Manager\AddNewVariableManager;
+use Andriichuk\KeepEnv\Manager\AddVariableCommand;
+use Andriichuk\KeepEnv\Specification\Reader\SpecificationReaderFactory;
+use Andriichuk\KeepEnv\Specification\Variable;
+use Andriichuk\KeepEnv\Environment\Writer\EnvFileWriter;
+use Andriichuk\KeepEnv\Specification\Writer\SpecificationWriterFactory;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
-use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Style\SymfonyStyle;
 

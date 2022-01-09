@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\Enviro\Application\Command;
+namespace Andriichuk\KeepEnv\Application\Command;
 
-use Andriichuk\Enviro\Specification\Reader\SpecificationReaderFactory;
-use Andriichuk\Enviro\Environment\Writer\EnvFileWriter;
-use Andriichuk\Enviro\Specification\Writer\SpecificationWriterFactory;
+use Andriichuk\KeepEnv\Specification\Reader\SpecificationReaderFactory;
+use Andriichuk\KeepEnv\Environment\Writer\EnvFileWriter;
+use Andriichuk\KeepEnv\Specification\Writer\SpecificationWriterFactory;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;

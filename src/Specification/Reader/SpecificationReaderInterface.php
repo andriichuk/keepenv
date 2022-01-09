@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\Enviro\Specification\Reader;
+namespace Andriichuk\KeepEnv\Specification\Reader;
 
-use Andriichuk\Enviro\Specification\Specification;
+use Andriichuk\KeepEnv\Specification\Specification;
 
 /**
  * @author Serhii Andriichuk <andriichuk29@gmail.com>

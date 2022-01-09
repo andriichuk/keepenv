@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\Enviro\Specification;
+namespace Andriichuk\KeepEnv\Specification;
 
-use Andriichuk\Enviro\Contracts\ArraySerializable;
+use Andriichuk\KeepEnv\Contracts\ArraySerializable;
 
 class Specification implements ArraySerializable
 {

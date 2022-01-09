@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\Enviro\Environment\Loader;
+namespace Andriichuk\KeepEnv\Environment\Loader;
 
 use RuntimeException;
 

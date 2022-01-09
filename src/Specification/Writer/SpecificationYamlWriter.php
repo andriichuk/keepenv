@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\Enviro\Specification\Writer;
+namespace Andriichuk\KeepEnv\Specification\Writer;
 
-use Andriichuk\Enviro\Specification\Specification;
-use Andriichuk\Enviro\Specification\Writer\SpecificationWriterInterface;
+use Andriichuk\KeepEnv\Specification\Specification;
+use Andriichuk\KeepEnv\Specification\Writer\SpecificationWriterInterface;
 use Symfony\Component\Yaml\Yaml;
 
 class SpecificationYamlWriter implements SpecificationWriterInterface

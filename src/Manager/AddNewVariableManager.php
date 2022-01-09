@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\Enviro\Manager;
+namespace Andriichuk\KeepEnv\Manager;
 
-use Andriichuk\Enviro\Specification\Reader\SpecificationReaderInterface;
-use Andriichuk\Enviro\Environment\Writer\EnvFileWriter;
-use Andriichuk\Enviro\Specification\Writer\SpecificationWriterInterface;
+use Andriichuk\KeepEnv\Specification\Reader\SpecificationReaderInterface;
+use Andriichuk\KeepEnv\Environment\Writer\EnvFileWriter;
+use Andriichuk\KeepEnv\Specification\Writer\SpecificationWriterInterface;
 use InvalidArgumentException;
 
 /**

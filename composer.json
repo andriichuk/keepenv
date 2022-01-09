@@ -1,5 +1,5 @@
 {
-    "name": "andriichuk/env-spec",
+    "name": "andriichuk/keepenv",
     "description": "PHP dot env file manager based on specification.",
     "keywords": [
         "env",
@@ -9,12 +9,12 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Andriichuk\\Enviro\\": "src/"
+            "Andriichuk\\KeepEnv\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Andriichuk\\Enviro\\": "tests/"
+            "Andriichuk\\KeepEnv\\": "tests/"
         }
     },
     "authors": [

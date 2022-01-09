@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\Enviro\Environment\Provider;
+namespace Andriichuk\KeepEnv\Environment\Provider;
 
 /**
  * @author Serhii Andriichuk <andriichuk29@gmail.com>

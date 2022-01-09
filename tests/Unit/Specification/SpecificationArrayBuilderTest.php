@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\Enviro\Unit\Specification;
+namespace Andriichuk\KeepEnv\Unit\Specification;
 
-use Andriichuk\Enviro\Specification\SpecificationArrayBuilder;
+use Andriichuk\KeepEnv\Specification\SpecificationArrayBuilder;
 use PHPUnit\Framework\TestCase;
 
 class SpecificationArrayBuilderTest extends TestCase

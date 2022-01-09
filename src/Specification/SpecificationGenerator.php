@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\Enviro\Specification;
+namespace Andriichuk\KeepEnv\Specification;
 
-use Andriichuk\Enviro\Environment\Loader\EnvFileLoaderInterface;
-use Andriichuk\Enviro\Environment\Provider\EnvStateProviderInterface;
-use Andriichuk\Enviro\Specification\Writer\SpecificationWriterInterface;
+use Andriichuk\KeepEnv\Environment\Loader\EnvFileLoaderInterface;
+use Andriichuk\KeepEnv\Environment\Provider\EnvStateProviderInterface;
+use Andriichuk\KeepEnv\Specification\Writer\SpecificationWriterInterface;
 use RuntimeException;
 
 class SpecificationGenerator

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\Enviro\Unit\Specification;
+namespace Andriichuk\KeepEnv\Unit\Specification;
 
-use Andriichuk\Enviro\Specification\Variable;
+use Andriichuk\KeepEnv\Specification\Variable;
 use PHPUnit\Framework\TestCase;
 
 class VariableTest extends TestCase

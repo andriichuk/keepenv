@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\Enviro\Environment\Writer;
+namespace Andriichuk\KeepEnv\Environment\Writer;
 
 /**
  * @author Serhii Andriichuk <andriichuk29@gmail.com>

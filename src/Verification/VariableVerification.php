@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\Enviro\Verification;
+namespace Andriichuk\KeepEnv\Verification;
 
-use Andriichuk\Enviro\Specification\Variable;
-use Andriichuk\Enviro\Validation\ValidatorRegistryInterface;
+use Andriichuk\KeepEnv\Specification\Variable;
+use Andriichuk\KeepEnv\Validation\ValidatorRegistryInterface;
 
 /**
  * @author Serhii Andriichuk <andriichuk29@gmail.com>

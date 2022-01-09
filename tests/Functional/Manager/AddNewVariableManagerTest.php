@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\Enviro\Functional\Manager;
+namespace Andriichuk\KeepEnv\Functional\Manager;
 
-use Andriichuk\Enviro\Manager\AddNewVariableManager;
-use Andriichuk\Enviro\Manager\AddVariableCommand;
-use Andriichuk\Enviro\Specification\Reader\SpecificationYamlReader;
-use Andriichuk\Enviro\Specification\SpecificationArrayBuilder;
-use Andriichuk\Enviro\Specification\Variable;
-use Andriichuk\Enviro\Environment\Writer\EnvFileWriter;
-use Andriichuk\Enviro\Specification\Writer\SpecificationYamlWriter;
+use Andriichuk\KeepEnv\Manager\AddNewVariableManager;
+use Andriichuk\KeepEnv\Manager\AddVariableCommand;
+use Andriichuk\KeepEnv\Specification\Reader\SpecificationYamlReader;
+use Andriichuk\KeepEnv\Specification\SpecificationArrayBuilder;
+use Andriichuk\KeepEnv\Specification\Variable;
+use Andriichuk\KeepEnv\Environment\Writer\EnvFileWriter;
+use Andriichuk\KeepEnv\Specification\Writer\SpecificationYamlWriter;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
 use org\bovigo\vfs\vfsStreamFile;

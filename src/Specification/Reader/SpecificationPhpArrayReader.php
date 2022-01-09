@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\Enviro\Specification\Reader;
+namespace Andriichuk\KeepEnv\Specification\Reader;
 
-use Andriichuk\Enviro\Specification\Specification;
-use Andriichuk\Enviro\Specification\SpecificationBuilderInterface;
+use Andriichuk\KeepEnv\Specification\Specification;
+use Andriichuk\KeepEnv\Specification\SpecificationBuilderInterface;
 
 /**
  * @author Serhii Andriichuk <andriichuk29@gmail.com>

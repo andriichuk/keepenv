@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\Enviro\Contracts;
+namespace Andriichuk\KeepEnv\Contracts;
 
 interface ArraySerializable
 {

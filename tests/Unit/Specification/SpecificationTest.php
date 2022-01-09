@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\Enviro\Unit\Specification;
+namespace Andriichuk\KeepEnv\Unit\Specification;
 
-use Andriichuk\Enviro\Specification\EnvVariables;
-use Andriichuk\Enviro\Specification\Specification;
-use Andriichuk\Enviro\Specification\Variable;
+use Andriichuk\KeepEnv\Specification\EnvVariables;
+use Andriichuk\KeepEnv\Specification\Specification;
+use Andriichuk\KeepEnv\Specification\Variable;
 use PHPUnit\Framework\TestCase;
 
 class SpecificationTest extends TestCase

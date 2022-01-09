@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\Enviro\Functional\Writer\Env;
+namespace Andriichuk\KeepEnv\Functional\Writer\Env;
 
-use Andriichuk\Enviro\Environment\Writer\EnvFileWriter;
+use Andriichuk\KeepEnv\Environment\Writer\EnvFileWriter;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
 use org\bovigo\vfs\vfsStreamFile;

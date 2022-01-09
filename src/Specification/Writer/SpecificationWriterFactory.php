@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\Enviro\Specification\Writer;
+namespace Andriichuk\KeepEnv\Specification\Writer;
 
 class SpecificationWriterFactory
 {

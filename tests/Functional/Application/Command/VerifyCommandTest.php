@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\Enviro\Functional\Application\Command;
+namespace Andriichuk\KeepEnv\Functional\Application\Command;
 
-use Andriichuk\Enviro\Application\Command\VerifyCommand;
+use Andriichuk\KeepEnv\Application\Command\VerifyCommand;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
 use org\bovigo\vfs\vfsStreamFile;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\Enviro\Verification;
+namespace Andriichuk\KeepEnv\Verification;
 
 class VerificationReport
 {

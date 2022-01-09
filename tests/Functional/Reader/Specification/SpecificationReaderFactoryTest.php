@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\Enviro\Functional\Reader\Specification;
+namespace Andriichuk\KeepEnv\Functional\Reader\Specification;
 
-use Andriichuk\Enviro\Specification\Reader\SpecificationReaderFactory;
-use Andriichuk\Enviro\Specification\Reader\SpecificationYamlReader;
+use Andriichuk\KeepEnv\Specification\Reader\SpecificationReaderFactory;
+use Andriichuk\KeepEnv\Specification\Reader\SpecificationYamlReader;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
 use org\bovigo\vfs\vfsStreamFile;

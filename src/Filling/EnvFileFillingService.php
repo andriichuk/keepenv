@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\Enviro\Filling;
+namespace Andriichuk\KeepEnv\Filling;
 
-use Andriichuk\Enviro\Environment\Loader\EnvFileLoaderInterface;
-use Andriichuk\Enviro\Environment\Writer\EnvFileWriter;
-use Andriichuk\Enviro\Specification\Reader\SpecificationReaderInterface;
-use Andriichuk\Enviro\Verification\VariableVerification;
+use Andriichuk\KeepEnv\Environment\Loader\EnvFileLoaderInterface;
+use Andriichuk\KeepEnv\Environment\Writer\EnvFileWriter;
+use Andriichuk\KeepEnv\Specification\Reader\SpecificationReaderInterface;
+use Andriichuk\KeepEnv\Verification\VariableVerification;
 use RuntimeException;
 
 /**

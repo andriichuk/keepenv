@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\Enviro\Verification;
+namespace Andriichuk\KeepEnv\Verification;
 
-use Andriichuk\Enviro\Environment\Loader\EnvFileLoaderInterface;
-use Andriichuk\Enviro\Specification\Reader\SpecificationReaderInterface;
+use Andriichuk\KeepEnv\Environment\Loader\EnvFileLoaderInterface;
+use Andriichuk\KeepEnv\Specification\Reader\SpecificationReaderInterface;
 
 /**
  * @author Serhii Andriichuk <andriichuk29@gmail.com>

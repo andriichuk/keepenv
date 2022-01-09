@@ -2,20 +2,20 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\Enviro\Application\Command;
+namespace Andriichuk\KeepEnv\Application\Command;
 
-use Andriichuk\Enviro\Environment\Loader\EnvFileLoaderFactory;
-use Andriichuk\Enviro\Specification\Reader\SpecificationReaderFactory;
-use Andriichuk\Enviro\Verification\SpecVerificationService;
-use Andriichuk\Enviro\Validation\EmailValidator;
-use Andriichuk\Enviro\Validation\EnumValidator;
-use Andriichuk\Enviro\Validation\EqualsValidator;
-use Andriichuk\Enviro\Validation\IntegerValidator;
-use Andriichuk\Enviro\Validation\RequiredValidator;
-use Andriichuk\Enviro\Validation\ValidatorRegistry;
-use Andriichuk\Enviro\Verification\VariableVerification;
-use Andriichuk\Enviro\Verification\VerificationReport;
-use Andriichuk\Enviro\Environment\Writer\EnvFileWriter;
+use Andriichuk\KeepEnv\Environment\Loader\EnvFileLoaderFactory;
+use Andriichuk\KeepEnv\Specification\Reader\SpecificationReaderFactory;
+use Andriichuk\KeepEnv\Verification\SpecVerificationService;
+use Andriichuk\KeepEnv\Validation\EmailValidator;
+use Andriichuk\KeepEnv\Validation\EnumValidator;
+use Andriichuk\KeepEnv\Validation\EqualsValidator;
+use Andriichuk\KeepEnv\Validation\IntegerValidator;
+use Andriichuk\KeepEnv\Validation\RequiredValidator;
+use Andriichuk\KeepEnv\Validation\ValidatorRegistry;
+use Andriichuk\KeepEnv\Verification\VariableVerification;
+use Andriichuk\KeepEnv\Verification\VerificationReport;
+use Andriichuk\KeepEnv\Environment\Writer\EnvFileWriter;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -54,10 +54,10 @@ class VerifyCommand extends Command
 
         $io = new SymfonyStyle($input, $output);
         $io->title("Start checking the content of the file...");
-  //      $files = implode(', ', $input->getOption('env-file'));
+        $files = implode(', ', $input->getOption('env-file'));
         $io->listing([
             "Environment name: <info>{$input->getArgument('env')}</info>.",
-//            "Environment file: <info>{$files}</info>.",
+            "Environment file: <info>$files</info>.",
             "Environment specification: <info>{$input->getOption('spec')}</info>.",
         ]);
 

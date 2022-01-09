@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\Enviro\Application\Command;
+namespace Andriichuk\KeepEnv\Application\Command;
 
-use Andriichuk\Enviro\Environment\Loader\EnvFileLoaderFactory;
-use Andriichuk\Enviro\Environment\Provider\EnvStateProvider;
-use Andriichuk\Enviro\Specification\SpecificationGenerator;
-use Andriichuk\Enviro\Specification\Writer\SpecificationWriterFactory;
+use Andriichuk\KeepEnv\Environment\Loader\EnvFileLoaderFactory;
+use Andriichuk\KeepEnv\Environment\Provider\EnvStateProvider;
+use Andriichuk\KeepEnv\Specification\SpecificationGenerator;
+use Andriichuk\KeepEnv\Specification\Writer\SpecificationWriterFactory;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;

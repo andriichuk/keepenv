@@ -3,11 +3,11 @@
 
 declare(strict_types=1);
 
-use Andriichuk\Enviro\Application\Command\AddCommand;
-use Andriichuk\Enviro\Application\Command\FillCommand;
-use Andriichuk\Enviro\Application\Command\InitCommand;
-use Andriichuk\Enviro\Application\Command\RemoveCommand;
-use Andriichuk\Enviro\Application\Command\VerifyCommand;
+use Andriichuk\KeepEnv\Application\Command\AddCommand;
+use Andriichuk\KeepEnv\Application\Command\FillCommand;
+use Andriichuk\KeepEnv\Application\Command\InitCommand;
+use Andriichuk\KeepEnv\Application\Command\RemoveCommand;
+use Andriichuk\KeepEnv\Application\Command\VerifyCommand;
 use Symfony\Component\Console\Application;
 
 require_once 'vendor/autoload.php';

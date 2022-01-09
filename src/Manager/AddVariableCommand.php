@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\Enviro\Manager;
+namespace Andriichuk\KeepEnv\Manager;
 
-use Andriichuk\Enviro\Specification\Variable;
+use Andriichuk\KeepEnv\Specification\Variable;
 
 /**
  * @author Serhii Andriichuk <andriichuk29@gmail.com>

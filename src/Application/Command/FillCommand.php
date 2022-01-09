@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\Enviro\Application\Command;
+namespace Andriichuk\KeepEnv\Application\Command;
 
-use Andriichuk\Enviro\Environment\Loader\EnvFileLoaderFactory;
-use Andriichuk\Enviro\Filling\EnvFileFillingService;
-use Andriichuk\Enviro\Specification\Reader\SpecificationReaderFactory;
-use Andriichuk\Enviro\Environment\Writer\EnvFileWriter;
-use Andriichuk\Enviro\Specification\Variable;
-use Andriichuk\Enviro\Validation\ValidatorRegistry;
-use Andriichuk\Enviro\Verification\VariableVerification;
+use Andriichuk\KeepEnv\Environment\Loader\EnvFileLoaderFactory;
+use Andriichuk\KeepEnv\Filling\EnvFileFillingService;
+use Andriichuk\KeepEnv\Specification\Reader\SpecificationReaderFactory;
+use Andriichuk\KeepEnv\Environment\Writer\EnvFileWriter;
+use Andriichuk\KeepEnv\Specification\Variable;
+use Andriichuk\KeepEnv\Validation\ValidatorRegistry;
+use Andriichuk\KeepEnv\Verification\VariableVerification;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
