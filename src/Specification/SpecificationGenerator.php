@@ -25,10 +25,14 @@ class SpecificationGenerator
         $this->specificationWriter = $specificationWriter;
     }
 
-    public function generate(string $env, array $envPaths, string $targetSpecPath, bool $override): void
+    public function generate(string $env, array $envPaths, string $targetSpecPath, callable $shouldOverrideSpec): void
     {
-        if (!$override && file_exists($targetSpecPath)) {
-            throw new RuntimeException('Spec file already exists.');
+        if (file_exists($targetSpecPath)) {
+            $override = (bool) $shouldOverrideSpec();
+
+            if (!$override) {
+                throw new RuntimeException('Specification file already exists and was not modified.');
+            }
         }
 
         $variables = $this->envFileLoader->load($envPaths);
