@@ -7,16 +7,16 @@ namespace Andriichuk\KeepEnv\Validation;
 /**
  * @author Serhii Andriichuk <andriichuk29@gmail.com>
  */
-class IntegerValidator implements ValidatorInterface
+class NumericValidator implements ValidatorInterface
 {
     public function alias(): string
     {
-        return 'int';
+        return 'numeric';
     }
 
     public function message(array $placeholders): string
     {
-        return 'The value must be an integer.';
+        return 'The value must be a numeric.';
     }
 
     /**
@@ -24,6 +24,6 @@ class IntegerValidator implements ValidatorInterface
      */
     public function validate($value, array $options): bool
     {
-        return filter_var($value, FILTER_VALIDATE_INT) !== false;
+        return is_numeric($value);
     }
 }

@@ -7,15 +7,9 @@ namespace Andriichuk\KeepEnv\Application\Command;
 use Andriichuk\KeepEnv\Environment\Loader\EnvFileLoaderFactory;
 use Andriichuk\KeepEnv\Specification\Reader\SpecificationReaderFactory;
 use Andriichuk\KeepEnv\Verification\SpecVerificationService;
-use Andriichuk\KeepEnv\Validation\EmailValidator;
-use Andriichuk\KeepEnv\Validation\EnumValidator;
-use Andriichuk\KeepEnv\Validation\EqualsValidator;
-use Andriichuk\KeepEnv\Validation\IntegerValidator;
-use Andriichuk\KeepEnv\Validation\RequiredValidator;
 use Andriichuk\KeepEnv\Validation\ValidatorRegistry;
 use Andriichuk\KeepEnv\Verification\VariableVerification;
 use Andriichuk\KeepEnv\Verification\VerificationReport;
-use Andriichuk\KeepEnv\Environment\Writer\EnvFileWriter;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -34,15 +28,36 @@ class VerifyCommand extends Command
     protected function configure(): void
     {
         $this
-            ->addArgument('env', InputArgument::REQUIRED, 'The name of the environment to be verified.')
-            ->addOption('env-file', 'ef', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Dotenv file path to check.', ['./'])
-            ->addOption('spec', 's', InputOption::VALUE_REQUIRED, 'Dotenv specification file path.', 'env.spec.yaml')
+            ->addArgument('env', InputArgument::REQUIRED, 'Environment name to verify.')
+            ->addOption(
+                'env-file',
+                'ef',
+                InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
+                'Dotenv file paths to check.',
+                ['./'],
+            )
+            ->addOption(
+                'spec',
+                's',
+                InputOption::VALUE_REQUIRED,
+                'Dotenv specification file path.',
+                './env.spec.yaml',
+            )
             ->setDescription('Application environment verification.')
-            ->setHelp('This command allows you to verify environment variables according to specification.');
+            ->setHelp('This command allows you to verify environment variables according to the specification.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $io = new SymfonyStyle($input, $output);
+        $io->title('Starting to verify environment variables...');
+        $envFilePaths = implode(', ', $input->getOption('env-file'));
+        $io->listing([
+            "Environment name: <info>{$input->getArgument('env')}</info>",
+            "Dotenv file paths: <info>$envFilePaths</info>",
+            "Specification file path: <info>{$input->getOption('spec')}</info>",
+        ]);
+
         $specReaderFactory = new SpecificationReaderFactory();
         $envLoaderFactory = new EnvFileLoaderFactory();
 
@@ -51,15 +66,6 @@ class VerifyCommand extends Command
             $envLoaderFactory->baseOnAvailability(),
             new VariableVerification(ValidatorRegistry::default()),
         );
-
-        $io = new SymfonyStyle($input, $output);
-        $io->title("Start checking the content of the file...");
-        $files = implode(', ', $input->getOption('env-file'));
-        $io->listing([
-            "Environment name: <info>{$input->getArgument('env')}</info>.",
-            "Environment file: <info>$files</info>.",
-            "Environment specification: <info>{$input->getOption('spec')}</info>.",
-        ]);
 
         try {
             $verificationReport = $service->verify(
@@ -100,7 +106,15 @@ class VerifyCommand extends Command
             $rows[] = [$formattedVariable, $report->message];
         }
 
-        $io->text("<options=bold>Found {$reports->count()} errors:</>");
+        $count = $reports->count();
+
+        $io->text(
+            sprintf(
+                '<options=bold>Found %d error%s:</>',
+                $count,
+                $count > 1 ? 's' : '',
+            )
+        );
         $io->table(['Variable', 'Message'], $rows);
         $io->error('Application environment is not valid.');
     }
