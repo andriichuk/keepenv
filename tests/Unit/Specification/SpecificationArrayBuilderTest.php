@@ -17,48 +17,56 @@ class SpecificationArrayBuilderTest extends TestCase
             'version' => '1.0',
             'environments' => [
                 'common' => [
-                    'APP_ENV' => [
-                        'description' => 'Application environment',
-                        'default' => 'production',
-                        'rules' => [
-                            'required' => true,
-                            'enum' => ['local', 'production'],
+                    'variables' => [
+                        'APP_ENV' => [
+                            'description' => 'Application environment',
+                            'default' => 'production',
+                            'rules' => [
+                                'required' => true,
+                                'enum' => ['local', 'production'],
+                            ],
                         ],
-                    ],
-                    'APP_DEBUG' => [
-                        'description' => 'Application debug mode.',
-                        'default' => 'true',
-                        'rules' => [
-                            'required' => true,
-                            'enum' => ['true', 'false'],
+                        'APP_DEBUG' => [
+                            'description' => 'Application debug mode.',
+                            'default' => 'true',
+                            'rules' => [
+                                'required' => true,
+                                'enum' => ['true', 'false'],
+                            ],
                         ],
-                    ],
-                    'LOG_CHANNEL' => [
-                        'description' => 'Log channel.',
-                        'default' => 'stack',
-                        'rules' => [
-                            'required' => true,
-                            'enum' => ['stack', 'daily'],
+                        'LOG_CHANNEL' => [
+                            'description' => 'Log channel.',
+                            'default' => 'stack',
+                            'rules' => [
+                                'required' => true,
+                                'enum' => ['stack', 'daily'],
+                            ],
                         ],
-                    ],
-                    'MAIL_HOST' => [
-                        'rules' => [
-                            'required' => true,
-                            'enum' => ['mailhog', 'mailgun'],
+                        'MAIL_HOST' => [
+                            'rules' => [
+                                'required' => true,
+                                'enum' => ['mailhog', 'mailgun'],
+                            ],
                         ],
                     ],
                 ],
                 'local' => [
-                    'MAIL_HOST' => [
-                        'rules' => [
-                            'equals' => 'mailhog',
+                    'extends' => 'common',
+                    'variables' => [
+                        'MAIL_HOST' => [
+                            'rules' => [
+                                'equals' => 'mailhog',
+                            ],
                         ],
                     ],
                 ],
                 'production' => [
-                    'APP_DEBUG' => [
-                        'rules' => [
-                            'equals' => 'false',
+                    'extends' => 'common',
+                    'variables' => [
+                        'APP_DEBUG' => [
+                            'rules' => [
+                                'equals' => 'false',
+                            ],
                         ],
                     ],
                 ],

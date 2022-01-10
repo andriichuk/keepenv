@@ -9,8 +9,6 @@ use Andriichuk\KeepEnv\Contracts\ArraySerializable;
 class Specification implements ArraySerializable
 {
     private const VERSION = '1.0';
-    private const COMMON_ENV_NAME = 'common';
-
     private string $version;
 
     /**
@@ -59,17 +57,23 @@ class Specification implements ArraySerializable
     public function toArray(): array
     {
         $envVariables = [];
-        $common = isset($this->envVariables[self::COMMON_ENV_NAME])
-            ? $this->envVariables[self::COMMON_ENV_NAME]->toArray()
-            : [];
 
         foreach ($this->envVariables as $envSpecification) {
-            $envVariables[$envSpecification->getEnvName()] = $envSpecification->getEnvName() === self::COMMON_ENV_NAME
-                ? $common
-                : $this->arrayDiffAssocRecursive(
+            $extends = $envSpecification->getExtends();
+            $serialized = $envSpecification->toArray();
+
+            if ($extends !== null) {
+                if (!isset($this->envVariables[$extends])) {
+                    throw new \OutOfRangeException("Environment with name `{$extends}` not found.");
+                }
+
+                $serialized = $this->arrayDiffAssocRecursive(
                     $envSpecification->toArray(),
-                    $common,
+                    $this->envVariables[$extends]->toArray(),
                 );
+            }
+
+            $envVariables[$envSpecification->getEnvName()] = $serialized;
         }
 
         return [

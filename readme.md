@@ -29,19 +29,19 @@ TODO:
 Command:
 
 ```shell
-./enviro init
+./keepenv init
 ```
 
 To customize for `vlucas/dotenv`:
 
 ```shell
-./enviro verify --env=local --env-file=./ --spec=./env.spec.yaml
+./keepenv verify --env=local --env-file=./ --spec=./env.spec.yaml
 ```
 
 To customize for `symfony/dotenv`:
 
 ```shell
-./enviro verify --env=local --env-file=./.env --env-file=./.env.local --spec=./env.spec.yaml
+./keepenv verify --env=local --env-file=./.env --env-file=./.env.local --spec=./env.spec.yaml
 ```
 
 ### Verification
@@ -49,13 +49,13 @@ To customize for `symfony/dotenv`:
 Command:
 
 ```shell
-./enviro verify local
+./keepenv verify local
 ```
 
 To customize:
 
 ```shell
-./enviro verify local --env-file=./.env --spec=./env.spec.yaml
+./keepenv verify local --env-file=./.env --spec=./env.spec.yaml
 ```
 
 ### Filling
@@ -63,5 +63,5 @@ To customize:
 Command:
 
 ```shell
-./enviro fill
+./keepenv fill
 ```

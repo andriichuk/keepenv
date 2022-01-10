@@ -65,25 +65,29 @@ class SpecificationTest extends TestCase
                 'version' => '1.0',
                 'environments' => [
                     'local' => [
-                        'APP_ENV' => [
-                            'description' => 'Application environment.',
-                            'rules' => [
-                                'required' => true,
-                                'string' => true,
-                                'equals' => 'local',
+                        'variables' => [
+                            'APP_ENV' => [
+                                'description' => 'Application environment.',
+                                'rules' => [
+                                    'required' => true,
+                                    'string' => true,
+                                    'equals' => 'local',
+                                ],
                             ],
                         ],
                     ],
                     'production' => [
-                        'APP_ENV' => [
-                            'description' => 'Application environment.',
-                            'default' => 'production',
-                            'rules' => [
-                                'required' => true,
-                                'string' => true,
-                                'equals' => 'production',
+                        'variables' => [
+                            'APP_ENV' => [
+                                'description' => 'Application environment.',
+                                'default' => 'production',
+                                'rules' => [
+                                    'required' => true,
+                                    'string' => true,
+                                    'equals' => 'production',
+                                ],
                             ],
-                        ],
+                        ]
                     ],
                 ],
             ],

@@ -9,20 +9,27 @@ use Andriichuk\KeepEnv\Contracts\ArraySerializable;
 class EnvVariables implements ArraySerializable
 {
     private string $envName;
+    private ?string $extends;
 
     /**
      * @var Variable[]
      */
     private array $variables = [];
 
-    public function __construct(string $envName)
+    public function __construct(string $envName, ?string $extends = null)
     {
         $this->envName = $envName;
+        $this->extends = $extends;
     }
 
     public function getEnvName(): string
     {
         return $this->envName;
+    }
+
+    public function getExtends(): ?string
+    {
+        return $this->extends;
     }
 
     public function add(Variable $variable): void
@@ -76,6 +83,9 @@ class EnvVariables implements ArraySerializable
             $plainArrayVariables[$variable->name] = $variable->toArray();
         }
 
-        return $plainArrayVariables;
+        return array_filter([
+            'extends' => $this->extends,
+            'variables' => $plainArrayVariables,
+        ]);
     }
 }

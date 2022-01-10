@@ -20,22 +20,29 @@ class SpecificationArrayBuilder implements SpecificationBuilderInterface
             throw new OutOfBoundsException('Missing `environments` key.');
         }
 
-        $environments = array_keys($rawDefinition['environments']);
-        $common = $rawDefinition['environments']['common'] ?? [];
-
         $specification = new Specification($version);
 
-        foreach ($environments as $environment) {
-            if ($environment === 'common') {
-                $variables = $common;
-            } else {
+        foreach ($rawDefinition['environments'] as $environment => $envDefinition) {
+            $variables = $envDefinition['variables'] ?? null;
+
+            if ($variables === null) {
+                throw new \LogicException("No environment variables found for `$environment`.");
+            }
+
+            $extends = $envDefinition['extends'] ?? null;
+
+            if ($extends !== null) {
+                if (!isset($rawDefinition['environments'][$extends])) {
+                    throw new \OutOfRangeException("Environment with name `$extends` not found.");
+                }
+
                 $variables = array_replace_recursive(
-                    $common,
-                    !empty($rawDefinition['environments'][$environment]) ? $rawDefinition['environments'][$environment] : [], // TODO: check that value is an array
+                    $rawDefinition['environments'][$extends]['variables'] ?? [],
+                    $envDefinition['variables'],
                 );
             }
 
-            $envVariables = new EnvVariables($environment);
+            $envVariables = new EnvVariables($environment, $extends);
 
             foreach ($variables as $name => $definition) {
                 $envVariables->add(

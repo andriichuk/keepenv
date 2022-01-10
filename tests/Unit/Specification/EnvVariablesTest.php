@@ -26,9 +26,11 @@ class EnvVariablesTest extends TestCase
 
         $this->assertEquals(
             [
-                'APP_ENV' => [
-                    'description' => 'Application environment.',
-                ]
+                'variables' => [
+                    'APP_ENV' => [
+                        'description' => 'Application environment.',
+                    ],
+                ],
             ],
             $variables->toArray(),
         );
@@ -47,8 +49,10 @@ class EnvVariablesTest extends TestCase
 
         $this->assertEquals(
             [
-                'APP_DEBUG' => [
-                    'description' => 'Application debug.',
+                'variables' => [
+                    'APP_DEBUG' => [
+                        'description' => 'Application debug.',
+                    ],
                 ],
             ],
             $variables->toArray(),
