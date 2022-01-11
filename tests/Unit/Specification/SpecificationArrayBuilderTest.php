@@ -119,63 +119,33 @@ class SpecificationArrayBuilderTest extends TestCase
         ];
     }
 
-    public function testBuilder(): void
+    /**
+     * @dataProvider environmentsSource
+     */
+    public function testThatBuilderCanParseEnvironments(string $message, array $source): void
     {
         $builder = new SpecificationArrayBuilder();
+        $specification = $builder->build($source);
 
-        $rawDefinition = [
-            'version' => '1.0',
-            'environments' => [
-                'common' => [
-                    'variables' => [
-                        'APP_ENV' => [
-                            'description' => 'Application environment',
-                            'default' => 'production',
-                            'rules' => [
-                                'required' => true,
-                                'enum' => ['local', 'production'],
-                            ],
-                        ],
-                        'APP_DEBUG' => [
-                            'description' => 'Application debug mode.',
-                            'default' => 'true',
-                            'rules' => [
-                                'required' => true,
-                                'enum' => ['true', 'false'],
-                            ],
-                        ],
-                        'LOG_CHANNEL' => [
-                            'description' => 'Log channel.',
-                            'default' => 'stack',
-                            'rules' => [
-                                'required' => true,
-                                'enum' => ['stack', 'daily'],
-                            ],
-                        ],
-                        'MAIL_HOST' => [
-                            'rules' => [
-                                'required' => true,
-                                'enum' => ['mailhog', 'mailgun'],
-                            ],
-                        ],
-                    ],
-                ],
-                'local' => [
-                    'extends' => 'common',
-                    'variables' => [
-                        'MAIL_HOST' => [
-                            'rules' => [
-                                'equals' => 'mailhog',
-                            ],
-                        ],
-                    ],
-                ],
-                'production' => [
-                    'extends' => 'common',
-                    'variables' => [
-                        'APP_DEBUG' => [
-                            'rules' => [
-                                'equals' => 'false',
+        $this->assertEquals($source, $specification->toArray(), $message);
+    }
+
+    public function environmentsSource(): Generator
+    {
+        yield [
+            'message' => 'Simple single environment structure.',
+            'source' => [
+                'version' => '1.0',
+                'environments' => [
+                    'common' => [
+                        'variables' => [
+                            'APP_ENV' => [
+                                'description' => 'Application environment',
+                                'default' => 'production',
+                                'rules' => [
+                                    'required' => true,
+                                    'enum' => ['local', 'production'],
+                                ],
                             ],
                         ],
                     ],
@@ -183,8 +153,70 @@ class SpecificationArrayBuilderTest extends TestCase
             ],
         ];
 
-        $specification = $builder->build($rawDefinition);
+        yield [
+            'message' => 'Two environments with the same key.',
+            'source' => [
+                'version' => '1.0',
+                'environments' => [
+                    'local' => [
+                        'variables' => [
+                            'APP_ENV' => [
+                                'description' => 'Application environment.',
+                                'default' => 'local',
+                                'rules' => [
+                                    'required' => true,
+                                    'enum' => ['local', 'production'],
+                                ],
+                            ],
+                        ],
+                    ],
+                    'production' => [
+                        'variables' => [
+                            'APP_ENV' => [
+                                'description' => 'Application environment.',
+                                'default' => 'production',
+                                'rules' => [
+                                    'required' => true,
+                                    'enum' => ['local', 'production'],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ];
 
-        $this->assertEquals($rawDefinition, $specification->toArray());
+        yield [
+            'message' => 'Two environments with the different keys.',
+            'source' => [
+                'version' => '1.0',
+                'environments' => [
+                    'local' => [
+                        'variables' => [
+                            'APP_ENV' => [
+                                'description' => 'Application environment.',
+                                'default' => 'local',
+                                'rules' => [
+                                    'required' => true,
+                                    'enum' => ['local', 'production'],
+                                ],
+                            ],
+                        ],
+                    ],
+                    'production' => [
+                        'variables' => [
+                            'APP_DEBUG' => [
+                                'description' => 'Application debug.',
+                                'default' => 'false',
+                                'rules' => [
+                                    'required' => true,
+                                    'enum' => ['true', 'false'],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ];
     }
 }
