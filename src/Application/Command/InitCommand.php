@@ -64,13 +64,13 @@ class InitCommand extends Command
         $loaderFactory = new EnvFileLoaderFactory();
         $writerFactory = new SpecificationWriterFactory();
 
-        $generator = new SpecificationGenerator(
-            $loaderFactory->baseOnAvailability(),
-            new EnvStateProvider(),
-            $writerFactory->basedOnResource($input->getOption('spec'))
-        );
-
         try {
+            $generator = new SpecificationGenerator(
+                $loaderFactory->baseOnAvailability(),
+                new EnvStateProvider(),
+                $writerFactory->basedOnResource($input->getOption('spec'))
+            );
+
             $generator->generate(
                 $input->getOption('env'),
                 $input->getOption('env-file'),

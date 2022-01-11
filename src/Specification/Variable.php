@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Andriichuk\KeepEnv\Specification;
 
 use Andriichuk\KeepEnv\Contracts\ArraySerializable;
+use InvalidArgumentException;
 
 /**
  * @psalm-immutable
@@ -26,6 +27,10 @@ class Variable implements ArraySerializable
      */
     public function __construct(string $name, string $description, bool $export = false, array $rules = [], $default = null)
     {
+        if (trim($name) === '') {
+            throw new InvalidArgumentException('Variable name cannot be empty');
+        }
+
         $this->name = $name;
         $this->description = $description;
         $this->export = $export;
