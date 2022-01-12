@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Andriichuk\KeepEnv\Specification;
 
 use Andriichuk\KeepEnv\Contracts\ArraySerializable;
+use Andriichuk\KeepEnv\Specification\Exceptions\InvalidStructureException;
 
 class Specification implements ArraySerializable
 {
@@ -19,7 +20,7 @@ class Specification implements ArraySerializable
     public function __construct(string $version)
     {
         if (!version_compare($version, self::VERSION, '==')) {
-            throw new \InvalidArgumentException('Unsupported version');
+            throw InvalidStructureException::unsupportedVersion();
         }
 
         $this->version = $version;
@@ -60,7 +61,6 @@ class Specification implements ArraySerializable
 
         foreach ($this->envVariables as $envSpecification) {
             $extends = $envSpecification->getExtends();
-            $serialized = $envSpecification->toArray();
 
             if ($extends !== null) {
                 if (!isset($this->envVariables[$extends])) {
@@ -71,6 +71,8 @@ class Specification implements ArraySerializable
                     $envSpecification->toArray(),
                     $this->envVariables[$extends]->toArray(),
                 );
+            } else {
+                $serialized = $envSpecification->toArray();
             }
 
             $envVariables[$envSpecification->getEnvName()] = $serialized;
@@ -84,7 +86,7 @@ class Specification implements ArraySerializable
 
     private function arrayDiffAssocRecursive(array $array1, array $array2): array
     {
-        $difference = array();
+        $difference = [];
 
         foreach ($array1 as $key => $value) {
             if (is_array($value)) {

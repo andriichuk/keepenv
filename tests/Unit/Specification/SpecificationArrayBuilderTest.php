@@ -117,6 +117,22 @@ class SpecificationArrayBuilderTest extends TestCase
             ],
             'Variable definition is empty or invalid.',
         ];
+
+        yield [
+            [
+                'version' => '222.0',
+                'environments' => [
+                    'common' => [
+                        'variables' => [
+                            'APP_ENV' => [
+                                'description' => 'Application environment.',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            'Unsupported version of specification file.',
+        ];
     }
 
     /**
@@ -133,7 +149,7 @@ class SpecificationArrayBuilderTest extends TestCase
     public function environmentsSource(): Generator
     {
         yield [
-            'message' => 'Simple single environment structure.',
+            'message' => 'Single environment structure.',
             'source' => [
                 'version' => '1.0',
                 'environments' => [
@@ -218,5 +234,129 @@ class SpecificationArrayBuilderTest extends TestCase
                 ],
             ],
         ];
+
+        yield [
+            'message' => 'Two environments with the different keys and extends.',
+            'source' => [
+                'version' => '1.0',
+                'environments' => [
+                    'local' => [
+                        'variables' => [
+                            'APP_ENV' => [
+                                'description' => 'Application environment.',
+                                'default' => 'local',
+                                'rules' => [
+                                    'required' => true,
+                                    'enum' => ['local', 'production'],
+                                ],
+                            ],
+                        ],
+                    ],
+                    'production' => [
+                        'extends' => 'local',
+                        'variables' => [
+                            'APP_DEBUG' => [
+                                'description' => 'Application debug.',
+                                'default' => 'false',
+                                'rules' => [
+                                    'required' => true,
+                                    'enum' => ['true', 'false'],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ];
+
+        yield [
+            'message' => 'Two environments with the same keys and extends.',
+            'source' => [
+                'version' => '1.0',
+                'environments' => [
+                    'local' => [
+                        'variables' => [
+                            'APP_ENV' => [
+                                'description' => 'Application environment.',
+                                'default' => 'local',
+                                'rules' => [
+                                    'required' => true,
+                                    'enum' => ['local', 'production'],
+                                ],
+                            ],
+                        ],
+                    ],
+                    'production' => [
+                        'extends' => 'local',
+                        'variables' => [
+                            'APP_ENV' => [
+                                'default' => 'production',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ];
+
+        /*yield [
+            'message' => 'Multiple environments with extends.',
+            'source' => [
+                'version' => '1.0',
+                'environments' => [
+                    'common' => [
+                        'variables' => [
+                            'APP_ENV' => [
+                                'description' => 'Application environment.',
+                                'default' => 'local',
+                                'rules' => [
+                                    'required' => true,
+                                    'enum' => ['local', 'production'],
+                                ],
+                            ],
+                            'APP_DEBUG' => [
+                                'description' => 'Application debug.',
+                                'default' => 'false',
+                                'rules' => [
+                                    'required' => true,
+                                    'enum' => ['true', 'false'],
+                                ],
+                            ],
+                        ],
+                    ],
+                    'local' => [
+                        'extends' => 'common',
+                        'variables' => [
+                            'APP_ENV' => [
+                                'default' => 'local',
+                            ],
+                            'LOCAL_MAIL' => [
+                                'description' => 'Local mail.',
+                                'default' => 'on',
+                                'rules' => [
+                                    'required' => false,
+                                    'enum' => ['on', 'off'],
+                                ],
+                            ],
+                        ],
+                    ],
+                    'production' => [
+                        'extends' => 'common',
+                        'variables' => [
+                            'APP_ENV' => [
+                                'default' => 'production',
+                            ],
+                            'APP_PROFILE' => [
+                                'description' => 'Application profile.',
+                                'default' => 'on',
+                                'rules' => [
+                                    'required' => true,
+                                    'enum' => ['on', 'off'],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ];*/
     }
 }

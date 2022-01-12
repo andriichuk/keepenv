@@ -8,6 +8,11 @@ use RuntimeException;
 
 class InvalidStructureException extends RuntimeException
 {
+    public static function unsupportedVersion(): self
+    {
+        return new self('Unsupported version of specification file.');
+    }
+
     public static function missingVersion(): self
     {
         return self::missingField('version');
