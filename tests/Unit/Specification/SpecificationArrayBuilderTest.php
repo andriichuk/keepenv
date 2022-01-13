@@ -298,7 +298,7 @@ class SpecificationArrayBuilderTest extends TestCase
             ],
         ];
 
-        /*yield [
+        yield [
             'message' => 'Multiple environments with extends.',
             'source' => [
                 'version' => '1.0',
@@ -327,7 +327,9 @@ class SpecificationArrayBuilderTest extends TestCase
                         'extends' => 'common',
                         'variables' => [
                             'APP_ENV' => [
-                                'default' => 'local',
+                                'rules' => [
+                                    'equals' => 'local',
+                                ],
                             ],
                             'LOCAL_MAIL' => [
                                 'description' => 'Local mail.',
@@ -343,7 +345,9 @@ class SpecificationArrayBuilderTest extends TestCase
                         'extends' => 'common',
                         'variables' => [
                             'APP_ENV' => [
-                                'default' => 'production',
+                                'rules' => [
+                                    'equals' => 'production',
+                                ],
                             ],
                             'APP_PROFILE' => [
                                 'description' => 'Application profile.',
@@ -357,6 +361,6 @@ class SpecificationArrayBuilderTest extends TestCase
                     ],
                 ],
             ],
-        ];*/
+        ];
     }
 }
