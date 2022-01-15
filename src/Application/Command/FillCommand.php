@@ -30,6 +30,7 @@ class FillCommand extends Command
             ->addOption('env', 'e', InputOption::VALUE_REQUIRED, 'The name of the environment to be initiated.', 'common')
             ->addOption('target-env-file', 'tef', InputOption::VALUE_REQUIRED, 'Dotenv file path to check.', '.env')
             ->addOption('env-file', 'ef', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Dotenv file path to check.', ['./'])
+            ->addOption('env-provider', 'ep', InputOption::VALUE_REQUIRED, 'Application environment state provider.', 'auto')
             ->addOption('spec', 's', InputOption::VALUE_REQUIRED, 'Dotenv specification file path.', 'env.spec.yaml')
             ->setDescription('Application environment verification.')
             ->setHelp('This command allows you to verify environment specification.');

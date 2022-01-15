@@ -15,6 +15,7 @@ class Variable implements ArraySerializable
     public string $name;
     public string $description;
     public bool $export;
+    public bool $system;
     public array $rules;
 
     /**
@@ -25,8 +26,14 @@ class Variable implements ArraySerializable
     /**
      * @param mixed $default
      */
-    public function __construct(string $name, string $description, bool $export = false, array $rules = [], $default = null)
-    {
+    public function __construct(
+        string $name,
+        string $description,
+        bool $export = false,
+        bool $system = false,
+        array $rules = [],
+        $default = null
+    ) {
         if (trim($name) === '') {
             throw new InvalidArgumentException('Variable name cannot be empty');
         }
@@ -34,6 +41,7 @@ class Variable implements ArraySerializable
         $this->name = $name;
         $this->description = $description;
         $this->export = $export;
+        $this->system = $system;
         $this->rules = $rules;
         $this->default = $default;
     }
@@ -43,6 +51,7 @@ class Variable implements ArraySerializable
         return array_filter([
             'description' => $this->description,
             'export' => $this->export ?: null,
+            'system' => $this->export ?: null,
             'rules' => $this->rules ?: null,
             'default' => $this->default,
         ]);

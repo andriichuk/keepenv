@@ -11,6 +11,18 @@ use RuntimeException;
  */
 class EnvFileLoaderFactory
 {
+    public function make(string $loader): EnvFileLoaderInterface
+    {
+        switch ($loader) {
+            case 'system':
+                return new SystemEnvStateLoader();
+
+            case 'auto':
+            default:
+                return $this->baseOnAvailability();
+        }
+    }
+
     public function baseOnAvailability(): EnvFileLoaderInterface
     {
         switch (true) {

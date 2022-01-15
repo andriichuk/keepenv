@@ -66,6 +66,7 @@ class SpecificationArrayBuilder implements SpecificationBuilderInterface
                         $name,
                         $definition['description'] ?? '',
                         $definition['export'] ?? false,
+                        $definition['system'] ?? false,
                         $definition['rules'] ?? [],
                         $definition['default'] ?? null,
                     ),

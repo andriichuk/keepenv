@@ -34,6 +34,7 @@ class SpecificationTest extends TestCase
                 'APP_ENV',
                 'Application environment.',
                 false,
+                false,
                 [
                     'required' => true,
                     'string' => true,
@@ -48,6 +49,7 @@ class SpecificationTest extends TestCase
             new Variable(
                 'APP_ENV',
                 'Application environment.',
+                false,
                 false,
                 [
                     'required' => true,

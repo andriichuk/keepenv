@@ -30,6 +30,7 @@ class VariableTest extends TestCase
             'APP_ENV',
             'Application environment.',
             false,
+            false,
             [
                 'string' => true,
             ]
@@ -51,6 +52,7 @@ class VariableTest extends TestCase
         $variable = new Variable(
             'APP_ENV',
             'Application environment.',
+            false,
             false,
             [
                 'required' => true,
@@ -75,7 +77,8 @@ class VariableTest extends TestCase
         $variable = new Variable(
             'APP_ENV',
             'Application environment.',
-            false,
+            true,
+            true,
             [
                 'required' => true,
                 'enum' => ['local', 'production'],
@@ -87,6 +90,8 @@ class VariableTest extends TestCase
             [
                 'description' => 'Application environment.',
                 'default' => 'production',
+                'export' => true,
+                'system' => true,
                 'rules' => [
                     'required' => true,
                     'enum' => ['local', 'production'],

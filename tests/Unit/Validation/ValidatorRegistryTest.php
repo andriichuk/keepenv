@@ -9,6 +9,9 @@ use Andriichuk\KeepEnv\Validation\ValidatorRegistry;
 use OutOfRangeException;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @author Serhii Andriichuk <andriichuk29@gmail.com>
+ */
 class ValidatorRegistryTest extends TestCase
 {
     public function testRegistryCanStoreNewValidator(): void

@@ -38,6 +38,13 @@ class VerifyCommand extends Command
                 ['./'],
             )
             ->addOption(
+                'env-provider',
+                'p',
+                InputOption::VALUE_REQUIRED,
+                'Application environment state provider.',
+                'auto'
+            )
+            ->addOption(
                 'spec',
                 's',
                 InputOption::VALUE_REQUIRED,
@@ -65,7 +72,7 @@ class VerifyCommand extends Command
 
         $service = new SpecVerificationService(
             $specReaderFactory->basedOnSource($input->getOption('spec')),
-            $envLoaderFactory->baseOnAvailability(),
+            $envLoaderFactory->make($input->getOption('env-provider')),
             new VariableVerification(ValidatorRegistry::default()),
         );
 

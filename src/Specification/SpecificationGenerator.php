@@ -53,6 +53,7 @@ class SpecificationGenerator
                     $key,
                     $this->toSentence($key),
                     false,
+                    false,
                     $rules,
                     null,
                 )

@@ -55,6 +55,7 @@ class AddNewVariableManagerTest extends TestCase
                     'APP_TEST_KEY',
                     'Application test key.',
                     false,
+                    false,
                     [
                         'required' => true,
                         'string' => true,
