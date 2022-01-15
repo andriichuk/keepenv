@@ -4,21 +4,25 @@ declare(strict_types=1);
 
 namespace Andriichuk\KeepEnv\Unit\Validation;
 
-use Andriichuk\KeepEnv\Validation\NumericValidator;
+use Andriichuk\KeepEnv\Validation\EnumValidator;
 use Generator;
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
-class NumericValidatorTest extends TestCase
+/**
+ * @author Serhii Andriichuk <andriichuk29@gmail.com>
+ */
+class EnumValidatorTest extends TestCase
 {
     /**
      * @dataProvider validationCasesProvider
      *
-     * @param string|int $subject
+     * @param mixed $subject
      */
-    public function testValidationCases($subject, bool $expectedResult, string $message): void
+    public function testValidationCases($subject, array $cases, bool $expectedResult, string $message): void
     {
-        $validator = new NumericValidator();
-        $result = $validator->validate($subject, []);
+        $validator = new EnumValidator();
+        $result = $validator->validate($subject, $cases);
 
         $this->assertEquals($expectedResult, $result, $message);
     }
@@ -26,63 +30,53 @@ class NumericValidatorTest extends TestCase
     public function validationCasesProvider(): Generator
     {
         yield [
-            'subject' => '0',
+            'subject' => 'yes',
+            'cases' => ['yes', 'no'],
             'expected_result' => true,
-            'message' => 'Valid integer string 1',
+            'message' => 'Boolean strings',
         ];
 
         yield [
-            'subject' => '100',
+            'subject' => true,
+            'cases' => [true, false],
             'expected_result' => true,
-            'message' => 'Valid integer string 2',
+            'message' => 'Boolean values',
         ];
 
         yield [
-            'subject' => '04343',
+            'subject' => '1234',
+            'cases' => ['1234', '4321'],
             'expected_result' => true,
-            'message' => 'Valid integer string 3',
-        ];
-
-        yield [
-            'subject' => 123,
-            'expected_result' => true,
-            'message' => 'Valid integer string 4',
-        ];
-
-        yield [
-            'subject' => '-100',
-            'expected_result' => true,
-            'message' => 'Valid negative integer string',
-        ];
-
-        yield [
-            'subject' => '1337e0',
-            'expected_result' => true,
-            'message' => 'Valid number',
-        ];
-
-        yield [
-            'subject' => '1337.0',
-            'expected_result' => true,
-            'message' => 'Valid float string',
-        ];
-
-        yield [
-            'subject' => '0x237',
-            'expected_result' => false,
-            'message' => 'Invalid numeric 1',
-        ];
-
-        yield [
-            'subject' => 'numeric',
-            'expected_result' => false,
-            'message' => 'String expression',
+            'message' => 'Numeric strings',
         ];
 
         yield [
             'subject' => '',
+            'cases' => ['local', 'production'],
             'expected_result' => false,
             'message' => 'Empty string',
         ];
+
+        yield [
+            'subject' => null,
+            'cases' => ['local', 'production'],
+            'expected_result' => false,
+            'message' => 'Empty string',
+        ];
+
+        yield [
+            'subject' => false,
+            'cases' => ['false', 'true'],
+            'expected_result' => false,
+            'message' => 'Different types of boolean',
+        ];
+    }
+
+    public function testValidatorThrowsExceptionOnInvalidOption(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        $validator = new EnumValidator();
+        $validator->validate('local', []);
     }
 }
