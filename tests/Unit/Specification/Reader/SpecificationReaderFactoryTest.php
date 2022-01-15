@@ -11,6 +11,9 @@ use Andriichuk\KeepEnv\Specification\Reader\SpecificationYamlReader;
 use Generator;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @author Serhii Andriichuk <andriichuk29@gmail.com>
+ */
 class SpecificationReaderFactoryTest extends TestCase
 {
     /**
