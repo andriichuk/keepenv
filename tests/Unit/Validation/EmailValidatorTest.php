@@ -8,6 +8,9 @@ use Andriichuk\KeepEnv\Validation\EmailValidator;
 use Generator;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @author Serhii Andriichuk <andriichuk29@gmail.com>
+ */
 class EmailValidatorTest extends TestCase
 {
     /**

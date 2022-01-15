@@ -9,6 +9,9 @@ use Generator;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @author Serhii Andriichuk <andriichuk29@gmail.com>
+ */
 class RequiredValidatorTest extends TestCase
 {
     /**

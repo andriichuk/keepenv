@@ -24,6 +24,6 @@ class EqualsValidator implements ValidatorInterface
      */
     public function validate($value, array $options): bool
     {
-        return $value === reset($options); // TODO: check false
+        return $value === reset($options);
     }
 }
