@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Andriichuk\KeepEnv\Specification;
 
-use Andriichuk\KeepEnv\Environment\Provider\EnvStateProviderInterface;
 use Andriichuk\KeepEnv\Environment\Reader\EnvReaderInterface;
 use Andriichuk\KeepEnv\Specification\Writer\SpecificationWriterInterface;
 use RuntimeException;
@@ -16,11 +15,9 @@ class SpecificationGenerator
 
     public function __construct(
         EnvReaderInterface $envReader,
-        EnvStateProviderInterface $envStateProvider,
         SpecificationWriterInterface $specificationWriter
     ) {
         $this->envReader = $envReader;
-        $this->envStateProvider = $envStateProvider;
         $this->specificationWriter = $specificationWriter;
     }
 

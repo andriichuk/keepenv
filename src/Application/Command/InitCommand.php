@@ -70,7 +70,6 @@ class InitCommand extends Command
         try {
             $generator = new SpecificationGenerator(
                 $envReaderFactory->baseOnAvailability(),
-                new EnvStateProvider(),
                 $writerFactory->basedOnResource($input->getOption('spec'))
             );
 
