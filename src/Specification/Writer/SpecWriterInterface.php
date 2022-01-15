@@ -6,7 +6,7 @@ namespace Andriichuk\KeepEnv\Specification\Writer;
 
 use Andriichuk\KeepEnv\Specification\Specification;
 
-interface SpecificationWriterInterface
+interface SpecWriterInterface
 {
     public function write(string $filePath, Specification $specification): void;
 }

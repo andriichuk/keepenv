@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Andriichuk\KeepEnv\Specification\Writer;
 
 use Andriichuk\KeepEnv\Specification\Specification;
-use Andriichuk\KeepEnv\Specification\Writer\SpecificationWriterInterface;
+use Andriichuk\KeepEnv\Specification\Writer\SpecWriterInterface;
 use Symfony\Component\Yaml\Yaml;
 
-class SpecificationYamlWriter implements SpecificationWriterInterface
+class SpecYamlWriter implements SpecWriterInterface
 {
     public function write(string $filePath, Specification $specification): void
     {

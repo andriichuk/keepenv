@@ -5,11 +5,10 @@ declare(strict_types=1);
 namespace Andriichuk\KeepEnv\Application\Command;
 
 use Andriichuk\KeepEnv\Application\Command\Utils\CommandHeader;
-use Andriichuk\KeepEnv\Environment\Loader\EnvLoaderFactory;
-use Andriichuk\KeepEnv\Environment\Provider\EnvStateProvider;
 use Andriichuk\KeepEnv\Environment\Reader\EnvReaderFactory;
-use Andriichuk\KeepEnv\Specification\SpecificationGenerator;
-use Andriichuk\KeepEnv\Specification\Writer\SpecificationWriterFactory;
+use Andriichuk\KeepEnv\Generation\Presets\PresetFactory;
+use Andriichuk\KeepEnv\Generation\SpecGenerator;
+use Andriichuk\KeepEnv\Specification\Writer\SpecWriterFactory;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -48,6 +47,12 @@ class InitCommand extends Command
                 'Path to new dotenv specification file.',
                 'env.spec.yaml',
             )
+            ->addOption(
+                'preset',
+                'p',
+                InputOption::VALUE_REQUIRED,
+                'Env preset.',
+            )
             ->setDescription('Application environment specification generation.')
             ->setHelp('This command allows you to generate specification based on dotenv file variables.');
     }
@@ -65,12 +70,13 @@ class InitCommand extends Command
         );
 
         $envReaderFactory = new EnvReaderFactory();
-        $writerFactory = new SpecificationWriterFactory();
+        $writerFactory = new SpecWriterFactory();
 
         try {
-            $generator = new SpecificationGenerator(
+            $generator = new SpecGenerator(
                 $envReaderFactory->baseOnAvailability(),
-                $writerFactory->basedOnResource($input->getOption('spec'))
+                $writerFactory->basedOnResource($input->getOption('spec')),
+                new PresetFactory(),
             );
 
             $generator->generate(
@@ -80,6 +86,7 @@ class InitCommand extends Command
                 static function () use ($io): bool {
                     return $io->confirm('Specification file already exists. Do you want to override it?', false);
                 },
+                $input->getOption('preset'),
             );
 
             $io->success("Environment specification was successfully created.");

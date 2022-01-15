@@ -37,11 +37,3 @@ To customize:
 ```shell
 ./keepenv verify local --env-file=./.env --spec=./env.spec.yaml
 ```
-
-### Filling
-
-Command:
-
-```shell
-./keepenv fill
-```

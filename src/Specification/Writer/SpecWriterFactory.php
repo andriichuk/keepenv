@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Andriichuk\KeepEnv\Specification\Writer;
 
-class SpecificationWriterFactory
+class SpecWriterFactory
 {
-    public function basedOnResource(string $sourcePath): SpecificationWriterInterface
+    public function basedOnResource(string $sourcePath): SpecWriterInterface
     {
         $type = pathinfo($sourcePath, PATHINFO_EXTENSION);
 
@@ -16,7 +16,7 @@ class SpecificationWriterFactory
 
             case 'yml':
             case 'yaml':
-                return new SpecificationYamlWriter();
+                return new SpecYamlWriter();
 
             default:
                 throw new \InvalidArgumentException("Unsupported writer type `{$type}`.");

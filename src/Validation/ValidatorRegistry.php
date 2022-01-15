@@ -21,6 +21,7 @@ class ValidatorRegistry implements ValidatorRegistryInterface
         $validatorRegistry = new self();
         $validatorRegistry->add(new NumericValidator());
         $validatorRegistry->add(new EmailValidator());
+        $validatorRegistry->add(new IpValidator());
         $validatorRegistry->add(new EnumValidator());
         $validatorRegistry->add(new EqualsValidator());
         $validatorRegistry->add(new RequiredValidator());
