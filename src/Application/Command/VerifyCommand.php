@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Andriichuk\KeepEnv\Application\Command;
 
+use Andriichuk\KeepEnv\Application\Command\Utils\CommandHeader;
 use Andriichuk\KeepEnv\Environment\Loader\EnvFileLoaderFactory;
 use Andriichuk\KeepEnv\Specification\Reader\SpecificationReaderFactory;
-use Andriichuk\KeepEnv\Verification\SpecVerificationService;
 use Andriichuk\KeepEnv\Validation\ValidatorRegistry;
+use Andriichuk\KeepEnv\Verification\SpecVerificationService;
 use Andriichuk\KeepEnv\Verification\VariableVerification;
 use Andriichuk\KeepEnv\Verification\VerificationReport;
 use Symfony\Component\Console\Command\Command;
@@ -50,13 +51,14 @@ class VerifyCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $io->title('Starting to verify environment variables...');
-        $envFilePaths = implode(', ', $input->getOption('env-file'));
-        $io->listing([
-            "Environment name: <info>{$input->getArgument('env')}</info>",
-            "Dotenv file paths: <info>$envFilePaths</info>",
-            "Specification file path: <info>{$input->getOption('spec')}</info>",
-        ]);
+
+        $header = new CommandHeader($io);
+        $header->display(
+            'Starting to verify environment variables...',
+            $input->getArgument('env'),
+            $input->getOption('env-file'),
+            $input->getOption('spec'),
+        );
 
         $specReaderFactory = new SpecificationReaderFactory();
         $envLoaderFactory = new EnvFileLoaderFactory();

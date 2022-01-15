@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Andriichuk\KeepEnv\Application\Command;
 
+use Andriichuk\KeepEnv\Application\Command\Utils\CommandHeader;
 use Andriichuk\KeepEnv\Environment\Loader\EnvFileLoaderFactory;
 use Andriichuk\KeepEnv\Environment\Provider\EnvStateProvider;
 use Andriichuk\KeepEnv\Specification\SpecificationGenerator;
@@ -53,13 +54,14 @@ class InitCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $io->title('Starting to generating a new specification based on environment...');
-        $envFilePaths = implode(', ', $input->getOption('env-file'));
-        $io->listing([
-            "Environment name: <info>{$input->getOption('env')}</info>",
-            "Dotenv file paths: <info>$envFilePaths</info>",
-            "Specification file path: <info>{$input->getOption('spec')}</info>",
-        ]);
+
+        $header = new CommandHeader($io);
+        $header->display(
+            'Starting to generating a new specification based on environment...',
+            $input->getArgument('env'),
+            $input->getOption('env-file'),
+            $input->getOption('spec'),
+        );
 
         $loaderFactory = new EnvFileLoaderFactory();
         $writerFactory = new SpecificationWriterFactory();
