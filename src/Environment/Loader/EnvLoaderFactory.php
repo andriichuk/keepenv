@@ -4,14 +4,16 @@ declare(strict_types=1);
 
 namespace Andriichuk\KeepEnv\Environment\Loader;
 
+use Andriichuk\KeepEnv\Environment\Reader\SymfonyDotEnvFileReader;
+use Andriichuk\KeepEnv\Environment\Reader\VlucasPhpDotEnvFileReader;
 use RuntimeException;
 
 /**
  * @author Serhii Andriichuk <andriichuk29@gmail.com>
  */
-class EnvFileLoaderFactory
+class EnvLoaderFactory
 {
-    public function make(string $loader): EnvFileLoaderInterface
+    public function make(string $loader): EnvLoaderInterface
     {
         switch ($loader) {
             case 'system':
@@ -23,14 +25,14 @@ class EnvFileLoaderFactory
         }
     }
 
-    public function baseOnAvailability(): EnvFileLoaderInterface
+    public function baseOnAvailability(): EnvLoaderInterface
     {
         switch (true) {
             case class_exists(\Dotenv\Dotenv::class):
-                return new VlucasPhpDotenvLoader();
+                return new VlucasPhpDotEnvStateLoader();
 
             case class_exists(\Symfony\Component\Dotenv\Dotenv::class):
-                return new SymfonyDotEnvLoader();
+                return new SymfonyDotEnvStateLoader();
 
             default:
                 throw new RuntimeException('DotEnv library not found.');

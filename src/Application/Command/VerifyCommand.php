@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Andriichuk\KeepEnv\Application\Command;
 
 use Andriichuk\KeepEnv\Application\Command\Utils\CommandHeader;
-use Andriichuk\KeepEnv\Environment\Loader\EnvFileLoaderFactory;
+use Andriichuk\KeepEnv\Environment\Loader\EnvLoaderFactory;
 use Andriichuk\KeepEnv\Specification\Reader\SpecificationReaderFactory;
 use Andriichuk\KeepEnv\Validation\ValidatorRegistry;
 use Andriichuk\KeepEnv\Verification\SpecVerificationService;
@@ -38,6 +38,13 @@ class VerifyCommand extends Command
                 ['./'],
             )
             ->addOption(
+                'env-overwrite',
+                'eo',
+                InputOption::VALUE_REQUIRED,
+                'Dotenv file paths to check.',
+                false,
+            )
+            ->addOption(
                 'env-provider',
                 'p',
                 InputOption::VALUE_REQUIRED,
@@ -68,7 +75,7 @@ class VerifyCommand extends Command
         );
 
         $specReaderFactory = new SpecificationReaderFactory();
-        $envLoaderFactory = new EnvFileLoaderFactory();
+        $envLoaderFactory = new EnvLoaderFactory();
 
         $service = new SpecVerificationService(
             $specReaderFactory->basedOnSource($input->getOption('spec')),

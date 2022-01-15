@@ -7,7 +7,7 @@ namespace Andriichuk\KeepEnv\Environment\Loader;
 /**
  * @author Serhii Andriichuk <andriichuk29@gmail.com>
  */
-interface EnvFileLoaderInterface
+interface EnvLoaderInterface
 {
-    public function load(array $paths): array;
+    public function load(array $paths, bool $overrideExisting): array;
 }

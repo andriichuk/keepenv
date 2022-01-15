@@ -22,7 +22,7 @@ TODO:
 - [ ] warning about variables from .env file that are missing in specification
 - [ ] support system variables
 - [ ] support `export` key 
-- [ ] raw blueprint
+- [ ] raw blueprint (print all variables with checkmarks like dry run)
 
 ### Initialization
 

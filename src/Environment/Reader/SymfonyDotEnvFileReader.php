@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\KeepEnv\Environment\Loader;
+namespace Andriichuk\KeepEnv\Environment\Reader;
 
 use Symfony\Component\Dotenv\Dotenv;
 
 /**
  * @author Serhii Andriichuk <andriichuk29@gmail.com>
  */
-class SymfonyDotEnvLoader implements EnvFileLoaderInterface
+class SymfonyDotEnvFileReader implements EnvReaderInterface
 {
     private Dotenv $dotenv;
 
@@ -18,7 +18,7 @@ class SymfonyDotEnvLoader implements EnvFileLoaderInterface
         $this->dotenv = new Dotenv();
     }
 
-    public function load(array $paths): array
+    public function read(array $paths): array
     {
         $variables = [];
 

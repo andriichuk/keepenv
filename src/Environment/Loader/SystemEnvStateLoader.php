@@ -7,9 +7,9 @@ namespace Andriichuk\KeepEnv\Environment\Loader;
 /**
  * @author Serhii Andriichuk <andriichuk29@gmail.com>
  */
-class SystemEnvStateLoader implements EnvFileLoaderInterface
+class SystemEnvStateLoader implements EnvLoaderInterface
 {
-    public function load(array $paths): array
+    public function load(array $paths, bool $overrideExisting): array
     {
         return $_ENV;
     }

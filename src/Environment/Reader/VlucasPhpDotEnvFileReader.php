@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\KeepEnv\Environment\Loader;
+namespace Andriichuk\KeepEnv\Environment\Reader;
 
 use Dotenv\Dotenv;
 
 /**
  * @author Serhii Andriichuk <andriichuk29@gmail.com>
  */
-class VlucasPhpDotenvLoader implements EnvFileLoaderInterface
+class VlucasPhpDotEnvFileReader implements EnvReaderInterface
 {
-    public function load(array $paths): array
+    public function read(array $paths): array
     {
         $dotenv = Dotenv::createArrayBacked($paths);
 

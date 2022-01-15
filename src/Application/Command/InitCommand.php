@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace Andriichuk\KeepEnv\Application\Command;
 
 use Andriichuk\KeepEnv\Application\Command\Utils\CommandHeader;
-use Andriichuk\KeepEnv\Environment\Loader\EnvFileLoaderFactory;
+use Andriichuk\KeepEnv\Environment\Loader\EnvLoaderFactory;
 use Andriichuk\KeepEnv\Environment\Provider\EnvStateProvider;
+use Andriichuk\KeepEnv\Environment\Reader\EnvReaderFactory;
 use Andriichuk\KeepEnv\Specification\SpecificationGenerator;
 use Andriichuk\KeepEnv\Specification\Writer\SpecificationWriterFactory;
 use Symfony\Component\Console\Command\Command;
@@ -63,12 +64,12 @@ class InitCommand extends Command
             $input->getOption('spec'),
         );
 
-        $loaderFactory = new EnvFileLoaderFactory();
+        $envReaderFactory = new EnvReaderFactory();
         $writerFactory = new SpecificationWriterFactory();
 
         try {
             $generator = new SpecificationGenerator(
-                $loaderFactory->baseOnAvailability(),
+                $envReaderFactory->baseOnAvailability(),
                 new EnvStateProvider(),
                 $writerFactory->basedOnResource($input->getOption('spec'))
             );

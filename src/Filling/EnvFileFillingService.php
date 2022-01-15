@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Andriichuk\KeepEnv\Filling;
 
-use Andriichuk\KeepEnv\Environment\Loader\EnvFileLoaderInterface;
+use Andriichuk\KeepEnv\Environment\Reader\EnvReaderInterface;
 use Andriichuk\KeepEnv\Environment\Writer\EnvFileWriter;
 use Andriichuk\KeepEnv\Specification\Reader\SpecificationReaderInterface;
 use Andriichuk\KeepEnv\Verification\VariableVerification;
@@ -16,18 +16,18 @@ use RuntimeException;
 class EnvFileFillingService
 {
     private SpecificationReaderInterface $specificationReader;
-    private EnvFileLoaderInterface $envFileLoader;
+    private EnvReaderInterface $envReader;
     private EnvFileWriter $envFileWriter;
     private VariableVerification $variableVerification;
 
     public function __construct(
         SpecificationReaderInterface $specificationReader,
-        EnvFileLoaderInterface $envFileLoader,
+        EnvReaderInterface $envReader,
         EnvFileWriter $envFileWriter,
         VariableVerification $variableVerification
     ) {
         $this->specificationReader = $specificationReader;
-        $this->envFileLoader = $envFileLoader;
+        $this->envReader = $envReader;
         $this->envFileWriter = $envFileWriter;
         $this->variableVerification = $variableVerification;
     }
@@ -42,7 +42,7 @@ class EnvFileFillingService
         $specification = $this->specificationReader->read($specPath);
         $envSpec = $specification->get($environmentName);
 
-        $emptyVariables = array_filter($this->envFileLoader->load($envPaths), static function ($value): bool {
+        $emptyVariables = array_filter($this->envReader->read($envPaths), static function ($value): bool {
             return $value === '';
         });
 

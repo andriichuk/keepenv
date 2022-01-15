@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Andriichuk\KeepEnv\Verification;
 
-use Andriichuk\KeepEnv\Environment\Loader\EnvFileLoaderInterface;
+use Andriichuk\KeepEnv\Environment\Loader\EnvLoaderInterface;
 use Andriichuk\KeepEnv\Specification\Reader\SpecificationReaderInterface;
 
 /**
@@ -12,14 +12,14 @@ use Andriichuk\KeepEnv\Specification\Reader\SpecificationReaderInterface;
  */
 class SpecVerificationService
 {
-    private EnvFileLoaderInterface $envFileLoader;
+    private EnvLoaderInterface $envFileLoader;
     private SpecificationReaderInterface $specificationReader;
     private VariableVerification $variableVerification;
 
     public function __construct(
         SpecificationReaderInterface $specificationReader,
-        EnvFileLoaderInterface $envFileLoader,
-        VariableVerification $variableVerification
+        EnvLoaderInterface           $envFileLoader,
+        VariableVerification         $variableVerification
     ) {
         $this->envFileLoader = $envFileLoader;
         $this->specificationReader = $specificationReader;
@@ -30,7 +30,7 @@ class SpecVerificationService
     {
         $specification = $this->specificationReader->read($specPath)->get($environmentName);
         $verificationReport = new VerificationReport();
-        $variableValues = $this->envFileLoader->load($envPaths);
+        $variableValues = $this->envFileLoader->load($envPaths, false);
 
         foreach ($specification->all() as $variable) {
             $report = $this->variableVerification->validate($variable, $variableValues[$variable->name] ?? null);

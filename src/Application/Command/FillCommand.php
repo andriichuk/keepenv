@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Andriichuk\KeepEnv\Application\Command;
 
-use Andriichuk\KeepEnv\Environment\Loader\EnvFileLoaderFactory;
+use Andriichuk\KeepEnv\Environment\Reader\EnvReaderFactory;
 use Andriichuk\KeepEnv\Filling\EnvFileFillingService;
 use Andriichuk\KeepEnv\Specification\Reader\SpecificationReaderFactory;
 use Andriichuk\KeepEnv\Environment\Writer\EnvFileWriter;
@@ -42,11 +42,11 @@ class FillCommand extends Command
         $io->title('Variables filling');
 
         $specReaderFactory = new SpecificationReaderFactory();
-        $envLoaderFactory = new EnvFileLoaderFactory();
+        $envReaderFactory = new EnvReaderFactory();
 
         $service = new EnvFileFillingService(
             $specReaderFactory->basedOnSource($input->getOption('spec')),
-            $envLoaderFactory->baseOnAvailability(),
+            $envReaderFactory->baseOnAvailability(),
             new EnvFileWriter($input->getOption('target-env-file')),
             new VariableVerification(ValidatorRegistry::default()),
         );
