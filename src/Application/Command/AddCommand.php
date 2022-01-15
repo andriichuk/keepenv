@@ -44,6 +44,7 @@ class AddCommand extends Command
         $description = $this->askForDescription($input, $output);
         $required = $io->confirm('Variable is required?', true);
         $export = $io->confirm('Should `contain` export keyword?', false);
+        $system = $io->confirm('Variable is system?', false);
         $type = $this->askForType($input, $output);
         $value = $this->askForValue($input, $output);
 
@@ -52,9 +53,10 @@ class AddCommand extends Command
             $name,
             $description,
             $export,
-            false,
+            $system,
             array_filter([$type]),
-            $required);
+            $required,
+        );
 
         $writerFactory = new SpecificationWriterFactory();
         $readerFactory = new SpecificationReaderFactory();
