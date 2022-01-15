@@ -64,7 +64,7 @@ class VerifyCommand extends Command
         $envLoaderFactory = new EnvFileLoaderFactory();
 
         $service = new SpecVerificationService(
-            $specReaderFactory->basedOnResource($input->getOption('spec')),
+            $specReaderFactory->basedOnSource($input->getOption('spec')),
             $envLoaderFactory->baseOnAvailability(),
             new VariableVerification(ValidatorRegistry::default()),
         );

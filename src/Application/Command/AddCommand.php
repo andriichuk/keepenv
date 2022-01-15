@@ -57,7 +57,7 @@ class AddCommand extends Command
 
         $manager = new AddNewVariableManager(
             new EnvFileWriter($input->getOption('env-file')),
-            $readerFactory->basedOnResource($input->getOption('spec-file')),
+            $readerFactory->basedOnSource($input->getOption('spec-file')),
             $writerFactory->basedOnResource($input->getOption('spec-file')),
         );
 

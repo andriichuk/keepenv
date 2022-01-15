@@ -44,7 +44,7 @@ class FillCommand extends Command
         $envLoaderFactory = new EnvFileLoaderFactory();
 
         $service = new EnvFileFillingService(
-            $specReaderFactory->basedOnResource($input->getOption('spec')),
+            $specReaderFactory->basedOnSource($input->getOption('spec')),
             $envLoaderFactory->baseOnAvailability(),
             new EnvFileWriter($input->getOption('target-env-file')),
             new VariableVerification(ValidatorRegistry::default()),

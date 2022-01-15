@@ -34,7 +34,7 @@ class RemoveCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $factory = new SpecificationReaderFactory();
-        $reader = $factory->basedOnResource($input->getOption('env-spec'));
+        $reader = $factory->basedOnSource($input->getOption('env-spec'));
 
         $writerFactory = new SpecificationWriterFactory();
         $writer = $writerFactory->basedOnResource($input->getOption('env-spec'));
