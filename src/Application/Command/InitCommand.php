@@ -6,8 +6,8 @@ namespace Andriichuk\KeepEnv\Application\Command;
 
 use Andriichuk\KeepEnv\Application\Command\Utils\CommandHeader;
 use Andriichuk\KeepEnv\Environment\Reader\EnvReaderFactory;
-use Andriichuk\KeepEnv\Generation\Presets\PresetFactory;
-use Andriichuk\KeepEnv\Generation\SpecGenerator;
+use Andriichuk\KeepEnv\Generator\Presets\PresetFactory;
+use Andriichuk\KeepEnv\Generator\SpecGenerator;
 use Andriichuk\KeepEnv\Specification\Writer\SpecWriterFactory;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -30,7 +30,7 @@ class InitCommand extends Command
                 'env',
                 'e',
                 InputOption::VALUE_REQUIRED,
-                'Common environment name.',
+                'Target environment name.',
                 'common',
             )
             ->addOption(
@@ -51,7 +51,7 @@ class InitCommand extends Command
                 'preset',
                 'p',
                 InputOption::VALUE_REQUIRED,
-                'Env preset.',
+                'Preset alias.',
             )
             ->setDescription('Application environment specification generation.')
             ->setHelp('This command allows you to generate specification based on dotenv file variables.');
@@ -63,8 +63,8 @@ class InitCommand extends Command
 
         $header = new CommandHeader($io);
         $header->display(
-            'Starting to generating a new specification based on environment...',
-            $input->getArgument('env'),
+            'Starting to generate a new specification based on environment files...',
+            $input->getOption('env'),
             $input->getOption('env-file'),
             $input->getOption('spec'),
         );

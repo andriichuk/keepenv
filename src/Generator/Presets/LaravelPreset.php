@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\KeepEnv\Generation\Presets;
+namespace Andriichuk\KeepEnv\Generator\Presets;
 
 use Andriichuk\KeepEnv\Specification\Variable;
 
@@ -21,6 +21,15 @@ class LaravelPreset implements PresetInterface
                     'enum' => ['local', 'production']
                 ],
                 'local',
+            ),
+            'APP_KEY' => new Variable(
+                'APP_KEY',
+                'Application key.',
+                false,
+                false,
+                [
+                    'required' => true,
+                ],
             ),
             'APP_DEBUG' => new Variable(
                 'APP_DEBUG',

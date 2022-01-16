@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Andriichuk\KeepEnv\Unit\Specification\Reader;
 
 use Andriichuk\KeepEnv\Specification\Reader\Exceptions\SpecificationReaderException;
-use Andriichuk\KeepEnv\Specification\Reader\SpecificationPhpArrayReader;
 use Andriichuk\KeepEnv\Specification\Reader\SpecificationReaderFactory;
 use Andriichuk\KeepEnv\Specification\Reader\SpecificationYamlReader;
 use Generator;
@@ -29,12 +28,6 @@ class SpecificationReaderFactoryTest extends TestCase
 
     public function readerSourcesProvider(): Generator
     {
-        yield [
-            'source_path' => '/home/user/env.spec.php',
-            'expected_type' => SpecificationPhpArrayReader::class,
-            'message' => 'PHP source file.',
-        ];
-
         yield [
             'source_path' => '/home/user/env.spec.yaml',
             'expected_type' => SpecificationYamlReader::class,

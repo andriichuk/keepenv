@@ -10,6 +10,7 @@ use org\bovigo\vfs\vfsStreamDirectory;
 use org\bovigo\vfs\vfsStreamFile;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
 
 /**
@@ -18,41 +19,64 @@ use Symfony\Component\Console\Tester\CommandTester;
 class VerifyCommandTest extends TestCase
 {
     private vfsStreamDirectory $rootFolder;
+    private CommandTester $commandTester;
 
     protected function setUp(): void
     {
         $this->rootFolder = vfsStream::setup('src');
+
+        $application = new Application();
+        $application->add(new VerifyCommand());
+
+        $command = $application->find('verify');
+        $this->commandTester = new CommandTester($command);
+    }
+
+    public function testCommandSuccessfullyVerifyEnvironment(): void
+    {
         $this->rootFolder->addChild(
             (new vfsStreamFile('.env'))
                 ->setContent(
-                    file_get_contents(dirname(__DIR__, 3) . '/stubs/.env'),
+                    file_get_contents(dirname(__DIR__, 3) . '/fixtures/case_3/.env'),
                 ),
         );
         $this->rootFolder->addChild(
             (new vfsStreamFile('env.spec.yaml'))
                 ->setContent(
-                    file_get_contents(dirname(__DIR__, 3) . '/stubs/env.spec.yaml'),
+                    file_get_contents(dirname(__DIR__, 3) . '/fixtures/case_3/env.spec.yaml'),
                 ),
         );
-    }
 
-    /**
-     * @incomplete
-     */
-    public function testVerify(): void
-    {
-        $application = new Application();
-        $application->add(new VerifyCommand());
-
-        $command = $application->find('verify');
-        $commandTester = new CommandTester($command);
-
-        $commandTester->execute([
+        $this->commandTester->execute([
             'env' => 'local',
             '--env-file' => [dirname($this->rootFolder->getChild('.env')->url())],
             '--spec' => $this->rootFolder->getChild('env.spec.yaml')->url(),
         ]);
 
-        $commandTester->assertCommandIsSuccessful();
+        $this->commandTester->assertCommandIsSuccessful();
+    }
+
+    public function testCommandFailedVerifyEnvironment(): void
+    {
+        $this->rootFolder->addChild(
+            (new vfsStreamFile('.env'))
+                ->setContent(
+                    file_get_contents(dirname(__DIR__, 3) . '/fixtures/case_4/.env'),
+                ),
+        );
+        $this->rootFolder->addChild(
+            (new vfsStreamFile('env.spec.yaml'))
+                ->setContent(
+                    file_get_contents(dirname(__DIR__, 3) . '/fixtures/case_4/env.spec.yaml'),
+                ),
+        );
+
+        $this->commandTester->execute([
+            'env' => 'local',
+            '--env-file' => [dirname($this->rootFolder->getChild('.env')->url())],
+            '--spec' => $this->rootFolder->getChild('env.spec.yaml')->url(),
+        ]);
+
+        $this->assertEquals(Command::FAILURE, $this->commandTester->getStatusCode());
     }
 }

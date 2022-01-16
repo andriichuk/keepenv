@@ -17,9 +17,6 @@ class SpecificationReaderFactory
         $type = pathinfo($sourcePath, PATHINFO_EXTENSION);
 
         switch ($type) {
-            case 'php':
-                return new SpecificationPhpArrayReader(new SpecificationArrayBuilder());
-
             case 'yml':
             case 'yaml':
                 return new SpecificationYamlReader(new SpecificationArrayBuilder());

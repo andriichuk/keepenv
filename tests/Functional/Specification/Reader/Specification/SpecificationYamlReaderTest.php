@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\KeepEnv\Functional\Reader\Specification;
+namespace Andriichuk\KeepEnv\Functional\Specification\Reader\Specification;
 
 use Andriichuk\KeepEnv\Specification\Reader\SpecificationYamlReader;
 use Andriichuk\KeepEnv\Specification\SpecificationArrayBuilder;
@@ -26,7 +26,7 @@ class SpecificationYamlReaderTest extends TestCase
             (new vfsStreamFile('env.spec.yaml'))
                 ->setContent(
                     file_get_contents(
-                        dirname(__DIR__, 3) . '/stubs/env.spec.yaml',
+                        dirname(__DIR__, 4) . '/fixtures/case_5/env.spec.yaml',
                     ),
                 ),
         );
@@ -52,40 +52,17 @@ class SpecificationYamlReaderTest extends TestCase
                     'common' => [
                         'variables' => [
                             'APP_ENV' => [
-                                'description' => 'Application environment',
-                                'default' => 'production',
+                                'description' => 'Application environment.',
                                 'rules' => [
                                     'required' => true,
                                     'enum' => ['local', 'production'],
                                 ],
                             ],
                             'APP_DEBUG' => [
-                                'description' => 'Application debug mode.',
-                                'default' => 'true',
+                                'description' => 'Application debug.',
                                 'rules' => [
                                     'required' => true,
                                     'enum' => ['true', 'false'],
-                                ],
-                            ],
-                        ],
-                    ],
-                    'local' => [
-                        'extends' => 'common',
-                        'variables' => [
-                            'MAIL_HOST' => [
-                                'description' => 'Main host.',
-                                'rules' => [
-                                    'equals' => 'mailhog',
-                                ],
-                            ],
-                        ],
-                    ],
-                    'production' => [
-                        'extends' => 'common',
-                        'variables' => [
-                            'APP_DEBUG' => [
-                                'rules' => [
-                                    'equals' => 'false',
                                 ],
                             ],
                         ],

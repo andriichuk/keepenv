@@ -52,8 +52,8 @@ class Variable implements ArraySerializable
             'description' => $this->description,
             'export' => $this->export ?: null,
             'system' => $this->export ?: null,
-            'rules' => $this->rules ?: null,
             'default' => $this->default,
+            'rules' => $this->rules ?: null,
         ]);
     }
 }

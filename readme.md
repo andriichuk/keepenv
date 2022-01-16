@@ -6,22 +6,39 @@
 
 ### Initialization
 
-Command:
+This command allows you to generate a new environment specification file based on your current `.env` structure.
+
+Options:
+
+* `env` target environment name (default: `common`)
+* `env-file` paths to DotEnv files (default: project root `./`)
+  * for `vlucas/dotenv` package it should be a path to directory
+  * for `symfony/dotenv` package it should be a path to files
+* `spec` path to the environment specification file that will be generated (default: `.env.spec.yaml`)
+* `preset` preset alias (default: `null`)
+
+Basic usage:
 
 ```shell
 ./keepenv init
 ```
 
-To customize for `vlucas/dotenv`:
+For Laravel Framework:
 
 ```shell
-./keepenv verify --env=local --env-file=./ --spec=./env.spec.yaml
+./keepenv init --preset=laravel
 ```
 
-To customize for `symfony/dotenv`:
+For custom env files (`vlucas/dotenv`):
 
 ```shell
-./keepenv verify --env=local --env-file=./.env --env-file=./.env.local --spec=./env.spec.yaml
+./keepenv init --env-file=./ --env-file=./config/
+```
+
+For custom env files (`symfony/dotenv`):
+
+```shell
+./keepenv init --env-file=./.env --env-file=./.env.local
 ```
 
 ### Verification

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\KeepEnv\Generation\Presets;
+namespace Andriichuk\KeepEnv\Generator\Presets;
 
 use OutOfRangeException;
 

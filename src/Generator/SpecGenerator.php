@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\KeepEnv\Generation;
+namespace Andriichuk\KeepEnv\Generator;
 
 use Andriichuk\KeepEnv\Environment\Reader\EnvReaderInterface;
-use Andriichuk\KeepEnv\Generation\Presets\PresetFactory;
+use Andriichuk\KeepEnv\Generator\Presets\PresetFactory;
 use Andriichuk\KeepEnv\Specification\EnvVariables;
 use Andriichuk\KeepEnv\Specification\Specification;
 use Andriichuk\KeepEnv\Specification\Variable;
@@ -18,15 +18,23 @@ class SpecGenerator
     private SpecWriterInterface $specWriter;
     private PresetFactory $presetFactory;
 
-    public function __construct(EnvReaderInterface $envReader, SpecWriterInterface $specWriter, PresetFactory $presetFactory)
-    {
+    public function __construct(
+        EnvReaderInterface $envReader,
+        SpecWriterInterface $specWriter,
+        PresetFactory $presetFactory
+    ) {
         $this->envReader = $envReader;
         $this->specWriter = $specWriter;
         $this->presetFactory = $presetFactory;
     }
 
-    public function generate(string $env, array $envPaths, string $targetSpecPath, callable $shouldOverrideSpec, ?string $presetAlias = null): void
-    {
+    public function generate(
+        string $envName,
+        array $envPaths,
+        string $targetSpecPath,
+        callable $shouldOverrideSpec,
+        ?string $presetAlias = null
+    ): void {
         if (file_exists($targetSpecPath)) {
             $override = (bool) $shouldOverrideSpec();
 
@@ -38,7 +46,7 @@ class SpecGenerator
         $variables = $this->envReader->read($envPaths);
 
         $spec = Specification::default();
-        $envSpec = new EnvVariables($env);
+        $envSpec = new EnvVariables($envName);
 
         $preset = [];
 
@@ -53,12 +61,14 @@ class SpecGenerator
                 continue;
             }
 
-            $required = trim((string) $value) === '';
-            $rules = $this->guessType($key, $value ?? '');
+            $required = trim((string) $value) !== '';
+            $rules = [];
 
             if ($required) {
                 $rules['required'] = true;
             }
+
+            $rules = array_merge($rules, $this->guessType($key, $value ?? ''));
 
             $envSpec->add(
                 new Variable(
@@ -93,7 +103,6 @@ class SpecGenerator
             'CSS' => 'CSS',
             'db' => 'database',
             's3' => 'S3',
-            'log' => 'Logging', // Loggingin
         ];
 
         return ucfirst(str_replace(array_keys($replace), array_values($replace), $sentence)) . '.';
@@ -122,10 +131,10 @@ class SpecGenerator
             return $boolean;
         }
 
-        return ['string' => true];
+        return [];
     }
 
-    public function guessBooleanType(string $value): ?array
+    private function guessBooleanType(string $value): ?array
     {
         $value = strtolower($value);
 
