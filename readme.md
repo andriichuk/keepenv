@@ -1,8 +1,29 @@
-[![GitHub stars](https://img.shields.io/github/stars/andriichuk/enviro)](https://github.com/andriichuk/enviro)
-![Tests](https://github.com/andriichuk/enviro/actions/workflows/test.yml/badge.svg)
-[![Psalm type coverage](https://shepherd.dev/github/andriichuk/enviro/coverage.svg)](https://packagist.org/packages/andriichuk/enviro)
-[![Psalm enabled](https://shepherd.dev/github/andriichuk/enviro/level.svg)](https://packagist.org/packages/andriichuk/enviro)
-[![License](https://poser.pugx.org/andriichuk/enviro/license?format=flat)](https://packagist.org/packages/andriichuk/enviro)
+<h1 align="center">🗒 KeepEnv - Environment Variables Specification</h1>
+<p align="center">
+  <a href="https://github.com/andriichuk/keepenv">
+    <img alt="Stars" src="https://img.shields.io/github/stars/andriichuk/keepenv?color=blue" target="_blank" />
+  </a>
+  <a href="https://github.com/andriichuk/keepenv/blob/master/LICENSE">
+    <img alt="License: MIT" src="https://poser.pugx.org/andriichuk/keepenv/license?format=flat" target="_blank" />
+  </a>
+  <a href="https://github.com/andriichuk/keepenv/actions">
+    <img alt="Tests" src="https://github.com/andriichuk/enviro/actions/workflows/test.yml/badge.svg" target="_blank" />
+  </a>
+  <a href="https://codecov.io/gh/kefranabg/readme-md-generator">
+    <img src="https://codecov.io/gh/kefranabg/readme-md-generator/branch/master/graph/badge.svg" />
+  </a>
+  <a href="https://github.com/andriichuk/keepenv/blob/main/psalm.xml">
+    <img alt="Psalm type coverage" src="https://shepherd.dev/github/andriichuk/enviro/coverage.svg" />
+  </a>
+  <a href="https://github.com/andriichuk/keepenv/blob/main/psalm.xml">
+    <img alt="Psalm level" src="https://shepherd.dev/github/andriichuk/enviro/level.svg" />
+  </a>
+</p>
+
+<p align="center">
+  <img width="700" align="center" src="" alt="Logo"/>
+</p>
+
 
 ### Initialization
 
