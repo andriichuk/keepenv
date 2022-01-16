@@ -122,13 +122,16 @@ class VerifyCommand extends Command
             $rows[] = [$formattedVariable, $report->message];
         }
 
-        $count = $reports->count();
+        $errorsCount = $reports->errorsCount();
+        $variablesCount = $reports->variablesCount();
 
         $io->text(
             sprintf(
-                '<options=bold>Found %d error%s:</>',
-                $count,
-                $count > 1 ? 's' : '',
+                'Checked <options=bold>%d</> variable%s. Found <options=bold>%d</> error%s:',
+                $reports->variablesCount(),
+                $variablesCount > 1 ? 's' : '',
+                $errorsCount,
+                $errorsCount > 1 ? 's' : '',
             )
         );
         $io->table(['Variable', 'Message'], $rows);

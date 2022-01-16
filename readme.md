@@ -15,7 +15,7 @@ Options:
   * for `vlucas/dotenv` package it should be a path to directory
   * for `symfony/dotenv` package it should be a path to files
 * `spec` path to the environment specification file that will be generated (default: `.env.spec.yaml`)
-* `preset` preset alias (default: `null`)
+* `preset` preset alias (default: `null`). Available values: `laravel` 
 
 Basic usage:
 

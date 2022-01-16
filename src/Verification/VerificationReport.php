@@ -10,6 +10,7 @@ class VerificationReport
      * @var VariableReport[]
      */
     private array $reports = [];
+    private int $variablesCount = 0;
 
     public function add(VariableReport $report): void
     {
@@ -21,7 +22,7 @@ class VerificationReport
         return $this->reports === [];
     }
 
-    public function count(): int
+    public function errorsCount(): int
     {
         return count($this->reports);
     }
@@ -29,5 +30,15 @@ class VerificationReport
     public function all(): array
     {
         return $this->reports;
+    }
+
+    public function variablesCount(): int
+    {
+        return $this->variablesCount;
+    }
+
+    public function setVariablesCount(int $variablesCount): void
+    {
+        $this->variablesCount = $variablesCount;
     }
 }

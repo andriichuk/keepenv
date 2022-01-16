@@ -28,11 +28,13 @@ class SpecVerificationService
 
     public function verify(string $environmentName, array $envPaths, string $specPath): VerificationReport
     {
-        $specification = $this->specificationReader->read($specPath)->get($environmentName);
-        $verificationReport = new VerificationReport();
+        $envVariables = $this->specificationReader->read($specPath)->get($environmentName);
         $variableValues = $this->envFileLoader->load($envPaths, false);
 
-        foreach ($specification->all() as $variable) {
+        $verificationReport = new VerificationReport();
+        $verificationReport->setVariablesCount($envVariables->count());
+
+        foreach ($envVariables->all() as $variable) {
             $report = $this->variableVerification->validate($variable, $variableValues[$variable->name] ?? null);
 
             foreach ($report as $reportItem) {

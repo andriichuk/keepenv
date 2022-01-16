@@ -21,7 +21,7 @@ class CommandHeader
 
         $this->io->listing([
             "Environment name: <info>$envName</info>",
-            "Dotenv file paths: [{$this->formatEnvFilePaths($envFiles)}]",
+            "DotEnv file paths: [{$this->formatEnvFilePaths($envFiles)}]",
             "Specification file path: <info>{$this->formatSpecPath($specFile)}</info>",
         ]);
     }

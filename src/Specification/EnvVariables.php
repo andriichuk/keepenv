@@ -65,6 +65,11 @@ class EnvVariables implements ArraySerializable
         return $this->variables;
     }
 
+    public function count(): int
+    {
+        return count($this->variables);
+    }
+
     /**
      * @param string[] $keys
      *
