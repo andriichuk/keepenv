@@ -89,7 +89,7 @@ class SpecificationTest extends TestCase
                                     'equals' => 'production',
                                 ],
                             ],
-                        ]
+                        ],
                     ],
                 ],
             ],

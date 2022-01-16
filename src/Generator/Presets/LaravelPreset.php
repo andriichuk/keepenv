@@ -18,7 +18,7 @@ class LaravelPreset implements PresetInterface
                 false,
                 [
                     'required' => true,
-                    'enum' => ['local', 'production']
+                    'enum' => ['local', 'production'],
                 ],
                 'local',
             ),
@@ -38,7 +38,7 @@ class LaravelPreset implements PresetInterface
                 false,
                 [
                     'required' => true,
-                    'enum' => ['true', 'false']
+                    'enum' => ['true', 'false'],
                 ],
                 'true',
             ),

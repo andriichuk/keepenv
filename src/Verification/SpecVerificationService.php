@@ -18,18 +18,22 @@ class SpecVerificationService
 
     public function __construct(
         SpecificationReaderInterface $specificationReader,
-        EnvLoaderInterface           $envFileLoader,
-        VariableVerification         $variableVerification
+        EnvLoaderInterface $envFileLoader,
+        VariableVerification $variableVerification
     ) {
         $this->envFileLoader = $envFileLoader;
         $this->specificationReader = $specificationReader;
         $this->variableVerification = $variableVerification;
     }
 
-    public function verify(string $environmentName, array $envPaths, string $specPath): VerificationReport
-    {
+    public function verify(
+        string $environmentName,
+        array $envPaths,
+        string $specPath,
+        bool $overrideExistingVariables
+    ): VerificationReport {
         $envVariables = $this->specificationReader->read($specPath)->get($environmentName);
-        $variableValues = $this->envFileLoader->load($envPaths, false);
+        $variableValues = $this->envFileLoader->load($envPaths, $overrideExistingVariables);
 
         $verificationReport = new VerificationReport();
         $verificationReport->setVariablesCount($envVariables->count());

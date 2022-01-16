@@ -41,7 +41,7 @@ class VariableTest extends TestCase
                 'description' => 'Application environment.',
                 'rules' => [
                     'string' => true,
-                ]
+                ],
             ],
             $variable->toArray()
         );
@@ -66,7 +66,7 @@ class VariableTest extends TestCase
                 'rules' => [
                     'required' => true,
                     'enum' => ['local', 'production'],
-                ]
+                ],
             ],
             $variable->toArray()
         );
@@ -95,7 +95,7 @@ class VariableTest extends TestCase
                 'rules' => [
                     'required' => true,
                     'enum' => ['local', 'production'],
-                ]
+                ],
             ],
             $variable->toArray()
         );

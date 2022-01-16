@@ -58,6 +58,13 @@ class VerifyCommand extends Command
                 'Dotenv specification file path.',
                 './env.spec.yaml',
             )
+            ->addOption(
+                'override-system-vars',
+                'o',
+                InputOption::VALUE_REQUIRED,
+                'Flat for overriding system variables.',
+                false,
+            )
             ->setDescription('Application environment verification.')
             ->setHelp('This command allows you to verify environment variables according to the specification.');
     }
@@ -88,6 +95,7 @@ class VerifyCommand extends Command
                 $input->getArgument('env'),
                 $input->getOption('env-file'),
                 $input->getOption('spec'),
+                $input->getOption('override-system-vars'),
             );
         } catch (Throwable $exception) {
             $io->error($exception->getMessage());

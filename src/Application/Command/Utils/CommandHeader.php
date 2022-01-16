@@ -28,7 +28,7 @@ class CommandHeader
 
     private function formatEnvFilePaths(array $envFiles): string
     {
-         $formatted = array_map(static function (string $path): string {
+        $formatted = array_map(static function (string $path): string {
             if (!file_exists($path)) {
                 return "<error>$path</error>";
             }
@@ -38,7 +38,7 @@ class CommandHeader
             return "<info>$absolutePath</info>";
         }, $envFiles);
 
-         return implode(', ', $formatted);
+        return implode(', ', $formatted);
     }
 
     private function formatSpecPath(string $path): string
