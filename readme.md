@@ -1,4 +1,5 @@
-<h1 align="center">🗒 KeepEnv - Environment Variables Specification</h1>
+<h1 align="center">🗒 KeepEnv</h1>
+<h2 align="center">Environment Variables Specification</h2>
 <p align="center">
   <img width="700" align="center" src="https://github.com/andriichuk/keepenv/blob/main/art/logo.jpeg" alt="Logo"/>
 </p>
@@ -12,8 +13,8 @@
   <a href="https://github.com/andriichuk/keepenv/actions">
     <img alt="Tests" src="https://github.com/andriichuk/enviro/actions/workflows/test.yml/badge.svg" target="_blank" />
   </a>
-  <a href="https://codecov.io/gh/kefranabg/readme-md-generator">
-    <img src="https://codecov.io/gh/kefranabg/readme-md-generator/branch/master/graph/badge.svg" />
+  <a href="https://codecov.io/gh/andriichuk/keepenv">
+    <img alt="Code coverage" src="https://codecov.io/gh/andriichuk/keepenv/branch/main/graph/badge.svg?token=07FR1W9XVE"/>
   </a>
   <a href="https://github.com/andriichuk/keepenv/blob/main/psalm.xml">
     <img alt="Psalm type coverage" src="https://shepherd.dev/github/andriichuk/enviro/coverage.svg" />

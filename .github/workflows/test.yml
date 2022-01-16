@@ -44,4 +44,9 @@ jobs:
         run: vendor/bin/psalm --shepherd
 
       - name: Execute tests
-        run: vendor/bin/phpunit
+        run: vendor/bin/phpunit --coverage-clover coverage.xml
+
+      - name: Codecov
+        uses: codecov/codecov-action@v2.1.0
+        with:
+          files: ./coverage.xml
