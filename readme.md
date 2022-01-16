@@ -1,5 +1,8 @@
 <h1 align="center">🗒 KeepEnv - Environment Variables Specification</h1>
 <p align="center">
+  <img width="700" align="center" src="https://github.com/andriichuk/keepenv/blob/main/art/logo.jpeg" alt="Logo"/>
+</p>
+<p align="center">
   <a href="https://github.com/andriichuk/keepenv">
     <img alt="Stars" src="https://img.shields.io/github/stars/andriichuk/keepenv?color=blue" target="_blank" />
   </a>
@@ -19,11 +22,6 @@
     <img alt="Psalm level" src="https://shepherd.dev/github/andriichuk/enviro/level.svg" />
   </a>
 </p>
-
-<p align="center">
-  <img width="700" align="center" src="" alt="Logo"/>
-</p>
-
 
 ### Initialization
 
