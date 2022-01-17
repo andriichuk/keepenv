@@ -42,16 +42,6 @@ class EnvVariables implements ArraySerializable
         return $this->variables[$variable] ?? null;
     }
 
-    public function has(string $variable): bool
-    {
-        return isset($this->variables[$variable]);
-    }
-
-    public function set(Variable $variable): void
-    {
-        $this->variables[$variable->name] = $variable;
-    }
-
     public function remove(string $variable): void
     {
         unset($this->variables[$variable]);
@@ -68,16 +58,6 @@ class EnvVariables implements ArraySerializable
     public function count(): int
     {
         return count($this->variables);
-    }
-
-    /**
-     * @param string[] $keys
-     *
-     * @return Variable[]
-     */
-    public function onlyWithKeys(array $keys): array
-    {
-        return array_intersect_key($this->variables, $keys);
     }
 
     public function toArray(): array
