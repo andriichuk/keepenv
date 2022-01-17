@@ -11,16 +11,16 @@
     <img alt="License: MIT" src="https://poser.pugx.org/andriichuk/keepenv/license?format=flat" target="_blank" />
   </a>
   <a href="https://github.com/andriichuk/keepenv/actions">
-    <img alt="Tests" src="https://github.com/andriichuk/enviro/actions/workflows/test.yml/badge.svg" target="_blank" />
+    <img alt="Tests" src="https://github.com/andriichuk/keepenv/actions/workflows/test.yml/badge.svg" target="_blank" />
   </a>
   <a href="https://codecov.io/gh/andriichuk/keepenv">
     <img alt="Code coverage" src="https://codecov.io/gh/andriichuk/keepenv/branch/main/graph/badge.svg?token=07FR1W9XVE"/>
   </a>
   <a href="https://github.com/andriichuk/keepenv/blob/main/psalm.xml">
-    <img alt="Psalm type coverage" src="https://shepherd.dev/github/andriichuk/enviro/coverage.svg" />
+    <img alt="Psalm type coverage" src="https://shepherd.dev/github/andriichuk/keepenv/coverage.svg" />
   </a>
   <a href="https://github.com/andriichuk/keepenv/blob/main/psalm.xml">
-    <img alt="Psalm level" src="https://shepherd.dev/github/andriichuk/enviro/level.svg" />
+    <img alt="Psalm level" src="https://shepherd.dev/github/andriichuk/keepenv/level.svg" />
   </a>
 </p>
 

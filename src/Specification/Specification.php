@@ -99,7 +99,7 @@ class Specification implements ArraySerializable
                         $difference[$key] = $new_diff;
                     }
                 }
-            } else if (!array_key_exists($key, $array2) || $array2[$key] !== $value) {
+            } elseif (!array_key_exists($key, $array2) || $array2[$key] !== $value) {
                 $difference[$key] = $value;
             }
         }
