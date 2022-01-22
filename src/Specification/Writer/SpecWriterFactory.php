@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Andriichuk\KeepEnv\Specification\Writer;
 
+/**
+ * @author Serhii Andriichuk <andriichuk29@gmail.com>
+ */
 class SpecWriterFactory
 {
     public function basedOnResource(string $sourcePath): SpecWriterInterface

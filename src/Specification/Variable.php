@@ -9,6 +9,8 @@ use InvalidArgumentException;
 
 /**
  * @psalm-immutable
+ *
+ * @author Serhii Andriichuk <andriichuk29@gmail.com>
  */
 class Variable implements ArraySerializable
 {

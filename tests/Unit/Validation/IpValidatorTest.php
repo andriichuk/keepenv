@@ -22,6 +22,10 @@ class IpValidatorTest extends TestCase
         $result = $validator->validate($subject, []);
 
         $this->assertEquals($expectedResult, $result, $message);
+
+        if (!$result) {
+            $this->assertEquals('The value must be a valid IP address.', $validator->message([]));
+        }
     }
 
     public function validationCasesProvider(): Generator

@@ -6,6 +6,9 @@ namespace Andriichuk\KeepEnv\Generator\Presets;
 
 use Andriichuk\KeepEnv\Specification\Variable;
 
+/**
+ * @author Serhii Andriichuk <andriichuk29@gmail.com>
+ */
 class LaravelPreset implements PresetInterface
 {
     public function provide(): array

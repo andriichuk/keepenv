@@ -6,6 +6,9 @@ namespace Andriichuk\KeepEnv\Application\Command\Utils;
 
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+/**
+ * @author Serhii Andriichuk <andriichuk29@gmail.com>
+ */
 class CommandHeader
 {
     private SymfonyStyle $io;

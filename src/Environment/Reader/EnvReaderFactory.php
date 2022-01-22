@@ -6,6 +6,9 @@ namespace Andriichuk\KeepEnv\Environment\Reader;
 
 use RuntimeException;
 
+/**
+ * @author Serhii Andriichuk <andriichuk29@gmail.com>
+ */
 class EnvReaderFactory
 {
     public function make(string $type): EnvReaderInterface

@@ -6,6 +6,9 @@ namespace Andriichuk\KeepEnv\Specification;
 
 use Andriichuk\KeepEnv\Specification\Exceptions\InvalidStructureException;
 
+/**
+ * @author Serhii Andriichuk <andriichuk29@gmail.com>
+ */
 class SpecificationArrayBuilder implements SpecificationBuilderInterface
 {
     public function build(array $rawDefinition): Specification

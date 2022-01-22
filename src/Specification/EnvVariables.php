@@ -6,6 +6,9 @@ namespace Andriichuk\KeepEnv\Specification;
 
 use Andriichuk\KeepEnv\Contracts\ArraySerializable;
 
+/**
+ * @author Serhii Andriichuk <andriichuk29@gmail.com>
+ */
 class EnvVariables implements ArraySerializable
 {
     private string $envName;

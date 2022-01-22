@@ -24,6 +24,10 @@ class NumericValidatorTest extends TestCase
         $result = $validator->validate($subject, []);
 
         $this->assertEquals($expectedResult, $result, $message);
+
+        if (!$result) {
+            $this->assertEquals('The value must be a numeric.', $validator->message([]));
+        }
     }
 
     public function validationCasesProvider(): Generator

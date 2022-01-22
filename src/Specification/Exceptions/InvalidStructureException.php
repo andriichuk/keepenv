@@ -6,6 +6,9 @@ namespace Andriichuk\KeepEnv\Specification\Exceptions;
 
 use RuntimeException;
 
+/**
+ * @author Serhii Andriichuk <andriichuk29@gmail.com>
+ */
 class InvalidStructureException extends RuntimeException
 {
     public static function unsupportedVersion(): self

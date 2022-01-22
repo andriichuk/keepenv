@@ -6,6 +6,8 @@ namespace Andriichuk\KeepEnv\Verification;
 
 /**
  * @psalm-immutable
+ *
+ * @author Serhii Andriichuk <andriichuk29@gmail.com>
  */
 class VariableReport
 {

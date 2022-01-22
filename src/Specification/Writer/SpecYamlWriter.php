@@ -8,6 +8,9 @@ use Andriichuk\KeepEnv\Specification\Specification;
 use RuntimeException;
 use Symfony\Component\Yaml\Yaml;
 
+/**
+ * @author Serhii Andriichuk <andriichuk29@gmail.com>
+ */
 class SpecYamlWriter implements SpecWriterInterface
 {
     public function write(string $filePath, Specification $specification): void

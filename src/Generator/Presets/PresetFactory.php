@@ -6,6 +6,9 @@ namespace Andriichuk\KeepEnv\Generator\Presets;
 
 use OutOfRangeException;
 
+/**
+ * @author Serhii Andriichuk <andriichuk29@gmail.com>
+ */
 class PresetFactory
 {
     public function make(string $alias): PresetInterface

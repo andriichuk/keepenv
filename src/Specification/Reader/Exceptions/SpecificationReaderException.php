@@ -6,6 +6,9 @@ namespace Andriichuk\KeepEnv\Specification\Reader\Exceptions;
 
 use RuntimeException;
 
+/**
+ * @author Serhii Andriichuk <andriichuk29@gmail.com>
+ */
 class SpecificationReaderException extends RuntimeException
 {
     public static function unsupportedType(string $sourcePath, string $type): self

@@ -25,6 +25,10 @@ class RequiredValidatorTest extends TestCase
         $result = $validator->validate($subject, [$required]);
 
         $this->assertEquals($expectedResult, $result, $message);
+
+        if (!$result) {
+            $this->assertEquals('The value is required.', $validator->message([]));
+        }
     }
 
     public function validationCasesProvider(): Generator

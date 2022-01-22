@@ -7,6 +7,9 @@ namespace Andriichuk\KeepEnv\Specification;
 use Andriichuk\KeepEnv\Contracts\ArraySerializable;
 use Andriichuk\KeepEnv\Specification\Exceptions\InvalidStructureException;
 
+/**
+ * @author Serhii Andriichuk <andriichuk29@gmail.com>
+ */
 class Specification implements ArraySerializable
 {
     private const VERSION = '1.0';

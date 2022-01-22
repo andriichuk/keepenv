@@ -12,6 +12,9 @@ use Andriichuk\KeepEnv\Specification\Variable;
 use Andriichuk\KeepEnv\Specification\Writer\SpecWriterInterface;
 use RuntimeException;
 
+/**
+ * @author Serhii Andriichuk <andriichuk29@gmail.com>
+ */
 class SpecGenerator
 {
     private EnvReaderInterface $envReader;

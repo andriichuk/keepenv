@@ -19,12 +19,16 @@ class EqualsValidatorTest extends TestCase
      * @param mixed $subject
      * @param mixed $equals
      */
-    public function testValidationCases($subject, $equals, bool $expectedResult, string $message): void
+    public function testValidationCases($subject, $equals, bool $expectedResult, string $expectedMessage, string $message): void
     {
         $validator = new EqualsValidator();
         $result = $validator->validate($subject, [$equals]);
 
         $this->assertEquals($expectedResult, $result, $message);
+
+        if (!$result) {
+            $this->assertEquals($expectedMessage, $validator->message(['equals' => $equals]));
+        }
     }
 
     public function validationCasesProvider(): Generator
@@ -33,6 +37,7 @@ class EqualsValidatorTest extends TestCase
             'subject' => 'local',
             'equals' => 'local',
             'expected_result' => true,
+            'expected_message' => '',
             'message' => 'Regular string',
         ];
 
@@ -40,6 +45,7 @@ class EqualsValidatorTest extends TestCase
             'subject' => '0',
             'equals' => '0',
             'expected_result' => true,
+            'expected_message' => '',
             'message' => 'String with zero',
         ];
 
@@ -47,6 +53,7 @@ class EqualsValidatorTest extends TestCase
             'subject' => '',
             'equals' => '',
             'expected_result' => true,
+            'expected_message' => '',
             'message' => 'Empty strings',
         ];
 
@@ -54,6 +61,7 @@ class EqualsValidatorTest extends TestCase
             'subject' => null,
             'equals' => null,
             'expected_result' => true,
+            'expected_message' => '',
             'message' => 'Nullable values',
         ];
 
@@ -61,6 +69,7 @@ class EqualsValidatorTest extends TestCase
             'subject' => '',
             'equals' => ' ',
             'expected_result' => false,
+            'expected_message' => 'The value must be equal to ` `.',
             'message' => 'Empty string with space',
         ];
 
@@ -68,7 +77,16 @@ class EqualsValidatorTest extends TestCase
             'subject' => 0,
             'equals' => '0',
             'expected_result' => false,
+            'expected_message' => 'The value must be equal to `0`.',
             'message' => 'Strict type zero',
+        ];
+
+        yield [
+            'subject' => 'production',
+            'equals' => 'local',
+            'expected_result' => false,
+            'expected_message' => 'The value must be equal to `local`.',
+            'message' => 'Different strings',
         ];
     }
 }
