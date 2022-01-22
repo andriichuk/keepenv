@@ -32,6 +32,14 @@ class VerifyCommandTest extends TestCase
         $this->commandTester = new CommandTester($command);
     }
 
+    protected function tearDown(): void
+    {
+        $this->rootFolder->removeChild('.env');
+        $this->rootFolder->removeChild('env.spec.yaml');
+
+        $_ENV = [];
+    }
+
     public function testCommandSuccessfullyVerifyEnvironment(): void
     {
         $this->rootFolder->addChild(
@@ -40,6 +48,7 @@ class VerifyCommandTest extends TestCase
                     file_get_contents(dirname(__DIR__, 3) . '/fixtures/case_3/.env'),
                 ),
         );
+
         $this->rootFolder->addChild(
             (new vfsStreamFile('env.spec.yaml'))
                 ->setContent(

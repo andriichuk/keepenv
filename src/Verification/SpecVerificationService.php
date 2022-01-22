@@ -27,12 +27,12 @@ class SpecVerificationService
     }
 
     public function verify(
-        string $environmentName,
-        array $envPaths,
+        string $envName,
+        array  $envPaths,
         string $specPath,
-        bool $overrideExistingVariables
+        bool   $overrideExistingVariables
     ): VerificationReport {
-        $envVariables = $this->specificationReader->read($specPath)->get($environmentName);
+        $envVariables = $this->specificationReader->read($specPath)->get($envName);
         $variableValues = $this->envFileLoader->load($envPaths, $overrideExistingVariables);
 
         $verificationReport = new VerificationReport();

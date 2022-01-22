@@ -11,15 +11,17 @@ use RuntimeException;
  */
 class EnvLoaderFactory
 {
-    public function make(string $loader): EnvLoaderInterface
+    public function make(string $type): EnvLoaderInterface
     {
-        switch ($loader) {
+        switch ($type) {
             case 'system':
                 return new SystemEnvStateLoader();
 
             case 'auto':
-            default:
                 return $this->baseOnAvailability();
+
+            default:
+                throw new RuntimeException("DotEnv loader type `$type` not found.");
         }
     }
 

@@ -14,9 +14,9 @@ class VlucasPhpDotEnvStateLoader implements EnvLoaderInterface
     public function load(array $paths, bool $overrideExisting): array
     {
         if ($overrideExisting) {
-            $dotenv = Dotenv::createImmutable($paths);
-        } else {
             $dotenv = Dotenv::createMutable($paths);
+        } else {
+            $dotenv = Dotenv::createImmutable($paths);
         }
 
         $dotenv->load();

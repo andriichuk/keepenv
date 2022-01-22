@@ -62,7 +62,7 @@ class VerifyCommand extends Command
                 'override-system-vars',
                 'o',
                 InputOption::VALUE_REQUIRED,
-                'Flat for overriding system variables.',
+                'Flag for overriding system variables.',
                 false,
             )
             ->setDescription('Application environment verification.')
