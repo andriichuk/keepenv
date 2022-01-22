@@ -17,6 +17,9 @@ class PresetFactory
             case 'laravel':
                 return new LaravelPreset();
 
+            case 'symfony':
+                return new SymfonyPreset();
+
             default:
                 throw new OutOfRangeException("Undefined preset with alias `$alias`.");
         }

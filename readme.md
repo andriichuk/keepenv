@@ -24,6 +24,26 @@
   </a>
 </p>
 
+### Table Of Contents
+
+* [About](#about)
+* [Installation](#installation)
+* [Initialization](#initialization)
+* [Syntax](#syntax)
+* [Verification](#verification)
+
+### About
+
+KeepEnv is a tool for checking and managing environment variables based on a specification file.
+
+* Environment specification generation based on current `.env` files.
+* Split variables between environments.
+* Extend variables from particular environment eg. `local` from `common`.
+* Variable value validation.
+* Split system and regular variables from `.env` files.
+
+### Installation
+
 ### Initialization
 
 This command allows you to generate a new environment specification file based on your current `.env` structure.
@@ -35,7 +55,7 @@ Options:
   * for `vlucas/dotenv` package it should be a path to directory
   * for `symfony/dotenv` package it should be a path to files
 * `spec` path to the environment specification file that will be generated (default: `.env.spec.yaml`)
-* `preset` preset alias (default: `null`). Available values: `laravel` 
+* `preset` preset alias (default: `null`). Available values: `laravel`, `symfony`.
 
 Basic usage:
 
@@ -43,22 +63,147 @@ Basic usage:
 ./keepenv init
 ```
 
-For Laravel Framework:
+Using preset:
 
 ```shell
 ./keepenv init --preset=laravel
 ```
 
-For custom env files (`vlucas/dotenv`):
+For custom `.env` files (`vlucas/dotenv`):
 
 ```shell
 ./keepenv init --env-file=./ --env-file=./config/
 ```
 
-For custom env files (`symfony/dotenv`):
+For custom `.env` files (`symfony/dotenv`):
 
 ```shell
 ./keepenv init --env-file=./.env --env-file=./.env.local
+```
+
+### Syntax
+
+Environments:
+
+```yaml
+version: '1.0'
+environments:
+    common:
+        variables:
+        # ...
+    local:
+        extends: common
+        variables:
+        # ...
+    testing:
+      variables:
+      # ...
+```
+
+Variable
+
+* `description` (string) variable description
+```yaml
+SESSION_LIFETIME:
+    description: 'Session lifetime in minutes.'
+```
+* `export` (boolean)
+```yaml
+SESSION_LIFETIME: # TODO
+    description: 'Session lifetime in minutes.'
+```
+* `system` (boolean)
+```yaml
+APP_TIMEZONE:
+    system: true
+```
+* `default` (mixed)
+```yaml
+REDIS_PORT:
+    default: 6379
+```
+* `rules` (array) validation rules, available rules
+  * `required` (boolean)
+  ```yaml
+  APP_ENV:
+      rules:
+          required: true
+  ```
+  * `string` (boolean)
+  ```yaml
+  APP_ENV:
+      rules:
+          string: true
+  ```
+  * `numeric: true`
+  ```yaml
+  APP_ENV:
+      rules:
+          string: true
+  ```
+  * `email` (boolean)
+  ```yaml
+  MAIL_FROM_ADDRESS:
+      rules:
+          email: true
+  ```
+  * `enum` (array)
+  ```yaml
+  APP_ENV:
+      rules:
+          enum:
+              - local
+              - production
+  ```
+  * `equals` (mixed)
+  ```yaml
+  APP_ENV:
+      rules:
+          equals: local
+  ```
+  * `ip` (string)
+  ```yaml
+  DB_HOST:
+      rules:
+          ip: true
+  ```
+Full example:
+
+```yaml
+version: '1.0'
+environments:
+    common:
+        variables:
+            APP_NAME:
+                description: 'Application name.'
+            APP_ENV:
+                description: 'Application environment.'
+                default: local
+                rules:
+                    required: true
+                    enum:
+                        - local
+                        - production
+            DB_HOST:
+                description: 'Database host.'
+                default: 127.0.0.1
+                rules:
+                    required: true
+                    ip: true
+            DB_PORT:
+                description: 'Database port.'
+                default: '3306'
+                rules:
+                    required: true
+                    numeric: true
+
+    local:
+        extends: common
+        variables:
+            APP_ENV:
+                rules:
+                    equals: 'local'
+
 ```
 
 ### Verification
@@ -74,3 +219,19 @@ To customize:
 ```shell
 ./keepenv verify local --env-file=./.env --spec=./env.spec.yaml
 ```
+
+### Contributing
+
+Contributions, issues and feature requests are welcome.<br />
+Feel free to check [issues page](https://github.com/andriichuk/keepenv/issues) if you want to contribute.
+[Check the contributing guide](https://github.com/andriichuk/keepenv/blob/main/CONTRIBUTING.md).
+
+### Credits
+
+- [Serhii Andriichuk](https://github.com/andriichuk)
+- [All Contributors](https://github.com/andriichuk/keepenv/graphs/contributors)
+
+### License
+
+Copyright © 2022 [Serhii Andriichuk](https://github.com/andriichuk).<br />
+This project is [MIT](https://github.com/andriichuk/keepenv/blob/main/LICENSE) licensed.
