@@ -1,5 +1,5 @@
 <h1 align="center">🗒 KeepEnv</h1>
-<h2 align="center">Environment Variables Specification</h2>
+<h2 align="center">Track Your Environment Variable Changes Using Specification<h2>
 <p align="center">
   <img width="700" align="center" src="https://github.com/andriichuk/keepenv/blob/main/art/logo.jpeg" alt="Logo"/>
 </p>
