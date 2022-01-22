@@ -35,10 +35,17 @@ class InitCommand extends Command
             )
             ->addOption(
                 'env-file',
-                'ef',
+                'f',
                 InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
                 'Paths to the dotenv files, based on which the specification will be generated.',
                 ['./'],
+            )
+            ->addOption(
+                'env-reader',
+                'r',
+                InputOption::VALUE_REQUIRED,
+                'Reader name.',
+                'auto',
             )
             ->addOption(
                 'spec',
@@ -74,7 +81,7 @@ class InitCommand extends Command
 
         try {
             $generator = new SpecGenerator(
-                $envReaderFactory->baseOnAvailability(),
+                $envReaderFactory->make($input->getOption('env-reader')),
                 $writerFactory->basedOnResource($input->getOption('spec')),
                 new PresetFactory(),
             );

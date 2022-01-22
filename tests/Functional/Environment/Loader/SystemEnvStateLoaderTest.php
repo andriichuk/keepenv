@@ -2,11 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\KeepEnv\Functional\Environment;
+namespace Andriichuk\KeepEnv\Functional\Environment\Loader;
 
 use Andriichuk\KeepEnv\Environment\Loader\SystemEnvStateLoader;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @author Serhii Andriichuk <andriichuk29@gmail.com>
+ */
 class SystemEnvStateLoaderTest extends TestCase
 {
     protected function setUp(): void

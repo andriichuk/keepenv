@@ -10,6 +10,9 @@ use Andriichuk\KeepEnv\Environment\Loader\VlucasPhpDotEnvStateLoader;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 
+/**
+ * @author Serhii Andriichuk <andriichuk29@gmail.com>
+ */
 class EnvLoaderFactoryTest extends TestCase
 {
     private EnvLoaderFactory $factory;

@@ -8,7 +8,24 @@ use RuntimeException;
 
 class EnvReaderFactory
 {
-    public function baseOnAvailability(): EnvReaderInterface
+    public function make(string $type): EnvReaderInterface
+    {
+        switch ($type) {
+            case 'auto':
+                return $this->baseOnAvailability();
+
+            case 'vlucas/phpdotenv':
+                return new VlucasPhpDotEnvFileReader();
+
+            case 'symfony/dotenv':
+                return new SymfonyDotEnvFileReader();
+
+            default:
+                throw new RuntimeException('DotEnv library not found.');
+        }
+    }
+
+    private function baseOnAvailability(): EnvReaderInterface
     {
         switch (true) {
             case class_exists(\Dotenv\Dotenv::class):

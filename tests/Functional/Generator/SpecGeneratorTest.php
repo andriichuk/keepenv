@@ -39,7 +39,7 @@ class SpecGeneratorTest extends TestCase
         $writerFactory = new SpecWriterFactory();
 
         $this->specGenerator = new SpecGenerator(
-            $envReaderFactory->baseOnAvailability(),
+            $envReaderFactory->make('auto'),
             $writerFactory->basedOnResource($this->rootFolder->getChild('env.spec.yaml')->url()),
             new PresetFactory(),
         );

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\KeepEnv\Functional\Environment;
+namespace Andriichuk\KeepEnv\Functional\Environment\Loader;
 
 use Andriichuk\KeepEnv\Environment\Loader\SymfonyDotEnvStateLoader;
 use org\bovigo\vfs\vfsStream;
@@ -10,6 +10,9 @@ use org\bovigo\vfs\vfsStreamDirectory;
 use org\bovigo\vfs\vfsStreamFile;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @author Serhii Andriichuk <andriichuk29@gmail.com>
+ */
 class SymfonyDotEnvStateLoaderTest extends TestCase
 {
     private vfsStreamDirectory $rootFolder;
@@ -22,7 +25,7 @@ class SymfonyDotEnvStateLoaderTest extends TestCase
             (new vfsStreamFile('.env'))
                 ->setContent(
                     file_get_contents(
-                        dirname(__DIR__, 2) . '/fixtures/common/.env',
+                        dirname(__DIR__, 3) . '/fixtures/common/.env',
                     ),
                 ),
         );
