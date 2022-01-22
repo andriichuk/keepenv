@@ -8,6 +8,9 @@ use Andriichuk\KeepEnv\Specification\EnvVariables;
 use Andriichuk\KeepEnv\Specification\Variable;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @author Serhii Andriichuk <andriichuk29@gmail.com>
+ */
 class EnvVariablesTest extends TestCase
 {
     public function testEmpty(): void

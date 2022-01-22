@@ -7,6 +7,7 @@ namespace Andriichuk\KeepEnv\Specification\Reader;
 use Andriichuk\KeepEnv\Specification\Specification;
 use Andriichuk\KeepEnv\Specification\SpecificationBuilderInterface;
 use InvalidArgumentException;
+use RuntimeException;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -27,6 +28,12 @@ class SpecificationYamlReader implements SpecificationReaderInterface
             throw new InvalidArgumentException('Source file must exists.');
         }
 
-        return $this->builder->build(Yaml::parseFile($source));
+        $spec = Yaml::parseFile($source);
+
+        if (!is_array($spec)) {
+            throw new RuntimeException('Unable to parse Yaml specification.');
+        }
+
+        return $this->builder->build($spec);
     }
 }

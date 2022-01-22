@@ -11,6 +11,9 @@ use Generator;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 
+/**
+ * @author Serhii Andriichuk <andriichuk29@gmail.com>
+ */
 class EnvReaderFactoryTest extends TestCase
 {
     private EnvReaderFactory $factory;

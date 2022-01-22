@@ -13,6 +13,12 @@ class VlucasPhpDotEnvStateLoader implements EnvLoaderInterface
 {
     public function load(array $paths, bool $overrideExisting): array
     {
+        $paths = array_map(
+            /** @param mixed $path */
+            static fn ($path): string => (string) $path,
+            $paths,
+        );
+
         if ($overrideExisting) {
             $dotenv = Dotenv::createMutable($paths);
         } else {

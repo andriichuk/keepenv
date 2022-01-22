@@ -9,6 +9,9 @@ use Andriichuk\KeepEnv\Specification\SpecificationArrayBuilder;
 use Generator;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @author Serhii Andriichuk <andriichuk29@gmail.com>
+ */
 class SpecificationArrayBuilderTest extends TestCase
 {
     /**

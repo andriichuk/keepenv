@@ -91,6 +91,10 @@ class Specification implements ArraySerializable
     {
         $difference = [];
 
+        /**
+         * @var string $key
+         * @var mixed $value
+         */
         foreach ($array1 as $key => $value) {
             if (is_array($value)) {
                 if (!isset($array2[$key]) || !is_array($array2[$key])) {

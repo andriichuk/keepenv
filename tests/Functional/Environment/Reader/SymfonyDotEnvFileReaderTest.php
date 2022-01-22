@@ -43,7 +43,7 @@ class SymfonyDotEnvFileReaderTest extends TestCase
 
     public function testReaderCanProvideVariablesFromFile(): void
     {
-        $variables = $this->reader->read([$this->rootFolder->getChild('.env')->url()]);
+        $variables = $this->reader->read($this->rootFolder->getChild('.env')->url());
 
         $this->assertEquals(
             [

@@ -68,32 +68,32 @@ class InitCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
+        $envName = (string) $input->getOption('env');
+        $envFiles = (array) $input->getOption('env-file');
+        $specFile = (string) $input->getOption('spec');
+        $preset = is_string($input->getOption('preset')) ? $input->getOption('preset') : null;
+
         $header = new CommandHeader($io);
-        $header->display(
-            'Starting to generate a new specification based on environment files...',
-            $input->getOption('env'),
-            $input->getOption('env-file'),
-            $input->getOption('spec'),
-        );
+        $header->display('Starting to generate a new specification based on environment files...', $envName, $envFiles, $specFile);
 
         $envReaderFactory = new EnvReaderFactory();
         $writerFactory = new SpecWriterFactory();
 
         try {
             $generator = new SpecGenerator(
-                $envReaderFactory->make($input->getOption('env-reader')),
-                $writerFactory->basedOnResource($input->getOption('spec')),
+                $envReaderFactory->make((string) $input->getOption('env-reader')),
+                $writerFactory->basedOnResource($specFile),
                 new PresetFactory(),
             );
 
             $generator->generate(
-                $input->getOption('env'),
-                $input->getOption('env-file'),
-                $input->getOption('spec'),
+                $envName,
+                $envFiles,
+                $specFile,
                 static function () use ($io): bool {
                     return $io->confirm('Specification file already exists. Do you want to override it?', false);
                 },
-                $input->getOption('preset'),
+                $preset,
             );
 
             $io->success("Environment specification was successfully created.");

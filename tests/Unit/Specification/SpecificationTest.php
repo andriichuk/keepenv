@@ -9,6 +9,9 @@ use Andriichuk\KeepEnv\Specification\Specification;
 use Andriichuk\KeepEnv\Specification\Variable;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @author Serhii Andriichuk <andriichuk29@gmail.com>
+ */
 class SpecificationTest extends TestCase
 {
     public function testEmpty(): void

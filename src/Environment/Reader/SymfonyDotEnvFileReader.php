@@ -18,7 +18,7 @@ class SymfonyDotEnvFileReader implements EnvReaderInterface
         $this->dotenv = new Dotenv();
     }
 
-    public function read(array $paths): array
+    public function read(string ...$paths): array
     {
         $variables = [];
 
@@ -29,7 +29,7 @@ class SymfonyDotEnvFileReader implements EnvReaderInterface
 
             $variables = array_merge(
                 $variables,
-                $this->dotenv->parse(file_get_contents($path), $path),
+                $this->dotenv->parse((string) file_get_contents($path), $path),
             );
         }
 

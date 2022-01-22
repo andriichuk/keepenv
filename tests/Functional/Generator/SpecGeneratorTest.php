@@ -14,6 +14,9 @@ use org\bovigo\vfs\vfsStreamFile;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 
+/**
+ * @author Serhii Andriichuk <andriichuk29@gmail.com>
+ */
 class SpecGeneratorTest extends TestCase
 {
     private vfsStreamDirectory $rootFolder;

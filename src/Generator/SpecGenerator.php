@@ -46,7 +46,7 @@ class SpecGenerator
             }
         }
 
-        $variables = $this->envReader->read($envPaths);
+        $variables = $this->envReader->read(...$envPaths);
 
         $spec = Specification::default();
         $envSpec = new EnvVariables($envName);
@@ -57,6 +57,10 @@ class SpecGenerator
             $preset = $this->presetFactory->make($presetAlias)->provide();
         }
 
+        /**
+         * @var string $key
+         * @var mixed $value
+         */
         foreach ($variables as $key => $value) {
             if (isset($preset[$key])) {
                 $envSpec->add($preset[$key]);
@@ -74,14 +78,7 @@ class SpecGenerator
             $rules = array_merge($rules, $this->guessType($key, $value ?? ''));
 
             $envSpec->add(
-                new Variable(
-                    $key,
-                    $this->toSentence($key),
-                    false,
-                    false,
-                    $rules,
-                    null,
-                )
+                new Variable($key, $this->toSentence($key), false, false, $rules, null)
             );
         }
 
@@ -111,7 +108,10 @@ class SpecGenerator
         return ucfirst(str_replace(array_keys($replace), array_values($replace), $sentence)) . '.';
     }
 
-    private function guessType(string $key, string $value): array
+    /**
+     * @param mixed $value
+     */
+    private function guessType(string $key, $value): array
     {
         if ($key === 'APP_ENV') {
             $environments = ['dev', 'develop', 'local', 'test', 'testing', 'stage', 'staging', 'prod', 'production'];
@@ -137,9 +137,13 @@ class SpecGenerator
         return [];
     }
 
-    private function guessBooleanType(string $value): ?array
+    /**
+     * @param mixed $value
+     */
+    private function guessBooleanType($value): ?array
     {
-        $value = strtolower($value);
+        /** @var mixed $value */
+        $value = is_string($value) ? strtolower($value) : $value;
 
         if (in_array($value, ['true', 'false'], true)) {
             return ['enum' => ['true', 'false']];

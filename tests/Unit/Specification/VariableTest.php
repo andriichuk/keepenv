@@ -7,6 +7,9 @@ namespace Andriichuk\KeepEnv\Unit\Specification;
 use Andriichuk\KeepEnv\Specification\Variable;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @author Serhii Andriichuk <andriichuk29@gmail.com>
+ */
 class VariableTest extends TestCase
 {
     public function testVariableWithoutRules(): void

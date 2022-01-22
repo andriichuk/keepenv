@@ -32,8 +32,11 @@ class VariableVerification
             return $report;
         }
 
+        /**
+         * @var string $ruleName
+         * @var mixed $options
+         */
         foreach ($variable->rules as $ruleName => $options) {
-            $ruleName = is_string($ruleName) ? $ruleName : $options;
             $validator = $this->validatorRegistry->get($ruleName);
 
             $isValid = $validator->validate($value, is_array($options) ? $options : [$options]);

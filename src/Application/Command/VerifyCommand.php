@@ -73,29 +73,28 @@ class VerifyCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
+        $envName = (string) $input->getArgument('env');
+        $envFiles = (array) $input->getOption('env-file');
+        $specFile = (string) $input->getOption('spec');
+
         $header = new CommandHeader($io);
-        $header->display(
-            'Starting to verify environment variables...',
-            $input->getArgument('env'),
-            $input->getOption('env-file'),
-            $input->getOption('spec'),
-        );
+        $header->display('Starting to verify environment variables...', $envName, $envFiles, $specFile);
 
         $specReaderFactory = new SpecificationReaderFactory();
         $envLoaderFactory = new EnvLoaderFactory();
 
         $service = new SpecVerificationService(
-            $specReaderFactory->basedOnSource($input->getOption('spec')),
-            $envLoaderFactory->make($input->getOption('env-provider')),
+            $specReaderFactory->basedOnSource($specFile),
+            $envLoaderFactory->make((string) $input->getOption('env-provider')),
             new VariableVerification(ValidatorRegistry::default()),
         );
 
         try {
             $verificationReport = $service->verify(
-                $input->getArgument('env'),
-                $input->getOption('env-file'),
-                $input->getOption('spec'),
-                $input->getOption('override-system-vars'),
+                $envName,
+                $envFiles,
+                $specFile,
+                (bool) $input->getOption('override-system-vars'),
             );
         } catch (Throwable $exception) {
             $io->error($exception->getMessage());

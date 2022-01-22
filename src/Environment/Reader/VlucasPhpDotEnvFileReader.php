@@ -11,7 +11,7 @@ use Dotenv\Dotenv;
  */
 class VlucasPhpDotEnvFileReader implements EnvReaderInterface
 {
-    public function read(array $paths): array
+    public function read(string ...$paths): array
     {
         $dotenv = Dotenv::createArrayBacked($paths);
 

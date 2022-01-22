@@ -13,9 +13,9 @@ class SpecificationArrayBuilder implements SpecificationBuilderInterface
 {
     public function build(array $rawDefinition): Specification
     {
-        $version = $rawDefinition['version'] ?? null;
+        $version = (string) ($rawDefinition['version'] ?? '');
 
-        if ($version === null) {
+        if (empty($version)) {
             throw InvalidStructureException::missingVersion();
         }
 
@@ -29,16 +29,24 @@ class SpecificationArrayBuilder implements SpecificationBuilderInterface
 
         $specification = new Specification($version);
 
+        /**
+         * @var string $environment
+         * @var array $envDefinition
+         */
         foreach ($rawDefinition['environments'] as $environment => $envDefinition) {
             $variables = $envDefinition['variables'] ?? null;
 
-            if (empty($variables)) {
+            if (empty($variables) || !is_array($variables)) {
                 throw InvalidStructureException::missingVariables($environment);
             }
 
             $extends = $envDefinition['extends'] ?? null;
 
             if ($extends !== null) {
+                if (!is_string($extends)) {
+                    throw InvalidStructureException::extendsEnvNameIsNotString();
+                }
+
                 if (!isset($rawDefinition['environments'][$extends])) {
                     throw InvalidStructureException::extendsEnvironmentNotFound($extends);
                 }
@@ -51,28 +59,56 @@ class SpecificationArrayBuilder implements SpecificationBuilderInterface
                     throw InvalidStructureException::nestedExtends();
                 }
 
-                $variables = array_replace_recursive(
-                    $rawDefinition['environments'][$extends]['variables'] ?? [],
-                    $envDefinition['variables'],
-                );
+                if (!is_array($envDefinition['variables'])) {
+                    throw InvalidStructureException::missingVariables($environment);
+                }
+
+                $variablesFromParentEnv = $rawDefinition['environments'][$extends]['variables'] ?? [];
+
+                if (!is_array($variablesFromParentEnv)) {
+                    throw InvalidStructureException::missingVariables($extends);
+                }
+
+                $variables = array_replace_recursive($variablesFromParentEnv, $envDefinition['variables']);
             }
 
             $envVariables = new EnvVariables($environment, $extends);
 
+            /**
+             * @var string $name
+             * @var mixed $definition
+             */
             foreach ($variables as $name => $definition) {
                 if (empty($definition) || !is_array($definition)) {
                     throw InvalidStructureException::emptyOrInvalidVariableDefinition();
                 }
 
+                $description = $definition['description'] ?? '';
+
+                if (!is_string($description)) {
+                    throw InvalidStructureException::invalidVariableDefinition('Variable `description` must be a string.');
+                }
+
+                $export = $definition['export'] ?? false;
+
+                if (!is_bool($export)) {
+                    throw InvalidStructureException::invalidVariableDefinition('Variable `export` must be a boolean.');
+                }
+
+                $system = $definition['system'] ?? false;
+
+                if (!is_bool($system)) {
+                    throw InvalidStructureException::invalidVariableDefinition('Variable `system` must be a boolean.');
+                }
+
+                $rules = $definition['rules'] ?? [];
+
+                if (!is_array($rules)) {
+                    throw InvalidStructureException::invalidVariableDefinition('Variable `system` must be an array.');
+                }
+
                 $envVariables->add(
-                    new Variable(
-                        $name,
-                        $definition['description'] ?? '',
-                        $definition['export'] ?? false,
-                        $definition['system'] ?? false,
-                        $definition['rules'] ?? [],
-                        $definition['default'] ?? null,
-                    ),
+                    new Variable($name, $description, $export, $system, $rules, $definition['default'] ?? null)
                 );
             }
 

@@ -43,7 +43,7 @@ class VlucasPhpDotEnvFileReaderTest extends TestCase
 
     public function testReaderCanProvideVariablesFromFile(): void
     {
-        $variables = $this->reader->read([dirname($this->rootFolder->getChild('.env')->url())]);
+        $variables = $this->reader->read(dirname($this->rootFolder->getChild('.env')->url()));
 
         $this->assertEquals(
             [

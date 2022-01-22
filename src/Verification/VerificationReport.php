@@ -30,6 +30,9 @@ class VerificationReport
         return count($this->reports);
     }
 
+    /**
+     * @return VariableReport[]
+     */
     public function all(): array
     {
         return $this->reports;

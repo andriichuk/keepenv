@@ -18,9 +18,15 @@ class EnumValidator implements ValidatorInterface
 
     public function message(array $placeholders): string
     {
+        $cases = array_map(
+            /** @param mixed $case */
+            static fn ($case) => (string) $case,
+            (array) ($placeholders['cases'] ?? [])
+        );
+
         return sprintf(
             'The value must match one of the values: %s.',
-            implode(', ', $placeholders['cases'] ?? []),
+            implode(', ', $cases),
         );
     }
 
