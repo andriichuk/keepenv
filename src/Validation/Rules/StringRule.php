@@ -84,7 +84,7 @@ class StringRule implements RuleInterface
             return $length >= $min;
         }
 
-        if ($max !== null && $min === null) {
+        if ($min === null) {
             return $length <= $max;
         }
 
