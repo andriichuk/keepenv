@@ -41,5 +41,11 @@
         "friendsofphp/php-cs-fixer": "^3.5"
     },
     "minimum-stability": "dev",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "config": {
+        "sort-packages": true
+    },
+    "bin": [
+        "bin/keepenv"
+    ]
 }
