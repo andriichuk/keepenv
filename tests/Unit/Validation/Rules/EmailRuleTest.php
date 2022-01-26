@@ -2,24 +2,24 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\KeepEnv\Unit\Validation;
+namespace Andriichuk\KeepEnv\Unit\Validation\Rules;
 
-use Andriichuk\KeepEnv\Validation\EmailValidator;
+use Andriichuk\KeepEnv\Validation\Rules\EmailRule;
 use Generator;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @author Serhii Andriichuk <andriichuk29@gmail.com>
  */
-class EmailValidatorTest extends TestCase
+class EmailRuleTest extends TestCase
 {
     /**
      * @dataProvider validationCasesProvider
      */
     public function testValidationCases(string $subject, bool $expectedResult, string $message): void
     {
-        $validator = new EmailValidator();
-        $result = $validator->validate($subject, []);
+        $validator = new EmailRule();
+        $result = $validator->validate($subject, true);
 
         $this->assertEquals($expectedResult, $result, $message);
 

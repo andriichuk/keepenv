@@ -2,18 +2,24 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\KeepEnv\Validation;
+namespace Andriichuk\KeepEnv\Validation\Rules;
 
-use InvalidArgumentException;
+use Andriichuk\KeepEnv\Validation\Exceptions\RuleOptionsException;
+use Andriichuk\KeepEnv\Validation\RuleInterface;
 
 /**
  * @author Serhii Andriichuk <andriichuk29@gmail.com>
  */
-class EnumValidator implements ValidatorInterface
+class EnumRule implements RuleInterface
 {
     public function alias(): string
     {
         return 'enum';
+    }
+
+    public function acceptsFalseOption(): bool
+    {
+        return false;
     }
 
     public function message(array $placeholders): string
@@ -33,10 +39,10 @@ class EnumValidator implements ValidatorInterface
     /**
      * @inheritDoc
      */
-    public function validate($value, array $options): bool
+    public function validate($value, $options): bool
     {
         if (empty($options)) {
-            throw new InvalidArgumentException('Cases for the `enum` validator cannot be empty. It should be an array of values.');
+            throw RuleOptionsException::invalidCasesForEnum();
         }
 
         return in_array($value, $options);

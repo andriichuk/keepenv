@@ -2,16 +2,23 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\KeepEnv\Validation;
+namespace Andriichuk\KeepEnv\Validation\Rules;
+
+use Andriichuk\KeepEnv\Validation\RuleInterface;
 
 /**
  * @author Serhii Andriichuk <andriichuk29@gmail.com>
  */
-class EmailValidator implements ValidatorInterface
+class EmailRule implements RuleInterface
 {
     public function alias(): string
     {
         return 'email';
+    }
+
+    public function acceptsFalseOption(): bool
+    {
+        return false;
     }
 
     public function message(array $placeholders): string
@@ -22,7 +29,7 @@ class EmailValidator implements ValidatorInterface
     /**
      * @inheritDoc
      */
-    public function validate($value, array $options): bool
+    public function validate($value, $options): bool
     {
         return filter_var($value, FILTER_VALIDATE_EMAIL) !== false;
     }

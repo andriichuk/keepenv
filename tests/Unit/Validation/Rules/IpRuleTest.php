@@ -2,24 +2,24 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\KeepEnv\Unit\Validation;
+namespace Andriichuk\KeepEnv\Unit\Validation\Rules;
 
-use Andriichuk\KeepEnv\Validation\IpValidator;
+use Andriichuk\KeepEnv\Validation\Rules\IpRule;
 use Generator;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @author Serhii Andriichuk <andriichuk29@gmail.com>
  */
-class IpValidatorTest extends TestCase
+class IpRuleTest extends TestCase
 {
     /**
      * @dataProvider validationCasesProvider
      */
     public function testValidationCases(string $subject, bool $expectedResult, string $message): void
     {
-        $validator = new IpValidator();
-        $result = $validator->validate($subject, []);
+        $validator = new IpRule();
+        $result = $validator->validate($subject, true);
 
         $this->assertEquals($expectedResult, $result, $message);
 

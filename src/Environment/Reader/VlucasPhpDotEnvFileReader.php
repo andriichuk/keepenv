@@ -13,7 +13,7 @@ class VlucasPhpDotEnvFileReader implements EnvReaderInterface
 {
     public function read(string ...$paths): array
     {
-        $dotenv = Dotenv::createArrayBacked($paths);
+        $dotenv = Dotenv::createArrayBacked($paths, null, false);
 
         return $dotenv->load();
     }

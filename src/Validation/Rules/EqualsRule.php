@@ -2,16 +2,23 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\KeepEnv\Validation;
+namespace Andriichuk\KeepEnv\Validation\Rules;
+
+use Andriichuk\KeepEnv\Validation\RuleInterface;
 
 /**
  * @author Serhii Andriichuk <andriichuk29@gmail.com>
  */
-class EqualsValidator implements ValidatorInterface
+class EqualsRule implements RuleInterface
 {
     public function alias(): string
     {
         return 'equals';
+    }
+
+    public function acceptsFalseOption(): bool
+    {
+        return true;
     }
 
     public function message(array $placeholders): string
@@ -22,8 +29,8 @@ class EqualsValidator implements ValidatorInterface
     /**
      * @inheritDoc
      */
-    public function validate($value, array $options): bool
+    public function validate($value, $options): bool
     {
-        return $value === reset($options);
+        return $value === $options;
     }
 }

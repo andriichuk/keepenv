@@ -4,21 +4,21 @@ declare(strict_types=1);
 
 namespace Andriichuk\KeepEnv\Unit\Validation;
 
-use Andriichuk\KeepEnv\Validation\ValidatorInterface;
-use Andriichuk\KeepEnv\Validation\ValidatorRegistry;
+use Andriichuk\KeepEnv\Validation\RuleInterface;
+use Andriichuk\KeepEnv\Validation\RulesRegistry;
 use OutOfRangeException;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @author Serhii Andriichuk <andriichuk29@gmail.com>
  */
-class ValidatorRegistryTest extends TestCase
+class RulesRegistryTest extends TestCase
 {
     public function testRegistryCanStoreNewValidator(): void
     {
-        $registry = new ValidatorRegistry();
+        $registry = new RulesRegistry();
 
-        $validator = $this->createConfiguredMock(ValidatorInterface::class, [
+        $validator = $this->createConfiguredMock(RuleInterface::class, [
             'alias' => 'email_test',
         ]);
         $registry->add($validator);
@@ -29,9 +29,9 @@ class ValidatorRegistryTest extends TestCase
     public function testRegistryThrowsExceptionOnRetrieveMissingValidator(): void
     {
         $this->expectException(OutOfRangeException::class);
-        $registry = new ValidatorRegistry();
+        $registry = new RulesRegistry();
 
-        $validator = $this->createConfiguredMock(ValidatorInterface::class, [
+        $validator = $this->createConfiguredMock(RuleInterface::class, [
             'alias' => 'email_test',
         ]);
         $registry->add($validator);

@@ -2,16 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\KeepEnv\Unit\Validation;
+namespace Andriichuk\KeepEnv\Unit\Validation\Rules;
 
-use Andriichuk\KeepEnv\Validation\NumericValidator;
 use Generator;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @author Serhii Andriichuk <andriichuk29@gmail.com>
  */
-class NumericValidatorTest extends TestCase
+class NumericRuleTest extends TestCase
 {
     /**
      * @dataProvider validationCasesProvider
@@ -20,8 +19,8 @@ class NumericValidatorTest extends TestCase
      */
     public function testValidationCases($subject, bool $expectedResult, string $message): void
     {
-        $validator = new NumericValidator();
-        $result = $validator->validate($subject, []);
+        $validator = new \Andriichuk\KeepEnv\Validation\Rules\NumericRule();
+        $result = $validator->validate($subject, true);
 
         $this->assertEquals($expectedResult, $result, $message);
 

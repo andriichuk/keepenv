@@ -5,18 +5,18 @@ declare(strict_types=1);
 namespace Andriichuk\KeepEnv\Verification;
 
 use Andriichuk\KeepEnv\Specification\Variable;
-use Andriichuk\KeepEnv\Validation\ValidatorRegistryInterface;
+use Andriichuk\KeepEnv\Validation\RulesRegistryInterface;
 
 /**
  * @author Serhii Andriichuk <andriichuk29@gmail.com>
  */
 class VariableVerification
 {
-    private ValidatorRegistryInterface $validatorRegistry;
+    private RulesRegistryInterface $rulesRegistry;
 
-    public function __construct(ValidatorRegistryInterface $validatorRegistry)
+    public function __construct(RulesRegistryInterface $rulesRegistry)
     {
-        $this->validatorRegistry = $validatorRegistry;
+        $this->rulesRegistry = $rulesRegistry;
     }
 
     /**
@@ -37,18 +37,24 @@ class VariableVerification
          * @var mixed $options
          */
         foreach ($variable->rules as $ruleName => $options) {
-            $validator = $this->validatorRegistry->get($ruleName);
+            $validator = $this->rulesRegistry->get($ruleName);
 
-            $isValid = $validator->validate($value, is_array($options) ? $options : [$options]);
+            if (!$validator->acceptsFalseOption() && is_bool($options) && !$options) {
+                continue;
+            }
+
+            $isValid = $validator->validate($value, $options);
 
             if (!$isValid) {
                 $report[] = new VariableReport(
                     $variable->name,
                     $validator->message([
-                        'name' => $variable->name,
                         'value' => $value,
-                        'cases' => $options,
+                        'name' => $variable->name,
                         'equals' => $variable->rules['equals'] ?? '',
+                        'cases' => $options,
+                        'min' => $options['min'] ?? null,
+                        'max' => $options['max'] ?? null,
                     ]),
                 );
             }

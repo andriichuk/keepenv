@@ -1,10 +1,8 @@
 {
     "name": "andriichuk/keepenv",
-    "description": "PHP dot env file manager based on specification.",
+    "description": "KeepEnv is a tool for checking and managing environment variables based on a specification file.",
     "keywords": [
-        "env",
-        "env-spec",
-        "env-manager"
+        "env", "env-spec",  "env-manager", "env-validation"
     ],
     "license": "MIT",
     "autoload": {

@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\KeepEnv\Unit\Validation;
+namespace Andriichuk\KeepEnv\Unit\Validation\Rules;
 
-use Andriichuk\KeepEnv\Validation\EqualsValidator;
+use Andriichuk\KeepEnv\Validation\Rules\EqualsRule;
 use Generator;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @author Serhii Andriichuk <andriichuk29@gmail.com>
  */
-class EqualsValidatorTest extends TestCase
+class EqualsRuleTest extends TestCase
 {
     /**
      * @dataProvider validationCasesProvider
@@ -21,8 +21,8 @@ class EqualsValidatorTest extends TestCase
      */
     public function testValidationCases($subject, $equals, bool $expectedResult, string $expectedMessage, string $message): void
     {
-        $validator = new EqualsValidator();
-        $result = $validator->validate($subject, [$equals]);
+        $validator = new EqualsRule();
+        $result = $validator->validate($subject, $equals);
 
         $this->assertEquals($expectedResult, $result, $message);
 

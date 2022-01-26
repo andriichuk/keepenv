@@ -29,8 +29,8 @@
 * [About](#about)
 * [Installation](#installation)
 * [Initialization](#initialization)
-* [Syntax](#syntax)
 * [Verification](#verification)
+* [Syntax](#syntax)
 
 ### About
 
@@ -55,6 +55,7 @@ Options:
   * for `vlucas/dotenv` package it should be a path to directory
   * for `symfony/dotenv` package it should be a path to files
 * `spec` path to the environment specification file that will be generated (default: `.env.spec.yaml`)
+* `env-reader` reader name (default: `auto`). Available values: `auto`, `vlucas/phpdotenv`, `symfony/dotenv`.
 * `preset` preset alias (default: `null`). Available values: `laravel`, `symfony`.
 
 Basic usage:
@@ -79,6 +80,22 @@ For custom `.env` files (`symfony/dotenv`):
 
 ```shell
 ./keepenv init --env-file=./.env --env-file=./.env.local
+```
+
+
+
+### Verification
+
+Command:
+
+```shell
+./keepenv verify local
+```
+
+To customize:
+
+```shell
+./keepenv verify local --env-file=./.env --spec=./env.spec.yaml
 ```
 
 ### Syntax
@@ -204,20 +221,21 @@ environments:
                 rules:
                     equals: 'local'
 
-```
-
-### Verification
-
-Command:
-
-```shell
-./keepenv verify local
-```
-
-To customize:
-
-```shell
-./keepenv verify local --env-file=./.env --spec=./env.spec.yaml
+    testing:
+        variables:
+            DB_DATABASE:
+                description: 'Database name.'
+                default: testing
+                rules:
+                    required: true
+            DB_USERNAME:
+                description: 'Database username.'
+                rules:
+                    required: true
+            DB_PASSWORD:
+                description: 'Database password.'
+                rules:
+                    required: true
 ```
 
 ### Contributing

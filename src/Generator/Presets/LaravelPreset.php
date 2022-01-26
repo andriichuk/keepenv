@@ -67,6 +67,16 @@ class LaravelPreset implements PresetInterface
                 ],
                 'debug',
             ),
+            'DB_DATABASE' => new Variable(
+                'DB_DATABASE',
+                'Database name.',
+                false,
+                false,
+                [
+                    'required' => true,
+                ],
+                '127.0.0.1',
+            ),
             'DB_HOST' => new Variable(
                 'DB_HOST',
                 'Database host.',

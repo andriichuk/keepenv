@@ -2,17 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\KeepEnv\Unit\Validation;
+namespace Andriichuk\KeepEnv\Unit\Validation\Rules;
 
-use Andriichuk\KeepEnv\Validation\EnumValidator;
+use Andriichuk\KeepEnv\Validation\Rules\EnumRule;
 use Generator;
-use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @author Serhii Andriichuk <andriichuk29@gmail.com>
  */
-class EnumValidatorTest extends TestCase
+class EnumRuleTest extends TestCase
 {
     /**
      * @dataProvider validationCasesProvider
@@ -21,7 +20,7 @@ class EnumValidatorTest extends TestCase
      */
     public function testValidationCases($subject, array $cases, bool $expectedResult, string $expectedMessage, string $message): void
     {
-        $validator = new EnumValidator();
+        $validator = new EnumRule();
         $result = $validator->validate($subject, $cases);
 
         $this->assertEquals($expectedResult, $result, $message);
@@ -84,9 +83,9 @@ class EnumValidatorTest extends TestCase
 
     public function testValidatorThrowsExceptionOnInvalidOption(): void
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\Andriichuk\KeepEnv\Validation\Exceptions\RuleOptionsException::class);
 
-        $validator = new EnumValidator();
+        $validator = new EnumRule();
         $validator->validate('local', []);
     }
 }

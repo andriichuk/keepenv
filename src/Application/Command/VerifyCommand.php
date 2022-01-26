@@ -7,7 +7,7 @@ namespace Andriichuk\KeepEnv\Application\Command;
 use Andriichuk\KeepEnv\Application\Command\Utils\CommandHeader;
 use Andriichuk\KeepEnv\Environment\Loader\EnvLoaderFactory;
 use Andriichuk\KeepEnv\Specification\Reader\SpecificationReaderFactory;
-use Andriichuk\KeepEnv\Validation\ValidatorRegistry;
+use Andriichuk\KeepEnv\Validation\RulesRegistry;
 use Andriichuk\KeepEnv\Verification\SpecVerificationService;
 use Andriichuk\KeepEnv\Verification\VariableVerification;
 use Andriichuk\KeepEnv\Verification\VerificationReport;
@@ -86,7 +86,7 @@ class VerifyCommand extends Command
         $service = new SpecVerificationService(
             $specReaderFactory->basedOnSource($specFile),
             $envLoaderFactory->make((string) $input->getOption('env-provider')),
-            new VariableVerification(ValidatorRegistry::default()),
+            new VariableVerification(RulesRegistry::default()),
         );
 
         try {

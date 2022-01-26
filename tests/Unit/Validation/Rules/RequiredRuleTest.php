@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\KeepEnv\Unit\Validation;
+namespace Andriichuk\KeepEnv\Unit\Validation\Rules;
 
-use Andriichuk\KeepEnv\Validation\RequiredValidator;
+use Andriichuk\KeepEnv\Validation\Exceptions\RuleOptionsException;
+use Andriichuk\KeepEnv\Validation\Rules\RequiredRule;
 use Generator;
-use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @author Serhii Andriichuk <andriichuk29@gmail.com>
  */
-class RequiredValidatorTest extends TestCase
+class RequiredRuleTest extends TestCase
 {
     /**
      * @dataProvider validationCasesProvider
@@ -21,8 +21,8 @@ class RequiredValidatorTest extends TestCase
      */
     public function testValidationCases(?string $subject, $required, bool $expectedResult, string $message): void
     {
-        $validator = new RequiredValidator();
-        $result = $validator->validate($subject, [$required]);
+        $validator = new RequiredRule();
+        $result = $validator->validate($subject, $required);
 
         $this->assertEquals($expectedResult, $result, $message);
 
@@ -49,7 +49,7 @@ class RequiredValidatorTest extends TestCase
 
         yield [
             'subject' => '',
-            'required' => 'false',
+            'required' => false,
             'expected_result' => true,
             'message' => 'Not required empty string with string option',
         ];
@@ -63,7 +63,7 @@ class RequiredValidatorTest extends TestCase
 
         yield [
             'subject' => '',
-            'required' => 'true',
+            'required' => true,
             'expected_result' => false,
             'message' => 'Required empty string with string option',
         ];
@@ -85,9 +85,9 @@ class RequiredValidatorTest extends TestCase
 
     public function testValidatorThrowExceptionOnInvalidOption(): void
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(RuleOptionsException::class);
 
-        $validator = new RequiredValidator();
+        $validator = new \Andriichuk\KeepEnv\Validation\Rules\RequiredRule();
         $validator->validate('123', ['yes']);
     }
 }
