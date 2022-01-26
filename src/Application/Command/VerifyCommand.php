@@ -56,7 +56,7 @@ class VerifyCommand extends Command
                 's',
                 InputOption::VALUE_REQUIRED,
                 'Dotenv specification file path.',
-                './env.spec.yaml',
+                './keepenv.yaml',
             )
             ->addOption(
                 'override-system-vars',

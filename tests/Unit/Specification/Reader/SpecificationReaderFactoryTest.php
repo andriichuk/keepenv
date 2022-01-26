@@ -29,7 +29,7 @@ class SpecificationReaderFactoryTest extends TestCase
     public function readerSourcesProvider(): Generator
     {
         yield [
-            'source_path' => '/home/user/env.spec.yaml',
+            'source_path' => '/home/user/keepenv.yaml',
             'expected_type' => SpecificationYamlReader::class,
             'message' => 'Yaml source file.',
         ];

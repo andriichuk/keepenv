@@ -23,10 +23,10 @@ class SpecificationYamlReaderTest extends TestCase
     {
         $this->rootFolder = vfsStream::setup('src');
         $this->rootFolder->addChild(
-            (new vfsStreamFile('env.spec.yaml'))
+            (new vfsStreamFile('keepenv.yaml'))
                 ->setContent(
                     file_get_contents(
-                        dirname(__DIR__, 4) . '/fixtures/case_5/env.spec.yaml',
+                        dirname(__DIR__, 4) . '/fixtures/case_5/keepenv.yaml',
                     ),
                 ),
         );
@@ -37,13 +37,13 @@ class SpecificationYamlReaderTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
 
         $reader = new SpecificationYamlReader(new SpecificationArrayBuilder());
-        $reader->read('not-exists-env.spec.yaml');
+        $reader->read('not-exists-keepenv.yaml');
     }
 
     public function testReadingFlow(): void
     {
         $reader = new SpecificationYamlReader(new SpecificationArrayBuilder());
-        $specification = $reader->read($this->rootFolder->getChild('env.spec.yaml')->url());
+        $specification = $reader->read($this->rootFolder->getChild('keepenv.yaml')->url());
 
         $this->assertEquals(
             [

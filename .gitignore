@@ -4,5 +4,5 @@
 .php-cs-fixer.cache
 composer.lock
 /env.spec.php
-/env.spec.yaml
+/keepenv.yaml
 /.env

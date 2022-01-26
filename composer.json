@@ -2,26 +2,31 @@
     "name": "andriichuk/keepenv",
     "description": "KeepEnv is a tool for checking and managing environment variables based on a specification file.",
     "keywords": [
-        "env", "env-spec",  "env-manager", "env-validation"
+        "dotenv", "env", "env-spec",  "env-manager", "env-validation"
+    ],
+    "homepage": "https://github.com/andriichuk/keepenv",
+    "authors": [
+        {
+            "name": "Serhii Andriichuk",
+            "email": "andriichuk29@gmail.com",
+            "homepage": "https://github.com/andriichuk",
+            "role": "Developer"
+        }
     ],
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Andriichuk\\KeepEnv\\": "src/"
+            "Andriichuk\\KeepEnv\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Andriichuk\\KeepEnv\\": "tests/"
+            "Andriichuk\\KeepEnv\\": "tests"
         }
     },
-    "authors": [
-        {
-            "name": "Serhii Andriichuk",
-            "email": "andriichuk29@gmail.com"
-        }
-    ],
     "require": {
+        "php": "^7.4|^8.0",
+        "ext-mbstring": "*",
         "symfony/console": "^5.4",
         "symfony/yaml": "^5.4"
     },
@@ -34,5 +39,7 @@
         "symfony/dotenv": "^5.4",
         "vlucas/phpdotenv": "^5.4",
         "friendsofphp/php-cs-fixer": "^3.5"
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }

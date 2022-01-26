@@ -43,13 +43,13 @@ class InitCommandTest extends TestCase
         $this->commandTester->execute([
             '--env' => 'common',
             '--env-file' => [dirname($this->rootFolder->getChild('.env')->url())],
-            '--spec' => 'vfs://src/env.spec.yaml',
+            '--spec' => 'vfs://src/keepenv.yaml',
         ]);
 
         $this->commandTester->assertCommandIsSuccessful();
         $this->assertEquals(
-            file_get_contents(dirname(__DIR__, 3) . '/fixtures/case_6/env.spec.yaml'),
-            file_get_contents($this->rootFolder->getChild('env.spec.yaml')->url()),
+            file_get_contents(dirname(__DIR__, 3) . '/fixtures/case_6/keepenv.yaml'),
+            file_get_contents($this->rootFolder->getChild('keepenv.yaml')->url()),
         );
     }
 }

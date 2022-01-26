@@ -52,7 +52,7 @@ class InitCommand extends Command
                 's',
                 InputOption::VALUE_REQUIRED,
                 'Path to new dotenv specification file.',
-                'env.spec.yaml',
+                './keepenv.yaml',
             )
             ->addOption(
                 'preset',

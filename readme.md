@@ -44,6 +44,10 @@ KeepEnv is a tool for checking and managing environment variables based on a spe
 
 ### Installation
 
+```shell
+composer require andriichuk/keepenv
+```
+
 ### Initialization
 
 This command allows you to generate a new environment specification file based on your current `.env` structure.
@@ -54,7 +58,7 @@ Options:
 * `env-file` paths to DotEnv files (default: project root `./`)
   * for `vlucas/dotenv` package it should be a path to directory
   * for `symfony/dotenv` package it should be a path to files
-* `spec` path to the environment specification file that will be generated (default: `.env.spec.yaml`)
+* `spec` path to the environment specification file that will be generated (default: `./keepenv.yaml`)
 * `env-reader` reader name (default: `auto`). Available values: `auto`, `vlucas/phpdotenv`, `symfony/dotenv`.
 * `preset` preset alias (default: `null`). Available values: `laravel`, `symfony`.
 

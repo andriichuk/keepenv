@@ -34,7 +34,7 @@ class SpecGeneratorTest extends TestCase
                 ),
         );
         $this->rootFolder->addChild(
-            (new vfsStreamFile('env.spec.yaml'))
+            (new vfsStreamFile('keepenv.yaml'))
                 ->setContent(''),
         );
 
@@ -43,7 +43,7 @@ class SpecGeneratorTest extends TestCase
 
         $this->specGenerator = new SpecGenerator(
             $envReaderFactory->make('auto'),
-            $writerFactory->basedOnResource($this->rootFolder->getChild('env.spec.yaml')->url()),
+            $writerFactory->basedOnResource($this->rootFolder->getChild('keepenv.yaml')->url()),
             new PresetFactory(),
         );
     }
@@ -53,13 +53,13 @@ class SpecGeneratorTest extends TestCase
         $this->specGenerator->generate(
             'common',
             [dirname($this->rootFolder->getChild('.env')->url())],
-            $this->rootFolder->getChild('env.spec.yaml')->url(),
+            $this->rootFolder->getChild('keepenv.yaml')->url(),
             static fn (): bool => true,
         );
 
         $this->assertEquals(
-            file_get_contents(dirname(__DIR__, 2) . '/fixtures/case_1/env.spec.yaml'),
-            file_get_contents($this->rootFolder->getChild('env.spec.yaml')->url())
+            file_get_contents(dirname(__DIR__, 2) . '/fixtures/case_1/keepenv.yaml'),
+            file_get_contents($this->rootFolder->getChild('keepenv.yaml')->url())
         );
     }
 
@@ -68,14 +68,14 @@ class SpecGeneratorTest extends TestCase
         $this->specGenerator->generate(
             'common',
             [dirname($this->rootFolder->getChild('.env')->url())],
-            $this->rootFolder->getChild('env.spec.yaml')->url(),
+            $this->rootFolder->getChild('keepenv.yaml')->url(),
             static fn () => true,
             'laravel'
         );
 
         $this->assertEquals(
-            file_get_contents(dirname(__DIR__, 2) . '/fixtures/case_2/env.spec.yaml'),
-            file_get_contents($this->rootFolder->getChild('env.spec.yaml')->url())
+            file_get_contents(dirname(__DIR__, 2) . '/fixtures/case_2/keepenv.yaml'),
+            file_get_contents($this->rootFolder->getChild('keepenv.yaml')->url())
         );
     }
 
@@ -86,7 +86,7 @@ class SpecGeneratorTest extends TestCase
         $this->specGenerator->generate(
             'common',
             [dirname($this->rootFolder->getChild('.env')->url())],
-            $this->rootFolder->getChild('env.spec.yaml')->url(),
+            $this->rootFolder->getChild('keepenv.yaml')->url(),
             static fn () => false,
         );
     }
