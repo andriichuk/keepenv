@@ -36,11 +36,13 @@
 
 KeepEnv is a tool for checking and managing environment variables based on a specification file.
 
+Main features:
+
 * Environment specification generation based on current `.env` files.
 * Split variables between environments.
-* Extend variables from particular environment eg. `local` from `common`.
+* Extend variables from particular environment e.g. `local` from `common`.
 * Variable value validation.
-* Split system and regular variables from `.env` files.
+* Split system (`$_ENV`) and regular variables from `.env` files.
 
 ### Installation
 
