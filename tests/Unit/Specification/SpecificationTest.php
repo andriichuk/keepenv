@@ -7,6 +7,7 @@ namespace Andriichuk\KeepEnv\Unit\Specification;
 use Andriichuk\KeepEnv\Specification\EnvVariables;
 use Andriichuk\KeepEnv\Specification\Specification;
 use Andriichuk\KeepEnv\Specification\Variable;
+use OutOfRangeException;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -98,5 +99,25 @@ class SpecificationTest extends TestCase
             ],
             $specification->toArray(),
         );
+    }
+
+    public function testSpecificationThrowsExceptionOnRetrieveMissingEnv(): void
+    {
+        $this->expectException(OutOfRangeException::class);
+        $this->expectExceptionMessage('Environment with name `local` is not defined in the specification.');
+
+        $specification = Specification::default();
+        $specification->add(new EnvVariables('production'));
+        $specification->get('local');
+    }
+
+    public function testSpecificationThrowsExceptionForMissingEnvOnSerialization(): void
+    {
+        $this->expectException(OutOfRangeException::class);
+        $this->expectExceptionMessage('Environment with name `common` not found.');
+
+        $specification = Specification::default();
+        $specification->add(new EnvVariables('production', 'common'));
+        $specification->toArray();
     }
 }

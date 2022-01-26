@@ -86,25 +86,25 @@ class SpecificationArrayBuilder implements SpecificationBuilderInterface
                 $description = $definition['description'] ?? '';
 
                 if (!is_string($description)) {
-                    throw InvalidStructureException::invalidVariableDefinition('Variable `description` must be a string.');
+                    throw InvalidStructureException::invalidVariableDefinition('Variable `description` field value must be a string.');
                 }
 
                 $export = $definition['export'] ?? false;
 
                 if (!is_bool($export)) {
-                    throw InvalidStructureException::invalidVariableDefinition('Variable `export` must be a boolean.');
+                    throw InvalidStructureException::invalidVariableDefinition('Variable `export` field value must be a boolean.');
                 }
 
                 $system = $definition['system'] ?? false;
 
                 if (!is_bool($system)) {
-                    throw InvalidStructureException::invalidVariableDefinition('Variable `system` must be a boolean.');
+                    throw InvalidStructureException::invalidVariableDefinition('Variable `system` field value must be a boolean.');
                 }
 
                 $rules = $definition['rules'] ?? [];
 
                 if (!is_array($rules)) {
-                    throw InvalidStructureException::invalidVariableDefinition('Variable `system` must be an array.');
+                    throw InvalidStructureException::invalidVariableDefinition('Variable `rules` field value must be an array.');
                 }
 
                 $envVariables->add(

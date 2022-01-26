@@ -39,6 +39,22 @@ class SpecificationArrayBuilderTest extends TestCase
 
         yield [
             [
+                'version' => '222.0',
+                'environments' => [
+                    'common' => [
+                        'variables' => [
+                            'APP_ENV' => [
+                                'description' => 'Application environment.',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            'Unsupported version of specification file.',
+        ];
+
+        yield [
+            [
                 'version' => '1.0',
                 'environments' => 100,
             ],
@@ -123,9 +139,10 @@ class SpecificationArrayBuilderTest extends TestCase
 
         yield [
             [
-                'version' => '222.0',
+                'version' => '1.0',
                 'environments' => [
-                    'common' => [
+                    'local' => [
+                        'extends' => 123,
                         'variables' => [
                             'APP_ENV' => [
                                 'description' => 'Application environment.',
@@ -134,7 +151,121 @@ class SpecificationArrayBuilderTest extends TestCase
                     ],
                 ],
             ],
-            'Unsupported version of specification file.',
+            'Environment name in `extends` field must be a string.',
+        ];
+
+        yield [
+            [
+                'version' => '1.0',
+                'environments' => [
+                    'common' => [],
+                    'local' => [
+                        'extends' => 'common',
+                        'variables' => [
+                            'APP_ENV' => [
+                                'description' => 'Application environment.',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            'The `common` environment has no variables. Please define them or remove environment definition.',
+        ];
+
+        yield [
+            [
+                'version' => '1.0',
+                'environments' => [
+                    'common' => [
+                        'variables' => [
+                            'APP_ENV' => [
+                                'description' => 'Application environment.',
+                            ],
+                        ],
+                    ],
+                    'local' => [
+                        'extends' => 'common',
+                        'variables' => [
+                            'APP_DEBUG' => [
+                                'description' => 'Application debug.',
+                            ],
+                        ]
+                    ],
+                    'production' => [
+                        'extends' => 'local',
+                        'variables' => [
+                            'APP_LOG' => [
+                                'description' => 'Application logger.',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            'Nested extending is not supported yet. You can extend only from one parent.',
+        ];
+
+        yield [
+            [
+                'version' => '1.0',
+                'environments' => [
+                    'local' => [
+                        'variables' => [
+                            'APP_ENV' => [
+                                'description' => true,
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            'Invalid variable definition. Variable `description` field value must be a string.',
+        ];
+
+        yield [
+            [
+                'version' => '1.0',
+                'environments' => [
+                    'local' => [
+                        'variables' => [
+                            'APP_ENV' => [
+                                'export' => 'true',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            'Invalid variable definition. Variable `export` field value must be a boolean.',
+        ];
+
+        yield [
+            [
+                'version' => '1.0',
+                'environments' => [
+                    'local' => [
+                        'variables' => [
+                            'APP_ENV' => [
+                                'system' => 'false',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            'Invalid variable definition. Variable `system` field value must be a boolean.',
+        ];
+
+        yield [
+            [
+                'version' => '1.0',
+                'environments' => [
+                    'local' => [
+                        'variables' => [
+                            'APP_ENV' => [
+                                'rules' => 'array',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            'Invalid variable definition. Variable `rules` field value must be an array.',
         ];
     }
 

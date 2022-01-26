@@ -6,6 +6,7 @@ namespace Andriichuk\KeepEnv\Specification;
 
 use Andriichuk\KeepEnv\Contracts\ArraySerializable;
 use Andriichuk\KeepEnv\Specification\Exceptions\InvalidStructureException;
+use OutOfRangeException;
 
 /**
  * @author Serhii Andriichuk <andriichuk29@gmail.com>
@@ -40,19 +41,10 @@ class Specification implements ArraySerializable
         $this->envVariables[$envVariables->getEnvName()] = $envVariables;
     }
 
-    public function change(string $envName, EnvVariables $envVariables): void
-    {
-        if (!isset($this->envVariables[$envName])) {
-            throw new \OutOfRangeException('Specification section is not defined');
-        }
-
-        $this->envVariables[$envName] = $envVariables;
-    }
-
     public function get(string $envName): EnvVariables
     {
         if (!isset($this->envVariables[$envName])) {
-            throw new \OutOfRangeException('Specification section is not defined');
+            throw new OutOfRangeException("Environment with name `$envName` is not defined in the specification.");
         }
 
         return $this->envVariables[$envName];
@@ -67,7 +59,7 @@ class Specification implements ArraySerializable
 
             if ($extends !== null) {
                 if (!isset($this->envVariables[$extends])) {
-                    throw new \OutOfRangeException("Environment with name `{$extends}` not found.");
+                    throw new OutOfRangeException("Environment with name `{$extends}` not found.");
                 }
 
                 $serialized = $this->arrayDiffAssocRecursive(

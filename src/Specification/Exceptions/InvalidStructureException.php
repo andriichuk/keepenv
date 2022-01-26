@@ -53,12 +53,12 @@ class InvalidStructureException extends RuntimeException
 
     public static function extendsFromItself(): self
     {
-        return new self("You cannot extends from itself. Please remove `extends` field or define different environment.");
+        return new self('You cannot extends from itself. Please remove `extends` field or define different environment.');
     }
 
     public static function nestedExtends(): self
     {
-        return new self("Nested extending is not supported yet. You can extend only from one parent.");
+        return new self('Nested extending is not supported yet. You can extend only from one parent.');
     }
 
     public static function emptyOrInvalidVariableDefinition(): self
