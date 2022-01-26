@@ -4,9 +4,6 @@
   <img width="700" align="center" src="https://github.com/andriichuk/keepenv/blob/main/art/logo.jpeg" alt="Logo"/>
 </p>
 <p align="center">
-  <a href="https://github.com/andriichuk/keepenv">
-    <img alt="Stars" src="https://img.shields.io/github/stars/andriichuk/keepenv?color=blue" target="_blank" />
-  </a>
   <a href="https://github.com/andriichuk/keepenv/blob/master/LICENSE">
     <img alt="License: MIT" src="https://poser.pugx.org/andriichuk/keepenv/license?format=flat" target="_blank" />
   </a>
@@ -21,6 +18,9 @@
   </a>
   <a href="https://github.com/andriichuk/keepenv/blob/main/psalm.xml">
     <img alt="Psalm level" src="https://shepherd.dev/github/andriichuk/keepenv/level.svg" />
+  </a>
+  <a href="https://github.com/andriichuk/keepenv">
+    <img alt="Stars" src="https://img.shields.io/github/stars/andriichuk/keepenv?color=blue" target="_blank" />
   </a>
 </p>
 
