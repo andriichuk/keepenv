@@ -152,11 +152,19 @@ REDIS_PORT:
       rules:
           string: true
   ```
+  * `string` (array) with range
+  ```yaml
+  APP_ENV:
+      rules:
+          string:
+              min: 2
+              max: 10
+  ```
   * `numeric: true`
   ```yaml
   APP_ENV:
       rules:
-          string: true
+          numeric: true
   ```
   * `email` (boolean)
   ```yaml

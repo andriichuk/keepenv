@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Andriichuk\KeepEnv\Validation;
 
+use Andriichuk\KeepEnv\Validation\Exceptions\RuleOptionsException;
+
 /**
  * @author Serhii Andriichuk <andriichuk29@gmail.com>
  */
@@ -27,6 +29,8 @@ interface RuleInterface
     /**
      * @param mixed $value
      * @param mixed $options
+     *
+     * @throws RuleOptionsException
      */
     public function validate($value, $options): bool;
 }

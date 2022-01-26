@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Andriichuk\KeepEnv\Unit\Validation\Rules;
 
+use Andriichuk\KeepEnv\Validation\Exceptions\RuleOptionsException;
 use Andriichuk\KeepEnv\Validation\Rules\StringRule;
 use Generator;
 use PHPUnit\Framework\TestCase;
@@ -118,5 +119,28 @@ class StringRuleTest extends TestCase
             'expected_message' => 'The value length must be between 2 and 4.',
             'message' => 'Invalid string length range',
         ];
+    }
+
+    /**
+     * @dataProvider invalidOptionsProvider
+     * @param mixed $options
+     */
+    public function testRuleThrowsExceptionOnInvalidOption($options): void
+    {
+        $this->expectException(RuleOptionsException::class);
+
+        $validator = new StringRule();
+        $validator->validate('qwerty', $options);
+    }
+
+    public function invalidOptionsProvider(): Generator
+    {
+        yield [null];
+
+        yield [[]];
+
+        yield [['min' => null, 'max' => null]];
+
+        yield [['min' => 10, 'max' => 5]];
     }
 }
