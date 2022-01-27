@@ -70,7 +70,10 @@ class EnvVariables implements ArraySerializable
      */
     public function onlyWithKeys(array $keys): array
     {
-        return array_intersect_key($this->variables, $keys);
+        return array_filter(
+            $this->variables,
+            static fn (Variable $variable): bool => in_array($variable->name, $keys, true),
+        );
     }
 
     public function toArray(): array

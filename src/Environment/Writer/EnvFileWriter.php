@@ -66,6 +66,7 @@ class EnvFileWriter implements EnvWriterInterface
             throw new RuntimeException("$key is already defined.");
         }
 
+        $value = $this->quote($value);
         $this->write($this->content() . "$key=$value" . PHP_EOL);
     }
 
@@ -76,12 +77,20 @@ class EnvFileWriter implements EnvWriterInterface
 
     public function update(string $key, string $value): void
     {
+        $value = $this->quote($value);
         $content = preg_replace(
             "#^$key=([^\n]+)?#miu",
-            "$key=\"$value\"",
+            "$key=$value",
             $this->content(),
         );
 
         $this->write($content);
+    }
+
+    private function quote(string $value): string
+    {
+        return mb_strpos($value, ' ') !== false
+            ? "\"$value\""
+            : $value;
     }
 }

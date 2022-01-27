@@ -50,7 +50,7 @@ class EnvFileFillingService
             static fn ($value): bool => $value === '',
         );
 
-        $variablesToFill = $envSpec->onlyWithKeys($emptyVariables);
+        $variablesToFill = $envSpec->onlyWithKeys(array_keys($emptyVariables));
 
         foreach ($variablesToFill as $variable) {
             if (!empty($variable->rules['equals'])) {
