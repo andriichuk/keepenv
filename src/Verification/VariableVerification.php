@@ -34,7 +34,7 @@ class VariableVerification
 
         /**
          * @var string $ruleName
-         * @var mixed $options
+         * @var array|scalar|null $options
          */
         foreach ($variable->rules as $ruleName => $options) {
             $validator = $this->rulesRegistry->get($ruleName);

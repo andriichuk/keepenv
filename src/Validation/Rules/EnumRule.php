@@ -41,7 +41,7 @@ class EnumRule implements RuleInterface
      */
     public function validate($value, $options): bool
     {
-        if (empty($options)) {
+        if (empty($options) || !is_array($options)) {
             throw RuleOptionsException::invalidCasesForEnum();
         }
 

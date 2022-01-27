@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Andriichuk\KeepEnv\Filling;
 
 use Andriichuk\KeepEnv\Environment\Reader\EnvReaderInterface;
-use Andriichuk\KeepEnv\Environment\Writer\EnvFileWriter;
 use Andriichuk\KeepEnv\Environment\Writer\EnvWriterInterface;
 use Andriichuk\KeepEnv\Specification\Reader\SpecificationReaderInterface;
 use Andriichuk\KeepEnv\Verification\VariableVerification;
@@ -55,9 +54,9 @@ class EnvFileFillingService
 
         foreach ($variablesToFill as $variable) {
             if (!empty($variable->rules['equals'])) {
-                $value = $variable->rules['equals'];
+                $value = (string) $variable->rules['equals'];
             } else {
-                $value = $valueProvider($variable, function (string $value) use ($variable): string {
+                $value = (string) $valueProvider($variable, function (string $value) use ($variable): string {
                     $report = $this->variableVerification->validate($variable, $value);
 
                     if ($report !== []) {
@@ -68,7 +67,7 @@ class EnvFileFillingService
                 });
             }
 
-            $this->envWriter->save($variable->name, (string) $value);
+            $this->envWriter->save($variable->name, $value);
             $successHandler("Added $variable->name=$value");
         }
     }
