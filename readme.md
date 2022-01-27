@@ -88,8 +88,6 @@ For custom `.env` files (`symfony/dotenv`):
 ./keepenv init --env-file=./.env --env-file=./.env.local
 ```
 
-
-
 ### Verification
 
 Command:
@@ -102,6 +100,14 @@ To customize:
 
 ```shell
 ./keepenv verify local --env-file=./.env --spec=./env.spec.yaml
+```
+
+### Filling
+
+Command:
+
+```shell
+./keepenv fill
 ```
 
 ### Syntax
@@ -166,7 +172,7 @@ REDIS_PORT:
               min: 2
               max: 10
   ```
-  * `numeric: true`
+  * `numeric: true` (boolean)
   ```yaml
   APP_ENV:
       rules:
@@ -192,7 +198,7 @@ REDIS_PORT:
       rules:
           equals: local
   ```
-  * `ip` (string)
+  * `ip` (boolean)
   ```yaml
   DB_HOST:
       rules:

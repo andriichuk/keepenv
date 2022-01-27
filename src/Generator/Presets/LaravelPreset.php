@@ -75,7 +75,6 @@ class LaravelPreset implements PresetInterface
                 [
                     'required' => true,
                 ],
-                '127.0.0.1',
             ),
             'DB_HOST' => new Variable(
                 'DB_HOST',
@@ -84,7 +83,6 @@ class LaravelPreset implements PresetInterface
                 false,
                 [
                     'required' => true,
-                    'ip' => true,
                 ],
                 '127.0.0.1',
             ),
@@ -117,7 +115,6 @@ class LaravelPreset implements PresetInterface
                 false,
                 [
                     'required' => true,
-                    'ip' => true,
                 ],
                 '127.0.0.1',
             ),
@@ -183,7 +180,6 @@ class LaravelPreset implements PresetInterface
                 false,
                 [
                     'required' => true,
-                    'ip' => true,
                 ],
                 '127.0.0.1',
             ),

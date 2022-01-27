@@ -63,6 +63,16 @@ class EnvVariables implements ArraySerializable
         return count($this->variables);
     }
 
+    /**
+     * @param string[] $keys
+     *
+     * @return Variable[]
+     */
+    public function onlyWithKeys(array $keys): array
+    {
+        return array_intersect_key($this->variables, $keys);
+    }
+
     public function toArray(): array
     {
         $plainArrayVariables = [];
