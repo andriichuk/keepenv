@@ -58,6 +58,9 @@ class FillCommand extends Command
             (string) $input->getOption('env'),
             (string) $input->getOption('env-file'),
             $specFile,
+            /**
+             * @return mixed
+             */
             static function (Variable $variable, callable $validator) use ($io, $variableValuePresenter) {
                 if (isset($variable->rules['enum']) && is_array($variable->rules['enum'])) {
                     return $io->choice(

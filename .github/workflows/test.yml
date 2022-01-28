@@ -41,7 +41,7 @@ jobs:
           composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction
 
       - name: Run Psalm check
-        run: vendor/bin/psalm --shepherd
+        run: vendor/bin/psalm --shepherd --php-version=${{ matrix.php }}
 
       - name: Execute tests
         run: vendor/bin/phpunit --coverage-clover coverage.xml
