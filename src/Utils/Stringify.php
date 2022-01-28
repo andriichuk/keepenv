@@ -20,10 +20,11 @@ class Stringify
 
         switch (true) {
             case is_bool($value):
-                return [
-                    true => 'true',
-                    false => 'false',
-                ][$value];
+                if ($value) {
+                    return 'true';
+                }
+
+                return 'false';
 
             case $value === null:
                 return 'null';
