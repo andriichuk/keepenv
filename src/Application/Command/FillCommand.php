@@ -16,6 +16,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Throwable;
 
 /**
  * @author Serhii Andriichuk <andriichuk29@gmail.com>
@@ -27,25 +28,27 @@ class FillCommand extends Command
     protected function configure(): void
     {
         $this
-            ->addOption('env', 'e', InputOption::VALUE_REQUIRED, 'The name of the environment to be initiated.', 'common')
-            ->addOption('target-env-file', 'tef', InputOption::VALUE_REQUIRED, 'Dotenv file path to check.', '.env')
-            ->addOption('env-file', 'ef', InputOption::VALUE_REQUIRED, 'Dotenv file path to check.', './')
-            ->addOption('env-reader', 'ep', InputOption::VALUE_REQUIRED, 'Environment reader.', 'auto')
-            ->addOption('spec', 's', InputOption::VALUE_REQUIRED, 'Dotenv specification file path.', 'env.spec.yaml')
-            ->setDescription('Application environment verification.')
-            ->setHelp('This command allows you to verify environment specification.');
+            ->addOption('env', 'e', InputOption::VALUE_REQUIRED, 'The name of the environment to be filled.', 'common')
+            ->addOption('target-env-file', 't', InputOption::VALUE_REQUIRED, 'Dotenv file path for filling.', './.env')
+            ->addOption('env-file', 'f', InputOption::VALUE_REQUIRED, 'Dotenv file path for reading variable values.', './')
+            ->addOption('env-reader', 'r', InputOption::VALUE_REQUIRED, 'Environment reader.', 'auto')
+            ->addOption('spec', 's', InputOption::VALUE_REQUIRED, 'Dotenv specification file path.', 'keepenv.yaml')
+            ->setDescription('Application environment variables filling.')
+            ->setHelp('This command allows you to fill empty environment variables according to specification.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $io->title('Variables filling');
+        $io->title('Empty environment variables filling.');
 
         $specReaderFactory = new SpecificationReaderFactory();
         $envReaderFactory = new EnvReaderFactory();
 
+        $specFile = (string) $input->getOption('spec');
+
         $service = new EnvFileFillingService(
-            $specReaderFactory->basedOnSource((string) $input->getOption('spec')),
+            $specReaderFactory->basedOnSource($specFile),
             $envReaderFactory->make((string) $input->getOption('env-reader')),
             new EnvFileWriter((string) $input->getOption('target-env-file')),
             new VariableVerification(RulesRegistry::default()),
@@ -53,9 +56,9 @@ class FillCommand extends Command
         $service->fill(
             (string) $input->getOption('env'),
             (string) $input->getOption('env-file'),
-            (string) $input->getOption('spec'),
+            $specFile,
             /**
-             * @return mixed
+             * @return scalar|null
              */
             static function (Variable $variable, callable $validator) use ($io) {
                 if (isset($variable->rules['enum'])) {

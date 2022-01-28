@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Andriichuk\KeepEnv\Application\Command;
 
-use Andriichuk\KeepEnv\Application\Command\Utils\CommandHeader;
 use Andriichuk\KeepEnv\Environment\Loader\EnvLoaderFactory;
 use Andriichuk\KeepEnv\Specification\Reader\SpecificationReaderFactory;
 use Andriichuk\KeepEnv\Validation\RulesRegistry;
@@ -72,16 +71,12 @@ class VerifyCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-
-        $envName = (string) $input->getArgument('env');
-        $envFiles = (array) $input->getOption('env-file');
-        $specFile = (string) $input->getOption('spec');
-
-        $header = new CommandHeader($io);
-        $header->display('Starting to verify environment variables...', $envName, $envFiles, $specFile);
+        $io->title('Starting to verify environment variables...');
 
         $specReaderFactory = new SpecificationReaderFactory();
         $envLoaderFactory = new EnvLoaderFactory();
+
+        $specFile = (string) $input->getOption('spec');
 
         $service = new SpecVerificationService(
             $specReaderFactory->basedOnSource($specFile),
@@ -91,8 +86,8 @@ class VerifyCommand extends Command
 
         try {
             $verificationReport = $service->verify(
-                $envName,
-                $envFiles,
+                (string) $input->getArgument('env'),
+                (array) $input->getOption('env-file'),
                 $specFile,
                 (bool) $input->getOption('override-system-vars'),
             );

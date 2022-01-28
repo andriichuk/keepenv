@@ -7,7 +7,7 @@ namespace Andriichuk\KeepEnv\Filling;
 use Andriichuk\KeepEnv\Environment\Reader\EnvReaderInterface;
 use Andriichuk\KeepEnv\Environment\Writer\EnvWriterInterface;
 use Andriichuk\KeepEnv\Specification\Reader\SpecificationReaderInterface;
-use Andriichuk\KeepEnv\Verification\VariableVerification;
+use Andriichuk\KeepEnv\Verification\VariableVerificationInterface;
 use RuntimeException;
 
 /**
@@ -18,13 +18,13 @@ class EnvFileFillingService
     private SpecificationReaderInterface $specificationReader;
     private EnvReaderInterface $envReader;
     private EnvWriterInterface $envWriter;
-    private VariableVerification $variableVerification;
+    private VariableVerificationInterface $variableVerification;
 
     public function __construct(
         SpecificationReaderInterface $specificationReader,
-        EnvReaderInterface           $envReader,
-        EnvWriterInterface           $envWriter,
-        VariableVerification         $variableVerification
+        EnvReaderInterface $envReader,
+        EnvWriterInterface $envWriter,
+        VariableVerificationInterface $variableVerification
     ) {
         $this->specificationReader = $specificationReader;
         $this->envReader = $envReader;
@@ -33,9 +33,9 @@ class EnvFileFillingService
     }
 
     public function fill(
-        string   $envName,
-        string   $envPath,
-        string   $specPath,
+        string $envName,
+        string $envPath,
+        string $specPath,
         callable $valueProvider,
         callable $successHandler
     ): void {

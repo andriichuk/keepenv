@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Andriichuk\KeepEnv\Application\Command;
 
-use Andriichuk\KeepEnv\Application\Command\Utils\CommandHeader;
 use Andriichuk\KeepEnv\Environment\Reader\EnvReaderFactory;
 use Andriichuk\KeepEnv\Generator\Presets\PresetFactory;
 use Andriichuk\KeepEnv\Generator\SpecGenerator;
@@ -67,19 +66,14 @@ class InitCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-
-        $envName = (string) $input->getOption('env');
-        $envFiles = (array) $input->getOption('env-file');
-        $specFile = (string) $input->getOption('spec');
-        $preset = is_string($input->getOption('preset')) ? $input->getOption('preset') : null;
-
-        $header = new CommandHeader($io);
-        $header->display('Starting to generate a new specification based on environment files...', $envName, $envFiles, $specFile);
+        $io->title('Starting to generate a new specification based on environment files...');
 
         $envReaderFactory = new EnvReaderFactory();
         $writerFactory = new SpecWriterFactory();
 
         try {
+            $specFile = (string) $input->getOption('spec');
+
             $generator = new SpecGenerator(
                 $envReaderFactory->make((string) $input->getOption('env-reader')),
                 $writerFactory->basedOnResource($specFile),
@@ -87,13 +81,13 @@ class InitCommand extends Command
             );
 
             $generator->generate(
-                $envName,
-                $envFiles,
+                (string) $input->getOption('env'),
+                (array) $input->getOption('env-file'),
                 $specFile,
                 static function () use ($io): bool {
                     return $io->confirm('Specification file already exists. Do you want to override it?', false);
                 },
-                $preset,
+                is_string($input->getOption('preset')) ? $input->getOption('preset') : null,
             );
 
             $io->success("Environment specification was successfully created.");

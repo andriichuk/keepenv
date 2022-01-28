@@ -10,7 +10,7 @@ use Andriichuk\KeepEnv\Validation\RulesRegistryInterface;
 /**
  * @author Serhii Andriichuk <andriichuk29@gmail.com>
  */
-class VariableVerification
+class VariableVerification implements VariableVerificationInterface
 {
     private RulesRegistryInterface $rulesRegistry;
 

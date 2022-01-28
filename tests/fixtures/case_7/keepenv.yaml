@@ -1,0 +1,28 @@
+version: '1.0'
+environments:
+    common:
+        variables:
+            APP_NAME:
+                description: 'Application name.'
+                rules:
+                    required: true
+                    string: true
+            APP_ENV:
+                description: 'Application environment.'
+                rules:
+                    required: true
+                    enum:
+                        - local
+                        - production
+            APP_DEBUG:
+                description: 'Application debug.'
+                rules:
+                    required: true
+                    enum:
+                        - 'true'
+                        - 'false'
+            REDIS_PORT:
+                description: 'Redis port.'
+                rules:
+                    required: true
+                    numeric: true
