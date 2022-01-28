@@ -17,7 +17,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Throwable;
 
 /**
  * @author Serhii Andriichuk <andriichuk29@gmail.com>
@@ -59,9 +58,6 @@ class FillCommand extends Command
             (string) $input->getOption('env'),
             (string) $input->getOption('env-file'),
             $specFile,
-            /**
-             * @return mixed
-             */
             static function (Variable $variable, callable $validator) use ($io, $variableValuePresenter) {
                 if (isset($variable->rules['enum']) && is_array($variable->rules['enum'])) {
                     return $io->choice(
