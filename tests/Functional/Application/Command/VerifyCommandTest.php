@@ -40,7 +40,7 @@ class VerifyCommandTest extends TestCase
         $_ENV = [];
     }
 
-    public function testCommandSuccessfullyVerifyEnvironment(): void
+    public function testCommandCanVerifyEnvironment(): void
     {
         $this->rootFolder->addChild(
             (new vfsStreamFile('.env'))

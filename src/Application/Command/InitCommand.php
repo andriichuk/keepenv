@@ -87,7 +87,7 @@ class InitCommand extends Command
                 static function () use ($io): bool {
                     return $io->confirm('Specification file already exists. Do you want to override it?', false);
                 },
-                is_string($input->getOption('preset')) ? $input->getOption('preset') : null,
+                !empty($input->getOption('preset')) ? (string) $input->getOption('preset') : null,
             );
 
             $io->success("Environment specification was successfully created.");

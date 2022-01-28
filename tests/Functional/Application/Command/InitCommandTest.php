@@ -31,7 +31,7 @@ class InitCommandTest extends TestCase
         $this->commandTester = new CommandTester($command);
     }
 
-    public function testCommandSuccessfullyVerifyEnvironment(): void
+    public function testCommandCanVerifyEnvironment(): void
     {
         $this->rootFolder->addChild(
             (new vfsStreamFile('.env'))

@@ -9,6 +9,7 @@ use Andriichuk\KeepEnv\Filling\EnvFileFillingService;
 use Andriichuk\KeepEnv\Specification\Reader\SpecificationReaderFactory;
 use Andriichuk\KeepEnv\Environment\Writer\EnvFileWriter;
 use Andriichuk\KeepEnv\Specification\Variable;
+use Andriichuk\KeepEnv\Utils\Stringify;
 use Andriichuk\KeepEnv\Validation\RulesRegistry;
 use Andriichuk\KeepEnv\Verification\VariableVerification;
 use Symfony\Component\Console\Command\Command;
@@ -46,6 +47,7 @@ class FillCommand extends Command
         $envReaderFactory = new EnvReaderFactory();
 
         $specFile = (string) $input->getOption('spec');
+        $variableValuePresenter = new Stringify();
 
         $service = new EnvFileFillingService(
             $specReaderFactory->basedOnSource($specFile),
@@ -58,20 +60,24 @@ class FillCommand extends Command
             (string) $input->getOption('env-file'),
             $specFile,
             /**
-             * @return scalar|null
+             * @return mixed
              */
-            static function (Variable $variable, callable $validator) use ($io) {
-                if (isset($variable->rules['enum'])) {
+            static function (Variable $variable, callable $validator) use ($io, $variableValuePresenter) {
+                if (isset($variable->rules['enum']) && is_array($variable->rules['enum'])) {
                     return $io->choice(
                         "Please select value for the key `$variable->name`: ",
                         $variable->rules['enum'],
-                        $variable->default ?? null,
+                        $variable->default !== null
+                            ? $variableValuePresenter->format($variable->default)
+                            : null,
                     );
                 }
 
                 return $io->ask(
                     "Please enter value for key `$variable->name`: ",
-                    $variable->default ?? null,
+                    $variable->default !== null
+                        ? $variableValuePresenter->format($variable->default)
+                        : null,
                     $validator,
                 );
             },
