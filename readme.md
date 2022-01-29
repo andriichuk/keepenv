@@ -74,7 +74,7 @@ This command allows you to generate a new environment specification file based o
 Basic usage:
 
 ```shell
-./keepenv init
+./vendor/bin/keepenv init
 ```
 
 This will create a specification file (`keepenv.yaml`) in your root directory with `common` environment. 
@@ -82,47 +82,59 @@ This will create a specification file (`keepenv.yaml`) in your root directory wi
 Using preset (available presets: `laravel`, `symfony`):
 
 ```shell
-./keepenv init --preset=laravel
+./vendor/bin/keepenv init --preset=laravel
 ```
 
 Using custom `.env` files for `vlucas/dotenv` (paths to the folders with `.env` file):
 
 ```shell
-./keepenv init --env-file=./ --env-file=./config/
+./vendor/bin/keepenv init --env-file=./ --env-file=./config/
 ```
 
 Using custom `.env` files for `symfony/dotenv` (direct file paths):
 
 ```shell
-./keepenv init --env-file=./.env --env-file=./.env.local
+./vendor/bin/keepenv init --env-file=./.env --env-file=./.env.local
 ```
 
 Environment file reader will be detected automatically, but you can customize it:
 
 ```shell
-./keepenv init --env-reader=symfony/dotenv
+./vendor/bin/keepenv init --env-reader=symfony/dotenv --env-file=./.env
 ```
 
 ### Validation
 
-Command:
+Using this command you can check your environment variables according to the specification file `keepenv.yaml`.
+
+Basic usage:
 
 ```shell
-./keepenv validate local
+./vendor/bin/keepenv validate common
 ```
 
-To customize:
+Check only system variables (`$_ENV`) without looking at the `.env` file:
 
 ```shell
-./keepenv validate local --env-file=./.env --spec=./env.spec.yaml
+./vendor/bin/keepenv validate common --env-provider=system
 ```
+
+Use `--help` option to check other parameters.
 
 ### Filling
 
+This command allows you to fill in and validate missing variable values from your `.env` file (use `--help` for list of all options). 
+
 Command:
 
 ```shell
-./keepenv fill
+./vendor/bin/keepenv fill
+```
+
+For specific environment:
+
+```shell
+./vendor/bin/keepenv fill --env=common
 ```
 
 ### Syntax

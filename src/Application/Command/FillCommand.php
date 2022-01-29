@@ -29,10 +29,10 @@ class FillCommand extends Command
     {
         $this
             ->addOption('env', 'e', InputOption::VALUE_REQUIRED, 'The name of the environment to be filled.', 'common')
-            ->addOption('target-env-file', 't', InputOption::VALUE_REQUIRED, 'Dotenv file path for filling.', './.env')
-            ->addOption('env-file', 'f', InputOption::VALUE_REQUIRED, 'Dotenv file path for reading variable values.', './')
+            ->addOption('target-env-file', 't', InputOption::VALUE_REQUIRED, 'DotEnv file path for filling.', './.env')
+            ->addOption('env-file', 'f', InputOption::VALUE_REQUIRED, 'DotEnv file path for reading variable values.', './')
             ->addOption('env-reader', 'r', InputOption::VALUE_REQUIRED, 'Environment reader.', 'auto')
-            ->addOption('spec', 's', InputOption::VALUE_REQUIRED, 'Dotenv specification file path.', 'keepenv.yaml')
+            ->addOption('spec', 's', InputOption::VALUE_REQUIRED, 'DotEnv specification file path.', 'keepenv.yaml')
             ->setDescription('Application environment variables filling.')
             ->setHelp('This command allows you to fill empty environment variables according to specification.');
     }
@@ -40,7 +40,7 @@ class FillCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $io->title('Empty environment variables filling.');
+        $io->title('Missing environment variables filling and validating.');
 
         $specReaderFactory = new SpecificationReaderFactory();
         $envReaderFactory = new EnvReaderFactory();
@@ -54,7 +54,7 @@ class FillCommand extends Command
             new EnvFileWriter((string) $input->getOption('target-env-file')),
             new VariableValidation(RulesRegistry::default()),
         );
-        $service->fill(
+        $countOfFilledVariables = $service->fill(
             (string) $input->getOption('env'),
             (string) $input->getOption('env-file'),
             $specFile,
@@ -87,7 +87,11 @@ class FillCommand extends Command
             },
         );
 
-        $io->success('All variables were successfully filled.');
+        if ($countOfFilledVariables === 0) {
+            $io->success('All variables are already filled.');
+        } else {
+            $io->success("All variables [$countOfFilledVariables] were successfully filled.");
+        }
 
         return Command::SUCCESS;
     }

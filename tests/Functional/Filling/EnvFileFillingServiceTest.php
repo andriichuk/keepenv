@@ -59,7 +59,7 @@ class EnvFileFillingServiceTest extends TestCase
             'REDIS_PORT' => static fn () => '5555',
         ];
 
-        $this->service->fill(
+        $countOfFilledVariables = $this->service->fill(
             'common',
             dirname($this->rootFolder->getChild('.env')->url()),
             $this->rootFolder->getChild('keepenv.yaml')->url(),
@@ -73,6 +73,7 @@ class EnvFileFillingServiceTest extends TestCase
             static fn (string $message) => '',
         );
 
+        $this->assertEquals(count($valueProviders), $countOfFilledVariables);
         $this->assertEquals(
             file_get_contents(dirname(__DIR__, 2) . '/fixtures/case_7/.env.result'),
             file_get_contents($this->rootFolder->getChild('.env')->url()),

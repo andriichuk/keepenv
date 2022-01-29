@@ -32,27 +32,27 @@ class EnvFileFillingService
         $this->variableValidation = $variableValidation;
     }
 
+    /**
+     * @return int Count of filled variables.
+     */
     public function fill(
         string $envName,
         string $envPath,
         string $specPath,
         callable $valueProvider,
         callable $successHandler
-    ): void {
+    ): int {
         $specification = $this->specificationReader->read($specPath);
         $envSpec = $specification->get($envName);
 
-        $emptyVariables = array_filter(
-            $this->envReader->read($envPath),
-            /**
-             * @param mixed $value
-             */
-            static fn ($value): bool => $value === '',
-        );
+        $variablesFromFile = $this->envReader->read($envPath);
+        $variables = 0;
 
-        $variablesToFill = $envSpec->onlyWithKeys(array_keys($emptyVariables));
+        foreach ($envSpec->all() as $variable) {
+            if ($variable->system || !empty($variablesFromFile[$variable->name])) {
+                continue;
+            }
 
-        foreach ($variablesToFill as $variable) {
             if (!empty($variable->rules['equals'])) {
                 $value = (string) $variable->rules['equals'];
             } else {
@@ -69,6 +69,9 @@ class EnvFileFillingService
 
             $this->envWriter->save($variable->name, $value);
             $successHandler("Added $variable->name=$value");
+            $variables++;
         }
+
+        return $variables;
     }
 }

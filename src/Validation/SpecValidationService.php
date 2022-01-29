@@ -14,12 +14,12 @@ class SpecValidationService
 {
     private EnvLoaderInterface $envFileLoader;
     private SpecificationReaderInterface $specificationReader;
-    private VariableValidation $variableValidation;
+    private VariableValidationInterface $variableValidation;
 
     public function __construct(
         SpecificationReaderInterface $specificationReader,
         EnvLoaderInterface $envFileLoader,
-        VariableValidation $variableValidation
+        VariableValidationInterface $variableValidation
     ) {
         $this->envFileLoader = $envFileLoader;
         $this->specificationReader = $specificationReader;
