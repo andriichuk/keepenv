@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\KeepEnv\Verification;
+namespace Andriichuk\KeepEnv\Validation;
 
 use Andriichuk\KeepEnv\Specification\Variable;
-use Andriichuk\KeepEnv\Validation\RulesRegistryInterface;
+use Andriichuk\KeepEnv\Validation\Rules\RulesRegistryInterface;
 
 /**
  * @author Serhii Andriichuk <andriichuk29@gmail.com>
  */
-class VariableVerification implements VariableVerificationInterface
+class VariableValidation implements VariableValidationInterface
 {
     private RulesRegistryInterface $rulesRegistry;
 

@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Andriichuk\KeepEnv\Application\Command;
 
 use Andriichuk\KeepEnv\Environment\Reader\EnvReaderFactory;
+use Andriichuk\KeepEnv\Environment\Writer\EnvFileWriter;
 use Andriichuk\KeepEnv\Filling\EnvFileFillingService;
 use Andriichuk\KeepEnv\Specification\Reader\SpecificationReaderFactory;
-use Andriichuk\KeepEnv\Environment\Writer\EnvFileWriter;
 use Andriichuk\KeepEnv\Specification\Variable;
 use Andriichuk\KeepEnv\Utils\Stringify;
-use Andriichuk\KeepEnv\Validation\RulesRegistry;
-use Andriichuk\KeepEnv\Verification\VariableVerification;
+use Andriichuk\KeepEnv\Validation\Rules\RulesRegistry;
+use Andriichuk\KeepEnv\Validation\VariableValidation;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -52,7 +52,7 @@ class FillCommand extends Command
             $specReaderFactory->basedOnSource($specFile),
             $envReaderFactory->make((string) $input->getOption('env-reader')),
             new EnvFileWriter((string) $input->getOption('target-env-file')),
-            new VariableVerification(RulesRegistry::default()),
+            new VariableValidation(RulesRegistry::default()),
         );
         $service->fill(
             (string) $input->getOption('env'),

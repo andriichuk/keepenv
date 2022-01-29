@@ -31,20 +31,24 @@
 * [Initialization](#initialization)
 * [Verification](#verification)
 * [Syntax](#syntax)
+* [Tips](#tips)
 
 ### About
 
-KeepEnv is a tool for checking and managing environment variables based on a specification file.
+KeepEnv is a CLI tool for checking and managing environment variables based on a specification file.
 
 Main features:
 
 * Environment specification generation based on current `.env` files.
-* Split variables between environments.
+* Split variable definition between environments.
 * Extend variables from particular environment e.g. `local` from `common`.
 * Variable value validation.
 * Split system (`$_ENV`) and regular variables from `.env` files.
+* Ability to fill missing variables through console command (see ) 
 
 ### Installation
+
+Install composer package:
 
 ```shell
 composer require andriichuk/keepenv
@@ -239,7 +243,7 @@ environments:
         variables:
             APP_ENV:
                 rules:
-                    equals: 'local'
+                    equals: local
 
     testing:
         variables:
@@ -256,6 +260,57 @@ environments:
                 description: 'Database password.'
                 rules:
                     required: true
+```
+
+### Tips
+
+Use `equals` rule to check for a specific value for the environment, e.g., a useful example for `APP_ENV`:
+
+```yaml
+version: '1.0'
+environments:
+    common:
+        variables:
+            APP_ENV:
+                rules:
+                    required: true
+                    enum:
+                        - local
+                        - production
+            # ...
+    production:
+        extends: common
+        variables:
+            APP_ENV:
+                rules:
+                    equals: production
+```
+
+Boolean type is not supported yet, so for now you can use `enum` rule ([true, false,], [yes, no], [on, off], [1, 0]): 
+
+```yaml
+APP_PAYMENT_FEATURE:
+    rules:
+        enum:
+            - on
+            - off
+```
+
+You can add a composer post update scripts for the new environment variables filling and validation: 
+
+```json
+"scripts": {
+  "post-update-cmd": [
+    "./vendor/bin/keepenv fill",
+    "./vendor/bin/keepenv validate",
+  ]
+}
+```
+
+Kubernetes
+
+```shell
+./vendor/bin/keepenv verify --env-provider=system
 ```
 
 ### Contributing

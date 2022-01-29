@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\KeepEnv\Verification;
+namespace Andriichuk\KeepEnv\Validation;
 
 use Andriichuk\KeepEnv\Specification\Variable;
 
 /**
  * @author Serhii Andriichuk <andriichuk29@gmail.com>
  */
-interface VariableVerificationInterface
+interface VariableValidationInterface
 {
     /**
      * @param mixed $value

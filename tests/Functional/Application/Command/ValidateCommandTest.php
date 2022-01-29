@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Andriichuk\KeepEnv\Functional\Application\Command;
 
-use Andriichuk\KeepEnv\Application\Command\VerifyCommand;
+use Andriichuk\KeepEnv\Application\Command\ValidateCommand;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
 use org\bovigo\vfs\vfsStreamFile;
@@ -16,7 +16,7 @@ use Symfony\Component\Console\Tester\CommandTester;
 /**
  * @author Serhii Andriichuk <andriichuk29@gmail.com>
  */
-class VerifyCommandTest extends TestCase
+class ValidateCommandTest extends TestCase
 {
     private vfsStreamDirectory $rootFolder;
     private CommandTester $commandTester;
@@ -26,9 +26,9 @@ class VerifyCommandTest extends TestCase
         $this->rootFolder = vfsStream::setup('src');
 
         $application = new Application();
-        $application->add(new VerifyCommand());
+        $application->add(new ValidateCommand());
 
-        $command = $application->find('verify');
+        $command = $application->find('validate');
         $this->commandTester = new CommandTester($command);
     }
 
@@ -40,7 +40,7 @@ class VerifyCommandTest extends TestCase
         $_ENV = [];
     }
 
-    public function testCommandCanVerifyEnvironment(): void
+    public function testCommandCanValidateEnvironment(): void
     {
         $this->rootFolder->addChild(
             (new vfsStreamFile('.env'))
@@ -65,7 +65,7 @@ class VerifyCommandTest extends TestCase
         $this->commandTester->assertCommandIsSuccessful();
     }
 
-    public function testCommandFailedVerifyEnvironment(): void
+    public function testCommandFailEnvironmentValidation(): void
     {
         $this->rootFolder->addChild(
             (new vfsStreamFile('.env'))

@@ -6,10 +6,10 @@ namespace Andriichuk\KeepEnv\Application\Command;
 
 use Andriichuk\KeepEnv\Environment\Loader\EnvLoaderFactory;
 use Andriichuk\KeepEnv\Specification\Reader\SpecificationReaderFactory;
-use Andriichuk\KeepEnv\Validation\RulesRegistry;
-use Andriichuk\KeepEnv\Verification\SpecVerificationService;
-use Andriichuk\KeepEnv\Verification\VariableVerification;
-use Andriichuk\KeepEnv\Verification\VerificationReport;
+use Andriichuk\KeepEnv\Validation\Rules\RulesRegistry;
+use Andriichuk\KeepEnv\Validation\SpecValidationService;
+use Andriichuk\KeepEnv\Validation\ValidationReport;
+use Andriichuk\KeepEnv\Validation\VariableValidation;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -21,14 +21,14 @@ use Throwable;
 /**
  * @author Serhii Andriichuk <andriichuk29@gmail.com>
  */
-class VerifyCommand extends Command
+class ValidateCommand extends Command
 {
-    protected static $defaultName = 'verify';
+    protected static $defaultName = 'validate';
 
     protected function configure(): void
     {
         $this
-            ->addArgument('env', InputArgument::REQUIRED, 'Environment name to verify.')
+            ->addArgument('env', InputArgument::REQUIRED, 'Environment name to validate.')
             ->addOption(
                 'env-file',
                 'ef',
@@ -65,27 +65,27 @@ class VerifyCommand extends Command
                 false,
             )
             ->setDescription('Application environment verification.')
-            ->setHelp('This command allows you to verify environment variables according to the specification.');
+            ->setHelp('This command allows you to validate environment variables according to the specification.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $io->title('Starting to verify environment variables...');
+        $io->title('Environment validation...');
 
         $specReaderFactory = new SpecificationReaderFactory();
         $envLoaderFactory = new EnvLoaderFactory();
 
         $specFile = (string) $input->getOption('spec');
 
-        $service = new SpecVerificationService(
+        $service = new SpecValidationService(
             $specReaderFactory->basedOnSource($specFile),
             $envLoaderFactory->make((string) $input->getOption('env-provider')),
-            new VariableVerification(RulesRegistry::default()),
+            new VariableValidation(RulesRegistry::default()),
         );
 
         try {
-            $verificationReport = $service->verify(
+            $validationReport = $service->validate(
                 (string) $input->getArgument('env'),
                 (array) $input->getOption('env-file'),
                 $specFile,
@@ -97,8 +97,8 @@ class VerifyCommand extends Command
             return Command::FAILURE;
         }
 
-        if (!$verificationReport->isEmpty()) {
-            $this->renderMessages($verificationReport, $io);
+        if (!$validationReport->isEmpty()) {
+            $this->renderMessages($validationReport, $io);
 
             return Command::FAILURE;
         }
@@ -108,7 +108,7 @@ class VerifyCommand extends Command
         return Command::SUCCESS;
     }
 
-    private function renderMessages(VerificationReport $reports, SymfonyStyle $io): void
+    private function renderMessages(ValidationReport $reports, SymfonyStyle $io): void
     {
         $rows = [];
         $variables = [];

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\KeepEnv\Validation\Exceptions;
+namespace Andriichuk\KeepEnv\Validation\Rules\Exceptions;
 
 use Exception;
 

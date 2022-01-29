@@ -10,8 +10,8 @@ use Andriichuk\KeepEnv\Filling\EnvFileFillingService;
 use Andriichuk\KeepEnv\Specification\Reader\SpecificationYamlReader;
 use Andriichuk\KeepEnv\Specification\SpecificationArrayBuilder;
 use Andriichuk\KeepEnv\Specification\Variable;
-use Andriichuk\KeepEnv\Validation\RulesRegistry;
-use Andriichuk\KeepEnv\Verification\VariableVerification;
+use Andriichuk\KeepEnv\Validation\Rules\RulesRegistry;
+use Andriichuk\KeepEnv\Validation\VariableValidation;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
 use org\bovigo\vfs\vfsStreamFile;
@@ -46,7 +46,7 @@ class EnvFileFillingServiceTest extends TestCase
             new SpecificationYamlReader(new SpecificationArrayBuilder()),
             new VlucasPhpDotEnvFileReader(),
             new EnvFileWriter($this->rootFolder->getChild('.env')->url()),
-            new VariableVerification(RulesRegistry::default()),
+            new VariableValidation(RulesRegistry::default()),
         );
     }
 
