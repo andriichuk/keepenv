@@ -14,38 +14,38 @@ class SpecValidationService
 {
     private EnvLoaderInterface $envFileLoader;
     private SpecificationReaderInterface $specificationReader;
-    private VariableValidation $variableVerification;
+    private VariableValidation $variableValidation;
 
     public function __construct(
         SpecificationReaderInterface $specificationReader,
         EnvLoaderInterface $envFileLoader,
-        VariableValidation $variableVerification
+        VariableValidation $variableValidation
     ) {
         $this->envFileLoader = $envFileLoader;
         $this->specificationReader = $specificationReader;
-        $this->variableVerification = $variableVerification;
+        $this->variableValidation = $variableValidation;
     }
 
     public function validate(
         string $envName,
-        array  $envPaths,
+        array $envPaths,
         string $specPath,
-        bool   $overrideExistingVariables
+        bool $overrideExistingVariables
     ): ValidationReport {
         $envVariables = $this->specificationReader->read($specPath)->get($envName);
         $variableValues = $this->envFileLoader->load($envPaths, $overrideExistingVariables);
 
-        $verificationReport = new ValidationReport();
-        $verificationReport->setVariablesCount($envVariables->count());
+        $validationReport = new ValidationReport();
+        $validationReport->setVariablesCount($envVariables->count());
 
         foreach ($envVariables->all() as $variable) {
-            $report = $this->variableVerification->validate($variable, $variableValues[$variable->name] ?? null);
+            $report = $this->variableValidation->validate($variable, $variableValues[$variable->name] ?? null);
 
             foreach ($report as $reportItem) {
-                $verificationReport->add($reportItem);
+                $validationReport->add($reportItem);
             }
         }
 
-        return $verificationReport;
+        return $validationReport;
     }
 }

@@ -29,22 +29,35 @@
 * [About](#about)
 * [Installation](#installation)
 * [Initialization](#initialization)
-* [Verification](#verification)
+* [Validation](#validation)
+* [Filling](#filling)
 * [Syntax](#syntax)
 * [Tips](#tips)
+* [Contributing](#contributing)
 
 ### About
 
 KeepEnv is a CLI tool for checking and managing environment variables based on a specification file.
 
-Main features:
+Motivations:
+
+- I want to have a way to describe all environment variables in one specification file.
+- I want to make sure that all required variables are filled in correctly before deploying the application.
+- I don't want to check variables in runtime.
+- I want to keep track of new environment variables when they are added by one of my colleagues.
+- I want to have a convenient and safe way to fill in new variables.
+- I want to check variables from different state providers (system $_ENV, from .env file + system or only from .env file).
+- I don't want to manually describe all 100+ existing environment variables.
+- I want to use a tool that will not be tied to a specific framework, because I work with several frameworks
+
+Features:
 
 * Environment specification generation based on current `.env` files.
+* Environment variables validation.
 * Split variable definition between environments.
 * Extend variables from particular environment e.g. `local` from `common`.
-* Variable value validation.
 * Split system (`$_ENV`) and regular variables from `.env` files.
-* Ability to fill missing variables through console command (see ) 
+* Ability to fill missing variables through console command (see [filling](#filling)).
 
 ### Installation
 
@@ -58,52 +71,50 @@ composer require andriichuk/keepenv
 
 This command allows you to generate a new environment specification file based on your current `.env` structure.
 
-Options:
-
-* `env` target environment name (default: `common`)
-* `env-file` paths to DotEnv files (default: project root `./`)
-  * for `vlucas/dotenv` package it should be a path to directory
-  * for `symfony/dotenv` package it should be a path to files
-* `spec` path to the environment specification file that will be generated (default: `./keepenv.yaml`)
-* `env-reader` reader name (default: `auto`). Available values: `auto`, `vlucas/phpdotenv`, `symfony/dotenv`.
-* `preset` preset alias (default: `null`). Available values: `laravel`, `symfony`.
-
 Basic usage:
 
 ```shell
 ./keepenv init
 ```
 
-Using preset:
+This will create a specification file (`keepenv.yaml`) in your root directory with `common` environment. 
+
+Using preset (available presets: `laravel`, `symfony`):
 
 ```shell
 ./keepenv init --preset=laravel
 ```
 
-For custom `.env` files (`vlucas/dotenv`):
+Using custom `.env` files for `vlucas/dotenv` (paths to the folders with `.env` file):
 
 ```shell
 ./keepenv init --env-file=./ --env-file=./config/
 ```
 
-For custom `.env` files (`symfony/dotenv`):
+Using custom `.env` files for `symfony/dotenv` (direct file paths):
 
 ```shell
 ./keepenv init --env-file=./.env --env-file=./.env.local
 ```
 
-### Verification
+Environment file reader will be detected automatically, but you can customize it:
+
+```shell
+./keepenv init --env-reader=symfony/dotenv
+```
+
+### Validation
 
 Command:
 
 ```shell
-./keepenv verify local
+./keepenv validate local
 ```
 
 To customize:
 
 ```shell
-./keepenv verify local --env-file=./.env --spec=./env.spec.yaml
+./keepenv validate local --env-file=./.env --spec=./env.spec.yaml
 ```
 
 ### Filling
@@ -300,17 +311,31 @@ You can add a composer post update scripts for the new environment variables fil
 
 ```json
 "scripts": {
-  "post-update-cmd": [
-    "./vendor/bin/keepenv fill",
-    "./vendor/bin/keepenv validate",
-  ]
-}
+    "keepenv": "./vendor/bin/keepenv fill && ./vendor/bin/keepenv validate",
+},
+```
+
+Then use:
+
+```shell
+composer keepenv common
+```
+
+You can also define `keepenv` common on `post-update-cmd` composer event, so environment filling and validation will be running after each `composer update`:
+
+```json
+"scripts": {
+    // ... 
+    "post-update-cmd": [
+        "@keepenv common"
+    ]
+},
 ```
 
 Kubernetes
 
 ```shell
-./vendor/bin/keepenv verify --env-provider=system
+./vendor/bin/keepenv validate --env-provider=system
 ```
 
 ### Contributing

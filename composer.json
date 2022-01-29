@@ -40,6 +40,12 @@
         "vlucas/phpdotenv": "^5.4",
         "friendsofphp/php-cs-fixer": "^3.5"
     },
+    "scripts": {
+        "keepenv": "./bin/keepenv fill && ./bin/keepenv validate",
+        "post-update-cmd": [
+            "@keepenv common"
+        ]
+    },
     "minimum-stability": "dev",
     "prefer-stable": true,
     "config": {

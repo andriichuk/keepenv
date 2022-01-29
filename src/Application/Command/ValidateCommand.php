@@ -64,7 +64,7 @@ class ValidateCommand extends Command
                 'Flag for overriding system variables.',
                 false,
             )
-            ->setDescription('Application environment verification.')
+            ->setDescription('Application environment validation.')
             ->setHelp('This command allows you to validate environment variables according to the specification.');
     }
 

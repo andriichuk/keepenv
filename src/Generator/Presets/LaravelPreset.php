@@ -16,7 +16,7 @@ class LaravelPreset implements PresetInterface
         return [
             'APP_ENV' => new Variable(
                 'APP_ENV',
-                'Application environment.',
+                'Application environment name.',
                 false,
                 false,
                 [
@@ -27,7 +27,7 @@ class LaravelPreset implements PresetInterface
             ),
             'APP_KEY' => new Variable(
                 'APP_KEY',
-                'Application key.',
+                'Application key for data encryption.',
                 false,
                 false,
                 [
@@ -164,7 +164,7 @@ class LaravelPreset implements PresetInterface
             ),
             'SESSION_LIFETIME' => new Variable(
                 'SESSION_LIFETIME',
-                'Session lifetime.',
+                'Session lifetime in minutes.',
                 false,
                 false,
                 [

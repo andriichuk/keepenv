@@ -18,18 +18,18 @@ class EnvFileFillingService
     private SpecificationReaderInterface $specificationReader;
     private EnvReaderInterface $envReader;
     private EnvWriterInterface $envWriter;
-    private VariableValidationInterface $variableVerification;
+    private VariableValidationInterface $variableValidation;
 
     public function __construct(
         SpecificationReaderInterface $specificationReader,
         EnvReaderInterface $envReader,
         EnvWriterInterface $envWriter,
-        VariableValidationInterface $variableVerification
+        VariableValidationInterface $variableValidation
     ) {
         $this->specificationReader = $specificationReader;
         $this->envReader = $envReader;
         $this->envWriter = $envWriter;
-        $this->variableVerification = $variableVerification;
+        $this->variableValidation = $variableValidation;
     }
 
     public function fill(
@@ -57,7 +57,7 @@ class EnvFileFillingService
                 $value = (string) $variable->rules['equals'];
             } else {
                 $value = (string) $valueProvider($variable, function (string $value) use ($variable): string {
-                    $report = $this->variableVerification->validate($variable, $value);
+                    $report = $this->variableValidation->validate($variable, $value);
 
                     if ($report !== []) {
                         throw new RuntimeException(reset($report)->message);

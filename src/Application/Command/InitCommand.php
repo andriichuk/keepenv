@@ -29,7 +29,7 @@ class InitCommand extends Command
                 'env',
                 'e',
                 InputOption::VALUE_REQUIRED,
-                'Target environment name.',
+                'Common environment name.',
                 'common',
             )
             ->addOption(
@@ -43,7 +43,7 @@ class InitCommand extends Command
                 'env-reader',
                 'r',
                 InputOption::VALUE_REQUIRED,
-                'Reader name.',
+                'DotEnv file reader.',
                 'auto',
             )
             ->addOption(
@@ -66,7 +66,6 @@ class InitCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $io->title('Starting to generate a new specification based on environment files...');
 
         $envReaderFactory = new EnvReaderFactory();
         $writerFactory = new SpecWriterFactory();
@@ -90,7 +89,8 @@ class InitCommand extends Command
                 !empty($input->getOption('preset')) ? (string) $input->getOption('preset') : null,
             );
 
-            $io->success("Environment specification was successfully created.");
+            $fullPath = realpath($specFile);
+            $io->success("Environment specification file was successfully created.\nPlease review variables definition and commit the changes.\nFile path [$fullPath]");
 
             return Command::SUCCESS;
         } catch (Throwable $exception) {

@@ -7,7 +7,7 @@ environments:
                 rules:
                     required: true
             APP_ENV:
-                description: 'Application environment.'
+                description: 'Application environment name.'
                 default: local
                 rules:
                     required: true
@@ -23,7 +23,7 @@ environments:
                         - 'true'
                         - 'false'
             APP_KEY:
-                description: 'Application key.'
+                description: 'Application key for data encryption.'
                 rules:
                     required: true
             REDIS_PORT:
