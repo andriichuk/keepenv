@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Andriichuk\KeepEnv\Environment\Writer;
 
-use InvalidArgumentException;
 use RuntimeException;
 
 /**
@@ -12,12 +11,12 @@ use RuntimeException;
  */
 class EnvFileWriter implements EnvWriterInterface
 {
-    private string $filePath;
-    private static ?string $content = null;
+    private EnvFileManagerInterface $fileManager;
+    private static ?string $content;
 
-    public function __construct(string $filePath)
+    public function __construct(EnvFileManagerInterface $fileManager)
     {
-        $this->filePath = $filePath;
+        $this->fileManager = $fileManager;
         self::$content = null;
     }
 
@@ -27,27 +26,14 @@ class EnvFileWriter implements EnvWriterInterface
             return self::$content;
         }
 
-        if (!is_file($this->filePath)) {
-            throw new InvalidArgumentException('File does not exists.');
-        }
-
-        $content = file_get_contents($this->filePath);
-
-        if ($content === false) {
-            throw new RuntimeException('Cannot read the env file.');
-        }
-
-        self::$content = $content;
+        self::$content = $this->fileManager->read();
 
         return self::$content;
     }
 
     private function write(string $content): void
     {
-        if (file_put_contents($this->filePath, $content) === false) {
-            throw new RuntimeException('Error on write to file');
-        }
-
+        $this->fileManager->write($content);
         self::$content = $content;
     }
 
@@ -66,8 +52,25 @@ class EnvFileWriter implements EnvWriterInterface
             throw new RuntimeException("$key is already defined.");
         }
 
+        $this->write($this->content() . $this->prepareLine($key, $value));
+    }
+
+    public function addBatch(array $variables): void
+    {
+        $batch = '';
+
+        foreach ($variables as $key => $value) {
+            $batch .= $this->prepareLine($key, $value);
+        }
+
+        $this->write($batch);
+    }
+
+    private function prepareLine(string $key, string $value): string
+    {
         $value = $this->quote($value);
-        $this->write($this->content() . "$key=$value" . PHP_EOL);
+
+        return "$key=$value" . PHP_EOL;
     }
 
     public function has(string $key): bool

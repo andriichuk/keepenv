@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Andriichuk\KeepEnv\Functional\Environment\Writer;
 
+use Andriichuk\KeepEnv\Environment\Writer\EnvFileManager;
 use Andriichuk\KeepEnv\Environment\Writer\EnvFileWriter;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
@@ -29,7 +30,7 @@ class EnvFileWriterTest extends TestCase
                 ),
         );
 
-        $this->writer = new EnvFileWriter($this->rootFolder->getChild('.env')->url());
+        $this->writer = new EnvFileWriter(new EnvFileManager($this->rootFolder->getChild('.env')->url()));
     }
 
     public function testVariableExistenceCheck(): void
@@ -106,6 +107,25 @@ class EnvFileWriterTest extends TestCase
                 'TEST_KEY_WITH_SPACE="demo value"',
             )
         );
+    }
+
+    public function testWriterCanAddBatchOfVariables(): void
+    {
+        $this->writer->addBatch([
+            'TEST_NUMERIC_KEY' => '12345',
+            'TEST_EMPTY_STRING_KEY' => '',
+            'TEST_STRING_WITH_SPACE_KEY' => 'string with space',
+        ]);
+
+        $this->assertTrue($this->writer->has('TEST_NUMERIC_KEY'));
+        $this->assertTrue($this->writer->has('TEST_EMPTY_STRING_KEY'));
+        $this->assertTrue($this->writer->has('TEST_STRING_WITH_SPACE_KEY'));
+
+        $content = file_get_contents($this->rootFolder->getChild('.env')->url());
+
+        $this->assertIsInt(mb_strpos($content, 'TEST_NUMERIC_KEY=12345'));
+        $this->assertIsInt(mb_strpos($content, 'TEST_EMPTY_STRING_KEY='));
+        $this->assertIsInt(mb_strpos($content, 'TEST_STRING_WITH_SPACE_KEY="string with space"'));
     }
 
     public function testWriterThrowsExceptionWhenKeyAlreadyExists(): void

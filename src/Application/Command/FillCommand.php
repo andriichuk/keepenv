@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Andriichuk\KeepEnv\Application\Command;
 
 use Andriichuk\KeepEnv\Environment\Reader\EnvReaderFactory;
+use Andriichuk\KeepEnv\Environment\Writer\EnvFileManager;
 use Andriichuk\KeepEnv\Environment\Writer\EnvFileWriter;
 use Andriichuk\KeepEnv\Filling\EnvFileFillingService;
 use Andriichuk\KeepEnv\Specification\Reader\SpecificationReaderFactory;
@@ -40,7 +41,7 @@ class FillCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $io->title('Missing environment variables filling and validating.');
+        $io->title('Environment variables filling and validating.');
 
         $specReaderFactory = new SpecificationReaderFactory();
         $envReaderFactory = new EnvReaderFactory();
@@ -51,7 +52,7 @@ class FillCommand extends Command
         $service = new EnvFileFillingService(
             $specReaderFactory->basedOnSource($specFile),
             $envReaderFactory->make((string) $input->getOption('env-reader')),
-            new EnvFileWriter((string) $input->getOption('target-env-file')),
+            new EnvFileWriter(new EnvFileManager((string) $input->getOption('target-env-file'))),
             new VariableValidation(RulesRegistry::default()),
         );
         $countOfFilledVariables = $service->fill(

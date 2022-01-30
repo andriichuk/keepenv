@@ -3,6 +3,7 @@
 
 declare(strict_types=1);
 
+use Andriichuk\KeepEnv\Application\Command\DumpCommand;
 use Andriichuk\KeepEnv\Application\Command\FillCommand;
 use Andriichuk\KeepEnv\Application\Command\InitCommand;
 use Andriichuk\KeepEnv\Application\Command\ValidateCommand;
@@ -14,4 +15,5 @@ $application = new Application();
 $application->add(new InitCommand());
 $application->add(new ValidateCommand());
 $application->add(new FillCommand());
+$application->add(new DumpCommand());
 $application->run();
