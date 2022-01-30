@@ -61,27 +61,4 @@ class EnvVariablesTest extends TestCase
             $variables->toArray(),
         );
     }
-
-    public function testVariablesCanBeRetrievedByKeysIntersect(): void
-    {
-        $variables = new EnvVariables('production');
-        $variables->add(new Variable('APP_ENV', 'App description.'));
-        $variables->add(new Variable('APP_DEBUG', 'App debug.'));
-        $variables->add(new Variable('APP_LOCALE', 'App locale.'));
-
-        $this->assertEquals(
-            [
-                'APP_ENV' => [
-                    'description' => 'App description.',
-                ],
-                'APP_LOCALE' => [
-                    'description' => 'App locale.',
-                ],
-            ],
-            array_map(
-                static fn (Variable $variable) => $variable->toArray(),
-                $variables->onlyWithKeys(['APP_ENV', 'APP_LOCALE']),
-            )
-        );
-    }
 }

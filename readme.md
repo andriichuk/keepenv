@@ -48,7 +48,7 @@ Motivations:
 - I want to have a convenient and safe way to fill in new variables.
 - I want to check variables from different state providers (system $_ENV, from .env file + system or only from .env file).
 - I don't want to manually describe all 100+ existing environment variables.
-- I want to use a tool that will not be tied to a specific framework, because I work with several frameworks
+- I want to use a tool that will not be tied to a specific framework, because I work with several frameworks.
 
 Features:
 
@@ -57,7 +57,7 @@ Features:
 * Split variable definition between environments.
 * Extend variables from particular environment e.g. `local` from `common`.
 * Split system (`$_ENV`) and regular variables from `.env` files.
-* Ability to fill missing variables through console command (see [filling](#filling)).
+* Ability to fill missing variables through console command.
 
 ### Installation
 
