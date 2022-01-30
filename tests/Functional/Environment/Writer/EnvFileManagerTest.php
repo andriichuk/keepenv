@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Andriichuk\KeepEnv\Functional\Environment\Writer;
 
 use Andriichuk\KeepEnv\Environment\Writer\EnvFileManager;
+use Andriichuk\KeepEnv\Environment\Writer\Exceptions\EnvFileManagerException;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
 use org\bovigo\vfs\vfsStreamFile;
@@ -39,7 +40,16 @@ class EnvFileManagerTest extends TestCase
         );
         $manager = new EnvFileManager($this->rootFolder->getChild('.env')->url());
 
-        $this->assertEquals($line, $manager->content());
+        $this->assertEquals($line, $manager->read());
+    }
+
+    public function testManagerCannotReadContentFromMissingFile(): void
+    {
+        $this->expectException(EnvFileManagerException::class);
+        $this->expectExceptionMessage('Environment file does not exists [vfs://src/.env.test_exception].');
+
+        $manager = new EnvFileManager('vfs://src/.env.test_exception');
+        $manager->read();
     }
 
     public function testManagerCanWriteContentToFile(): void
@@ -51,6 +61,15 @@ class EnvFileManagerTest extends TestCase
         $manager->write($lines);
 
         $this->assertEquals($lines, file_get_contents($this->rootFolder->getChild('.env')->url()));
+    }
+
+    public function testManagerCannotWriteContentToMissingFile(): void
+    {
+        $this->expectException(EnvFileManagerException::class);
+        $this->expectExceptionMessage('Environment file does not exists [vfs://src/.env.test_exception].');
+
+        $manager = new EnvFileManager('vfs://src/.env.test_exception');
+        $manager->write('test');
     }
 
     public function testManagerCanCreateFileIfItDoesNotExists(): void

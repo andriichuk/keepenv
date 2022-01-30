@@ -26,7 +26,7 @@ class EnvFileWriter implements EnvWriterInterface
             return self::$content;
         }
 
-        self::$content = $this->fileManager->content();
+        self::$content = $this->fileManager->read();
 
         return self::$content;
     }

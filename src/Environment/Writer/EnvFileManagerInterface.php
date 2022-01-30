@@ -8,7 +8,7 @@ interface EnvFileManagerInterface
 {
     public function exists(): bool;
 
-    public function content(): string;
+    public function read(): string;
 
     public function write(string $content): void;
 

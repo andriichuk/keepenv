@@ -20,7 +20,7 @@ class EnvFileManager implements EnvFileManagerInterface
         return file_exists($this->filePath);
     }
 
-    public function content(): string
+    public function read(): string
     {
         if (!$this->exists()) {
             throw EnvFileManagerException::fileNotExists($this->filePath);
