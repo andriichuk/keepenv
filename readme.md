@@ -86,6 +86,12 @@ Using preset (available presets: `laravel`, `symfony`):
 ./vendor/bin/keepenv init --preset=laravel
 ```
 
+For Laravel Sail:
+
+```shell
+./vendor/bin/sail php ./vendor/bin/keepenv init --preset=laravel
+```
+
 Using custom `.env` files for `vlucas/dotenv` (paths to the folders with `.env` file):
 
 ```shell
@@ -363,7 +369,6 @@ You can also define `keepenv` common on `post-update-cmd` composer event, so env
 
 ```json
 "scripts": {
-    // ... 
     "post-update-cmd": [
         "@keepenv common"
     ]
