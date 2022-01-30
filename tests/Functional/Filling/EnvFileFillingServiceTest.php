@@ -37,7 +37,7 @@ class EnvFileFillingServiceTest extends TestCase
                 ),
         );
         $this->rootFolder->addChild(
-            (new vfsStreamFile('keepenv_laravel.yaml'))
+            (new vfsStreamFile('keepenv.yaml'))
                 ->setContent(
                     file_get_contents(dirname(__DIR__, 2) . '/fixtures/case_7/keepenv.yaml'),
                 ),
@@ -63,7 +63,7 @@ class EnvFileFillingServiceTest extends TestCase
         $countOfFilledVariables = $this->service->fill(
             'common',
             dirname($this->rootFolder->getChild('.env')->url()),
-            $this->rootFolder->getChild('keepenv_laravel.yaml')->url(),
+            $this->rootFolder->getChild('keepenv.yaml')->url(),
             static function (Variable $variable, callable $validator) use ($valueProviders): string {
                 if (!isset($valueProviders[$variable->name])) {
                     throw new RuntimeException("Undefined value provider for key $variable->name.");
@@ -93,7 +93,7 @@ class EnvFileFillingServiceTest extends TestCase
         $this->service->fill(
             'common',
             dirname($this->rootFolder->getChild('.env')->url()),
-            $this->rootFolder->getChild('keepenv_laravel.yaml')->url(),
+            $this->rootFolder->getChild('keepenv.yaml')->url(),
             static function (Variable $variable, callable $validator) use ($valueProviders): string {
                 return $validator($valueProviders[$variable->name]());
             },

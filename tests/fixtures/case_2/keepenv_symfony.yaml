@@ -2,37 +2,20 @@ version: '1.0'
 environments:
     common:
         variables:
-            APP_NAME:
-                description: 'Application name.'
-                rules:
-                    required: true
             APP_ENV:
                 description: 'Application environment name.'
-                default: local
+                default: dev
                 rules:
                     required: true
                     enum:
-                        - local
-                        - production
-            APP_DEBUG:
-                description: 'Application debug mode.'
-                default: 'true'
+                        - dev
+                        - test
+                        - prod
+            APP_SECRET:
+                description: 'Application secret.'
                 rules:
                     required: true
-                    enum:
-                        - 'true'
-                        - 'false'
-            APP_KEY:
-                description: 'Application key for data encryption.'
-                rules:
-                    required: true
-            REDIS_PORT:
-                description: 'Redis connection port.'
-                default: 6379
-                rules:
-                    required: true
-                    numeric: true
-            MAIL_FROM_ADDRESS:
-                description: 'Mail from address.'
+            DATABASE_URL:
+                description: 'Database URL.'
                 rules:
                     required: true

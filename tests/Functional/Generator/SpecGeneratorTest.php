@@ -20,11 +20,14 @@ use RuntimeException;
 class SpecGeneratorTest extends TestCase
 {
     private vfsStreamDirectory $rootFolder;
-    private SpecGenerator $specGenerator;
 
     protected function setUp(): void
     {
         $this->rootFolder = vfsStream::setup('src');
+    }
+
+    public function testEnvironmentSpecificationGeneration(): void
+    {
         $this->rootFolder->addChild(
             (new vfsStreamFile('.env'))
                 ->setContent(
@@ -33,49 +36,85 @@ class SpecGeneratorTest extends TestCase
                     ),
                 ),
         );
-        $this->rootFolder->addChild(
-            (new vfsStreamFile('keepenv_laravel.yaml'))
-                ->setContent(''),
-        );
 
-        $envReaderFactory = new EnvReaderFactory();
-        $writerFactory = new SpecWriterFactory();
-
-        $this->specGenerator = new SpecGenerator(
-            $envReaderFactory->make('auto'),
-            $writerFactory->basedOnResource($this->rootFolder->getChild('keepenv_laravel.yaml')->url()),
+        $specGenerator = new SpecGenerator(
+            (new EnvReaderFactory())->make('auto'),
+            (new SpecWriterFactory())->basedOnResource('vfs://src/keepenv.yaml'),
             new PresetFactory(),
         );
-    }
 
-    public function testEnvironmentSpecificationGeneration(): void
-    {
-        $this->specGenerator->generate(
+        $specGenerator->generate(
             'common',
             [dirname($this->rootFolder->getChild('.env')->url())],
-            $this->rootFolder->getChild('keepenv_laravel.yaml')->url(),
+            'vfs://src/keepenv.yaml',
             static fn (): bool => true,
         );
 
         $this->assertFileEquals(
             dirname(__DIR__, 2) . '/fixtures/case_1/keepenv.yaml',
-            $this->rootFolder->getChild('keepenv_laravel.yaml')->url(),
+            'vfs://src/keepenv.yaml',
         );
     }
 
     public function testEnvironmentSpecificationWithLaravelPresetGeneration(): void
     {
-        $this->specGenerator->generate(
+        $this->rootFolder->addChild(
+            (new vfsStreamFile('.env'))
+                ->setContent(
+                    file_get_contents(
+                        dirname(__DIR__, 2) . '/fixtures/case_2/.env',
+                    ),
+                ),
+        );
+
+        $specGenerator = new SpecGenerator(
+            (new EnvReaderFactory())->make('auto'),
+            (new SpecWriterFactory())->basedOnResource('vfs://src/keepenv_laravel.yaml'),
+            new PresetFactory(),
+        );
+
+        $specGenerator->generate(
             'common',
             [dirname($this->rootFolder->getChild('.env')->url())],
-            $this->rootFolder->getChild('keepenv_laravel.yaml')->url(),
+            'vfs://src/keepenv_laravel.yaml',
             static fn () => true,
             'laravel'
         );
 
         $this->assertFileEquals(
             dirname(__DIR__, 2) . '/fixtures/case_2/keepenv_laravel.yaml',
-            $this->rootFolder->getChild('keepenv_laravel.yaml')->url(),
+            'vfs://src/keepenv_laravel.yaml',
+        );
+    }
+
+    public function testEnvironmentSpecificationWithSymfonyPresetGeneration(): void
+    {
+        $this->rootFolder->addChild(
+            (new vfsStreamFile('.env.symfony'))
+                ->setContent(
+                    file_get_contents(
+                        dirname(__DIR__, 2) . '/fixtures/case_2/.env.symfony',
+                    ),
+                ),
+        );
+
+        $specGenerator = new SpecGenerator(
+            (new EnvReaderFactory())->make('symfony/dotenv'),
+            (new SpecWriterFactory())->basedOnResource('vfs://src/keepenv_symfony.yaml'),
+            new PresetFactory(),
+        );
+
+        $specGenerator->generate(
+            'common',
+            [$this->rootFolder->getChild('.env.symfony')->url()],
+            'vfs://src/keepenv_symfony.yaml',
+            static fn () => true,
+            'symfony'
+        );
+
+        $this->assertFileEquals(
+            dirname(__DIR__, 2) . '/fixtures/case_2/keepenv_symfony.yaml',
+            'vfs://src/keepenv_symfony.yaml',
         );
     }
 
@@ -83,10 +122,19 @@ class SpecGeneratorTest extends TestCase
     {
         $this->expectException(RuntimeException::class);
 
-        $this->specGenerator->generate(
+        $this->rootFolder->addChild((new vfsStreamFile('.env'))->setContent(''));
+        $this->rootFolder->addChild((new vfsStreamFile('keepenv.yaml'))->setContent(''));
+
+        $specGenerator = new SpecGenerator(
+            (new EnvReaderFactory())->make('auto'),
+            (new SpecWriterFactory())->basedOnResource('vfs://src/keepenv.yaml'),
+            new PresetFactory(),
+        );
+
+        $specGenerator->generate(
             'common',
             [dirname($this->rootFolder->getChild('.env')->url())],
-            $this->rootFolder->getChild('keepenv_laravel.yaml')->url(),
+            'vfs://src/keepenv.yaml',
             static fn () => false,
         );
     }

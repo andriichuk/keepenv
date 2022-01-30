@@ -43,13 +43,13 @@ class InitCommandTest extends TestCase
         $this->commandTester->execute([
             '--env' => 'common',
             '--env-file' => [dirname($this->rootFolder->getChild('.env')->url())],
-            '--spec' => 'vfs://src/keepenv_laravel.yaml',
+            '--spec' => 'vfs://src/keepenv.yaml',
         ]);
 
         $this->commandTester->assertCommandIsSuccessful();
         $this->assertFileEquals(
             dirname(__DIR__, 3) . '/fixtures/case_6/keepenv.yaml',
-            $this->rootFolder->getChild('keepenv_laravel.yaml')->url(),
+            $this->rootFolder->getChild('keepenv.yaml')->url(),
         );
     }
 }

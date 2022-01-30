@@ -35,7 +35,7 @@ class ValidateCommandTest extends TestCase
     protected function tearDown(): void
     {
         $this->rootFolder->removeChild('.env');
-        $this->rootFolder->removeChild('keepenv_laravel.yaml');
+        $this->rootFolder->removeChild('keepenv.yaml');
 
         $_ENV = [];
     }
@@ -50,7 +50,7 @@ class ValidateCommandTest extends TestCase
         );
 
         $this->rootFolder->addChild(
-            (new vfsStreamFile('keepenv_laravel.yaml'))
+            (new vfsStreamFile('keepenv.yaml'))
                 ->setContent(
                     file_get_contents(dirname(__DIR__, 3) . '/fixtures/case_3/keepenv.yaml'),
                 ),
@@ -59,7 +59,7 @@ class ValidateCommandTest extends TestCase
         $this->commandTester->execute([
             'env' => 'local',
             '--env-file' => [dirname($this->rootFolder->getChild('.env')->url())],
-            '--spec' => $this->rootFolder->getChild('keepenv_laravel.yaml')->url(),
+            '--spec' => $this->rootFolder->getChild('keepenv.yaml')->url(),
         ]);
 
         $this->commandTester->assertCommandIsSuccessful();
@@ -74,7 +74,7 @@ class ValidateCommandTest extends TestCase
                 ),
         );
         $this->rootFolder->addChild(
-            (new vfsStreamFile('keepenv_laravel.yaml'))
+            (new vfsStreamFile('keepenv.yaml'))
                 ->setContent(
                     file_get_contents(dirname(__DIR__, 3) . '/fixtures/case_4/keepenv.yaml'),
                 ),
@@ -83,7 +83,7 @@ class ValidateCommandTest extends TestCase
         $this->commandTester->execute([
             'env' => 'local',
             '--env-file' => [dirname($this->rootFolder->getChild('.env')->url())],
-            '--spec' => $this->rootFolder->getChild('keepenv_laravel.yaml')->url(),
+            '--spec' => $this->rootFolder->getChild('keepenv.yaml')->url(),
         ]);
 
         $this->assertEquals(Command::FAILURE, $this->commandTester->getStatusCode());

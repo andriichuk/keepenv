@@ -27,7 +27,7 @@ class DumpServiceTest extends TestCase
         $this->rootFolder = vfsStream::setup('src');
 
         $this->rootFolder->addChild(
-            (new vfsStreamFile('keepenv_laravel.yaml'))
+            (new vfsStreamFile('keepenv.yaml'))
                 ->setContent(
                     file_get_contents(dirname(__DIR__, 2) . '/fixtures/case_8/keepenv.yaml'),
                 ),
@@ -61,7 +61,7 @@ class DumpServiceTest extends TestCase
         $service->dump(
             'common',
             [dirname($this->rootFolder->getChild('.env')->url())],
-            $this->rootFolder->getChild('keepenv_laravel.yaml')->url(),
+            $this->rootFolder->getChild('keepenv.yaml')->url(),
             true,
             false,
         );
@@ -92,7 +92,7 @@ class DumpServiceTest extends TestCase
         $service->dump(
             'common',
             [],
-            $this->rootFolder->getChild('keepenv_laravel.yaml')->url(),
+            $this->rootFolder->getChild('keepenv.yaml')->url(),
             true,
             false,
         );
@@ -121,7 +121,7 @@ class DumpServiceTest extends TestCase
         $service->dump(
             'common',
             [dirname($this->rootFolder->getChild('.env')->url())],
-            $this->rootFolder->getChild('keepenv_laravel.yaml')->url(),
+            $this->rootFolder->getChild('keepenv.yaml')->url(),
             true,
             false,
         );

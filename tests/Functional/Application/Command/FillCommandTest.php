@@ -30,7 +30,7 @@ class FillCommandTest extends TestCase
                 ),
         );
         $this->rootFolder->addChild(
-            (new vfsStreamFile('keepenv_laravel.yaml'))
+            (new vfsStreamFile('keepenv.yaml'))
                 ->setContent(
                     file_get_contents(dirname(__DIR__, 3) . '/fixtures/case_7/keepenv.yaml'),
                 ),
@@ -56,7 +56,7 @@ class FillCommandTest extends TestCase
             '--env' => 'common',
             '--target-env-file' => $this->rootFolder->getChild('.env')->url(),
             '--env-file' => dirname($this->rootFolder->getChild('.env')->url()),
-            '--spec' => $this->rootFolder->getChild('keepenv_laravel.yaml')->url(),
+            '--spec' => $this->rootFolder->getChild('keepenv.yaml')->url(),
         ]);
 
         $this->commandTester->assertCommandIsSuccessful();
