@@ -139,7 +139,9 @@ For specific environment:
 
 ### Syntax
 
-Environments:
+Currently, only the YAML syntax format is supported.
+
+Environments definition:
 
 ```yaml
 version: '1.0'
@@ -152,66 +154,66 @@ environments:
         variables:
         # ...
     testing:
-      variables:
-      # ...
+        variables:
+        # ...
 ```
 
-Variable
+Variables definition:
 
-* `description` (string) variable description
+* Describe the purpose of variables:
 ```yaml
 SESSION_LIFETIME:
     description: 'Session lifetime in minutes.'
 ```
-* `export` (boolean)
+* Mark that variable should be followed by `export` keyword in `.env` file (`export APP_LOCALE=en`):
 ```yaml
-SESSION_LIFETIME: # TODO
-    description: 'Session lifetime in minutes.'
+APP_LOCALE:
+    export: true
 ```
-* `system` (boolean)
+* Mark that variable should be set on the server-side (`$_ENV` or `$_SERVER`) not from `.env` file:
 ```yaml
 APP_TIMEZONE:
     system: true
 ```
-* `default` (mixed)
+* Specify default value (please use this only for non-sensitive data):
 ```yaml
 REDIS_PORT:
     default: 6379
 ```
-* `rules` (array) validation rules, available rules
-  * `required` (boolean)
+* Describe validation rules:
+  * Mark variable as required:
   ```yaml
   APP_ENV:
       rules:
           required: true
   ```
-  * `string` (boolean)
+  * Check that variable value is a string (can usually be omitted because all values in the `.env` file are read as strings by default):
   ```yaml
   APP_ENV:
       rules:
           string: true
   ```
-  * `string` (array) with range
+  * String with length range
   ```yaml
-  APP_ENV:
+  APP_KEY:
       rules:
           string:
-              min: 2
-              max: 10
+              min: 32
+              max: 60
   ```
-  * `numeric: true` (boolean)
+  * Numeric
   ```yaml
-  APP_ENV:
+  REDIS_PORT:
       rules:
           numeric: true
   ```
-  * `email` (boolean)
+  * Email address
   ```yaml
   MAIL_FROM_ADDRESS:
       rules:
           email: true
   ```
-  * `enum` (array)
+  * Enumeration (also can be used for boolean options):
   ```yaml
   APP_ENV:
       rules:
@@ -219,18 +221,19 @@ REDIS_PORT:
               - local
               - production
   ```
-  * `equals` (mixed)
+  * Means that the value of the variable must be equal (`==`) to a specific value.
   ```yaml
   APP_ENV:
       rules:
           equals: local
   ```
-  * `ip` (boolean)
+  * IP address
   ```yaml
   DB_HOST:
       rules:
           ip: true
   ```
+
 Full example:
 
 ```yaml
@@ -241,7 +244,7 @@ environments:
             APP_NAME:
                 description: 'Application name.'
             APP_ENV:
-                description: 'Application environment.'
+                description: 'Application environment name.'
                 default: local
                 rules:
                     required: true
@@ -256,7 +259,7 @@ environments:
                     ip: true
             DB_PORT:
                 description: 'Database port.'
-                default: '3306'
+                default: 3306
                 rules:
                     required: true
                     numeric: true
@@ -319,7 +322,7 @@ APP_PAYMENT_FEATURE:
             - off
 ```
 
-You can add a composer post update scripts for the new environment variables filling and validation: 
+You can add a composer script for the new environment variables filling and validation: 
 
 ```json
 "scripts": {
@@ -342,12 +345,6 @@ You can also define `keepenv` common on `post-update-cmd` composer event, so env
         "@keepenv common"
     ]
 },
-```
-
-Kubernetes
-
-```shell
-./vendor/bin/keepenv validate --env-provider=system
 ```
 
 ### Contributing
