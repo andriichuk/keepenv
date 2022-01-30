@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\KeepEnv\Functional\Environment\Reader;
+namespace Andriichuk\KeepEnv\Tests\Functional\Environment\Reader;
 
 use Andriichuk\KeepEnv\Environment\Reader\SymfonyDotEnvFileReader;
 use org\bovigo\vfs\vfsStream;

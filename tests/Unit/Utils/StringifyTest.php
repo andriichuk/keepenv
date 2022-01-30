@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\KeepEnv\Unit\Utils;
+namespace Andriichuk\KeepEnv\Tests\Unit\Utils;
 
 use Andriichuk\KeepEnv\Utils\Stringify;
 use Generator;

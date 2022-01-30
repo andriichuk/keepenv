@@ -6,6 +6,9 @@ namespace Andriichuk\KeepEnv\Environment\Writer;
 
 use Andriichuk\KeepEnv\Environment\Writer\Exceptions\EnvFileManagerException;
 
+/**
+ * @author Serhii Andriichuk <andriichuk29@gmail.com>
+ */
 class EnvFileManager implements EnvFileManagerInterface
 {
     private string $filePath;

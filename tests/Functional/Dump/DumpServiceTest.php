@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\KeepEnv\Functional\Dump;
+namespace Andriichuk\KeepEnv\Tests\Functional\Dump;
 
 use Andriichuk\KeepEnv\Dump\DumpService;
 use Andriichuk\KeepEnv\Dump\Exceptions\EnvFileAlreadyExistsException;
@@ -27,7 +27,7 @@ class DumpServiceTest extends TestCase
         $this->rootFolder = vfsStream::setup('src');
 
         $this->rootFolder->addChild(
-            (new vfsStreamFile('keepenv.yaml'))
+            (new vfsStreamFile('keepenv_laravel.yaml'))
                 ->setContent(
                     file_get_contents(dirname(__DIR__, 2) . '/fixtures/case_8/keepenv.yaml'),
                 ),
@@ -61,7 +61,7 @@ class DumpServiceTest extends TestCase
         $service->dump(
             'common',
             [dirname($this->rootFolder->getChild('.env')->url())],
-            $this->rootFolder->getChild('keepenv.yaml')->url(),
+            $this->rootFolder->getChild('keepenv_laravel.yaml')->url(),
             true,
             false,
         );
@@ -92,7 +92,7 @@ class DumpServiceTest extends TestCase
         $service->dump(
             'common',
             [],
-            $this->rootFolder->getChild('keepenv.yaml')->url(),
+            $this->rootFolder->getChild('keepenv_laravel.yaml')->url(),
             true,
             false,
         );
@@ -121,7 +121,7 @@ class DumpServiceTest extends TestCase
         $service->dump(
             'common',
             [dirname($this->rootFolder->getChild('.env')->url())],
-            $this->rootFolder->getChild('keepenv.yaml')->url(),
+            $this->rootFolder->getChild('keepenv_laravel.yaml')->url(),
             true,
             false,
         );

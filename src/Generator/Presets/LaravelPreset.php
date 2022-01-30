@@ -7,6 +7,8 @@ namespace Andriichuk\KeepEnv\Generator\Presets;
 use Andriichuk\KeepEnv\Specification\Variable;
 
 /**
+ * TODO: Analyze and describe all typical environment variables for Symfony app
+ *
  * @author Serhii Andriichuk <andriichuk29@gmail.com>
  */
 class LaravelPreset implements PresetInterface

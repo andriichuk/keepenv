@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\KeepEnv\Functional\Application\Command;
+namespace Andriichuk\KeepEnv\Tests\Functional\Application\Command;
 
 use Andriichuk\KeepEnv\Application\Command\FillCommand;
 use org\bovigo\vfs\vfsStream;
@@ -30,7 +30,7 @@ class FillCommandTest extends TestCase
                 ),
         );
         $this->rootFolder->addChild(
-            (new vfsStreamFile('keepenv.yaml'))
+            (new vfsStreamFile('keepenv_laravel.yaml'))
                 ->setContent(
                     file_get_contents(dirname(__DIR__, 3) . '/fixtures/case_7/keepenv.yaml'),
                 ),
@@ -56,13 +56,13 @@ class FillCommandTest extends TestCase
             '--env' => 'common',
             '--target-env-file' => $this->rootFolder->getChild('.env')->url(),
             '--env-file' => dirname($this->rootFolder->getChild('.env')->url()),
-            '--spec' => $this->rootFolder->getChild('keepenv.yaml')->url(),
+            '--spec' => $this->rootFolder->getChild('keepenv_laravel.yaml')->url(),
         ]);
 
         $this->commandTester->assertCommandIsSuccessful();
-        $this->assertEquals(
-            file_get_contents(dirname(__DIR__, 3) . '/fixtures/case_7/.env.result'),
-            file_get_contents($this->rootFolder->getChild('.env')->url()),
+        $this->assertFileEquals(
+            dirname(__DIR__, 3) . '/fixtures/case_7/.env.result',
+            $this->rootFolder->getChild('.env')->url(),
         );
     }
 }

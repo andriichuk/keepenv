@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\KeepEnv\Unit\Specification;
+namespace Andriichuk\KeepEnv\Tests\Unit\Specification;
 
 use Andriichuk\KeepEnv\Specification\Variable;
 use PHPUnit\Framework\TestCase;

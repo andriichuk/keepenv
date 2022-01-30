@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\KeepEnv\Functional\Environment\Loader;
+namespace Andriichuk\KeepEnv\Tests\Functional\Environment\Loader;
 
 use Andriichuk\KeepEnv\Environment\Loader\VlucasPhpDotEnvStateLoader;
 use org\bovigo\vfs\vfsStream;

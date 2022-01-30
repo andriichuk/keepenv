@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Andriichuk\KeepEnv\Environment\Writer;
 
+/**
+ * @author Serhii Andriichuk <andriichuk29@gmail.com>
+ */
 interface EnvFileManagerInterface
 {
     public function exists(): bool;

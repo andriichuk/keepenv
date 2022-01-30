@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\KeepEnv\Unit\Specification\Reader;
+namespace Andriichuk\KeepEnv\Tests\Unit\Specification\Reader;
 
 use Andriichuk\KeepEnv\Specification\Reader\Exceptions\SpecificationReaderException;
 use Andriichuk\KeepEnv\Specification\Reader\SpecificationReaderFactory;
@@ -29,7 +29,7 @@ class SpecificationReaderFactoryTest extends TestCase
     public function readerSourcesProvider(): Generator
     {
         yield [
-            'source_path' => '/home/user/keepenv.yaml',
+            'source_path' => '/home/user/keepenv_laravel.yaml',
             'expected_type' => SpecificationYamlReader::class,
             'message' => 'Yaml source file.',
         ];

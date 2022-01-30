@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\KeepEnv\Functional\Application\Command;
+namespace Andriichuk\KeepEnv\Tests\Functional\Application\Command;
 
 use Andriichuk\KeepEnv\Application\Command\InitCommand;
 use org\bovigo\vfs\vfsStream;
@@ -43,13 +43,13 @@ class InitCommandTest extends TestCase
         $this->commandTester->execute([
             '--env' => 'common',
             '--env-file' => [dirname($this->rootFolder->getChild('.env')->url())],
-            '--spec' => 'vfs://src/keepenv.yaml',
+            '--spec' => 'vfs://src/keepenv_laravel.yaml',
         ]);
 
         $this->commandTester->assertCommandIsSuccessful();
-        $this->assertEquals(
-            file_get_contents(dirname(__DIR__, 3) . '/fixtures/case_6/keepenv.yaml'),
-            file_get_contents($this->rootFolder->getChild('keepenv.yaml')->url()),
+        $this->assertFileEquals(
+            dirname(__DIR__, 3) . '/fixtures/case_6/keepenv.yaml',
+            $this->rootFolder->getChild('keepenv_laravel.yaml')->url(),
         );
     }
 }

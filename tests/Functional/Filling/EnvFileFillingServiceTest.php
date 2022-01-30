@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\KeepEnv\Functional\Filling;
+namespace Andriichuk\KeepEnv\Tests\Functional\Filling;
 
 use Andriichuk\KeepEnv\Environment\Reader\VlucasPhpDotEnvFileReader;
 use Andriichuk\KeepEnv\Environment\Writer\EnvFileManager;
@@ -37,7 +37,7 @@ class EnvFileFillingServiceTest extends TestCase
                 ),
         );
         $this->rootFolder->addChild(
-            (new vfsStreamFile('keepenv.yaml'))
+            (new vfsStreamFile('keepenv_laravel.yaml'))
                 ->setContent(
                     file_get_contents(dirname(__DIR__, 2) . '/fixtures/case_7/keepenv.yaml'),
                 ),
@@ -63,7 +63,7 @@ class EnvFileFillingServiceTest extends TestCase
         $countOfFilledVariables = $this->service->fill(
             'common',
             dirname($this->rootFolder->getChild('.env')->url()),
-            $this->rootFolder->getChild('keepenv.yaml')->url(),
+            $this->rootFolder->getChild('keepenv_laravel.yaml')->url(),
             static function (Variable $variable, callable $validator) use ($valueProviders): string {
                 if (!isset($valueProviders[$variable->name])) {
                     throw new RuntimeException("Undefined value provider for key $variable->name.");
@@ -75,9 +75,9 @@ class EnvFileFillingServiceTest extends TestCase
         );
 
         $this->assertEquals(count($valueProviders), $countOfFilledVariables);
-        $this->assertEquals(
-            file_get_contents(dirname(__DIR__, 2) . '/fixtures/case_7/.env.result'),
-            file_get_contents($this->rootFolder->getChild('.env')->url()),
+        $this->assertFileEquals(
+            dirname(__DIR__, 2) . '/fixtures/case_7/.env.result',
+            $this->rootFolder->getChild('.env')->url(),
         );
     }
 
@@ -93,7 +93,7 @@ class EnvFileFillingServiceTest extends TestCase
         $this->service->fill(
             'common',
             dirname($this->rootFolder->getChild('.env')->url()),
-            $this->rootFolder->getChild('keepenv.yaml')->url(),
+            $this->rootFolder->getChild('keepenv_laravel.yaml')->url(),
             static function (Variable $variable, callable $validator) use ($valueProviders): string {
                 return $validator($valueProviders[$variable->name]());
             },

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\KeepEnv\Unit\Environment;
+namespace Andriichuk\KeepEnv\Tests\Unit\Environment;
 
 use Andriichuk\KeepEnv\Environment\Loader\EnvLoaderFactory;
 use Andriichuk\KeepEnv\Environment\Loader\SystemEnvStateLoader;

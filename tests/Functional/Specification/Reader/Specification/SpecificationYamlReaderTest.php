@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\KeepEnv\Functional\Specification\Reader\Specification;
+namespace Andriichuk\KeepEnv\Tests\Functional\Specification\Reader\Specification;
 
 use Andriichuk\KeepEnv\Specification\Reader\SpecificationYamlReader;
 use Andriichuk\KeepEnv\Specification\SpecificationArrayBuilder;
@@ -23,7 +23,7 @@ class SpecificationYamlReaderTest extends TestCase
     {
         $this->rootFolder = vfsStream::setup('src');
         $this->rootFolder->addChild(
-            (new vfsStreamFile('keepenv.yaml'))
+            (new vfsStreamFile('keepenv_laravel.yaml'))
                 ->setContent(
                     file_get_contents(
                         dirname(__DIR__, 4) . '/fixtures/case_5/keepenv.yaml',
@@ -37,13 +37,13 @@ class SpecificationYamlReaderTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
 
         $reader = new SpecificationYamlReader(new SpecificationArrayBuilder());
-        $reader->read('not-exists-keepenv.yaml');
+        $reader->read('not-exists-keepenv_laravel.yaml');
     }
 
     public function testReaderCanReadFile(): void
     {
         $reader = new SpecificationYamlReader(new SpecificationArrayBuilder());
-        $specification = $reader->read($this->rootFolder->getChild('keepenv.yaml')->url());
+        $specification = $reader->read($this->rootFolder->getChild('keepenv_laravel.yaml')->url());
 
         $this->assertEquals(
             [

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\KeepEnv\Unit\Validation\Rules;
+namespace Andriichuk\KeepEnv\Tests\Unit\Validation\Rules;
 
 use Andriichuk\KeepEnv\Validation\Rules\EmailRule;
 use Generator;

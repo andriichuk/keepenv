@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\KeepEnv\Functional\Application\Command;
+namespace Andriichuk\KeepEnv\Tests\Functional\Application\Command;
 
 use Andriichuk\KeepEnv\Application\Command\DumpCommand;
 use org\bovigo\vfs\vfsStream;
@@ -34,7 +34,7 @@ class DumpCommandTest extends TestCase
     public function testCommandCanDumpEnvironmentVariablesToFile(): void
     {
         $this->rootFolder->addChild(
-            (new vfsStreamFile('keepenv.yaml'))
+            (new vfsStreamFile('keepenv_laravel.yaml'))
                 ->setContent(
                     file_get_contents(dirname(__DIR__, 3) . '/fixtures/case_8/keepenv.yaml'),
                 ),
@@ -46,7 +46,7 @@ class DumpCommandTest extends TestCase
             '--target-env-file' => 'vfs://src/.env.command_test',
             '--env-provider' => 'system',
             '--with-values' => true,
-            '--spec' => 'vfs://src/keepenv.yaml'
+            '--spec' => 'vfs://src/keepenv_laravel.yaml'
         ]);
 
         $this->commandTester->assertCommandIsSuccessful();
@@ -60,7 +60,7 @@ class DumpCommandTest extends TestCase
     {
         $this->rootFolder->addChild((new vfsStreamFile('.env'))->setContent(''));
         $this->rootFolder->addChild(
-            (new vfsStreamFile('keepenv.yaml'))
+            (new vfsStreamFile('keepenv_laravel.yaml'))
                 ->setContent(
                     file_get_contents(dirname(__DIR__, 3) . '/fixtures/case_8/keepenv.yaml'),
                 ),
@@ -76,7 +76,7 @@ class DumpCommandTest extends TestCase
             '--target-env-file' => 'vfs://src/.env',
             '--env-provider' => 'system',
             '--with-values' => true,
-            '--spec' => 'vfs://src/keepenv.yaml'
+            '--spec' => 'vfs://src/keepenv_laravel.yaml'
         ]);
 
         $this->assertEquals(1, $this->commandTester->getStatusCode());

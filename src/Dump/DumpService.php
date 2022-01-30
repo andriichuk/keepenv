@@ -12,6 +12,9 @@ use Andriichuk\KeepEnv\Specification\Reader\SpecificationReaderInterface;
 use Andriichuk\KeepEnv\Utils\Stringify;
 use JsonException;
 
+/**
+ * @author Serhii Andriichuk <andriichuk29@gmail.com>
+ */
 class DumpService
 {
     private SpecificationReaderInterface $specReader;

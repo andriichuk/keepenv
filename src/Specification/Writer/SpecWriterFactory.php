@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Andriichuk\KeepEnv\Specification\Writer;
 
+use Andriichuk\KeepEnv\Specification\Writer\Exceptions\SpecFactoryException;
+
 /**
  * @author Serhii Andriichuk <andriichuk29@gmail.com>
  */
@@ -14,15 +16,17 @@ class SpecWriterFactory
         $type = pathinfo($sourcePath, PATHINFO_EXTENSION);
 
         switch ($type) {
-            case 'php':
-                throw new \InvalidArgumentException('Not implemented yet.');
-
             case 'yml':
             case 'yaml':
                 return new SpecYamlWriter();
 
+            case 'xml':
+            case 'json':
+            case 'php':
+                throw SpecFactoryException::notImplementedYet($type);
+
             default:
-                throw new \InvalidArgumentException("Unsupported writer type `{$type}`.");
+                throw SpecFactoryException::notSupported($type);
         }
     }
 }
