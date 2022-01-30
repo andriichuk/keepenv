@@ -13,6 +13,11 @@ interface EnvWriterInterface
 
     public function add(string $key, string $value): void;
 
+    /**
+     * @param array<string, string> $variables
+     */
+    public function addBatch(array $variables): void;
+
     public function has(string $key): bool;
 
     public function update(string $key, string $value): void;

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Andriichuk\KeepEnv\Functional\Filling;
 
 use Andriichuk\KeepEnv\Environment\Reader\VlucasPhpDotEnvFileReader;
+use Andriichuk\KeepEnv\Environment\Writer\EnvFileManager;
 use Andriichuk\KeepEnv\Environment\Writer\EnvFileWriter;
 use Andriichuk\KeepEnv\Filling\EnvFileFillingService;
 use Andriichuk\KeepEnv\Specification\Reader\SpecificationYamlReader;
@@ -45,7 +46,7 @@ class EnvFileFillingServiceTest extends TestCase
         $this->service = new EnvFileFillingService(
             new SpecificationYamlReader(new SpecificationArrayBuilder()),
             new VlucasPhpDotEnvFileReader(),
-            new EnvFileWriter($this->rootFolder->getChild('.env')->url()),
+            new EnvFileWriter(new EnvFileManager($this->rootFolder->getChild('.env')->url())),
             new VariableValidation(RulesRegistry::default()),
         );
     }
