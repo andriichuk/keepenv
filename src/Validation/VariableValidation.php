@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\KeepEnv\Verification;
+namespace Andriichuk\KeepEnv\Validation;
 
 use Andriichuk\KeepEnv\Specification\Variable;
-use Andriichuk\KeepEnv\Validation\RulesRegistryInterface;
+use Andriichuk\KeepEnv\Validation\Rules\RulesRegistryInterface;
 
 /**
  * @author Serhii Andriichuk <andriichuk29@gmail.com>
  */
-class VariableVerification
+class VariableValidation implements VariableValidationInterface
 {
     private RulesRegistryInterface $rulesRegistry;
 
@@ -34,7 +34,7 @@ class VariableVerification
 
         /**
          * @var string $ruleName
-         * @var mixed $options
+         * @var array|scalar|null $options
          */
         foreach ($variable->rules as $ruleName => $options) {
             $validator = $this->rulesRegistry->get($ruleName);

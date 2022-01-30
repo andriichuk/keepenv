@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Andriichuk\KeepEnv\Unit\Validation\Rules;
 
-use Andriichuk\KeepEnv\Validation\Exceptions\RuleOptionsException;
+use Andriichuk\KeepEnv\Validation\Rules\Exceptions\RuleOptionsException;
 use Andriichuk\KeepEnv\Validation\Rules\StringRule;
 use Generator;
 use PHPUnit\Framework\TestCase;

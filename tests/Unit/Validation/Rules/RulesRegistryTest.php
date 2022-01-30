@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\KeepEnv\Unit\Validation;
+namespace Andriichuk\KeepEnv\Unit\Validation\Rules;
 
-use Andriichuk\KeepEnv\Validation\RuleInterface;
-use Andriichuk\KeepEnv\Validation\RulesRegistry;
+use Andriichuk\KeepEnv\Validation\Rules\RuleInterface;
+use Andriichuk\KeepEnv\Validation\Rules\RulesRegistry;
 use OutOfRangeException;
 use PHPUnit\Framework\TestCase;
 

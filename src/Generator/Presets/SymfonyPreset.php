@@ -16,7 +16,7 @@ class SymfonyPreset implements PresetInterface
         return [
             'APP_ENV' => new Variable(
                 'APP_ENV',
-                'Application environment.',
+                'Application environment name.',
                 false,
                 false,
                 [

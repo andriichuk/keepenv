@@ -29,22 +29,39 @@
 * [About](#about)
 * [Installation](#installation)
 * [Initialization](#initialization)
-* [Verification](#verification)
+* [Validation](#validation)
+* [Filling](#filling)
 * [Syntax](#syntax)
+* [Tips](#tips)
+* [Contributing](#contributing)
 
 ### About
 
-KeepEnv is a tool for checking and managing environment variables based on a specification file.
+KeepEnv is a CLI tool for checking and managing environment variables based on a specification file.
 
-Main features:
+Motivations:
+
+- I want to have a way to describe all environment variables in one specification file.
+- I want to make sure that all required variables are filled in correctly before deploying the application.
+- I don't want to check variables in runtime.
+- I want to keep track of new environment variables when they are added by one of my colleagues.
+- I want to have a convenient and safe way to fill in new variables.
+- I want to check variables from different state providers (system $_ENV, from .env file + system or only from .env file).
+- I don't want to manually describe all 100+ existing environment variables.
+- I want to use a tool that will not be tied to a specific framework, because I work with several frameworks.
+
+Features:
 
 * Environment specification generation based on current `.env` files.
-* Split variables between environments.
+* Environment variables validation.
+* Split variable definition between environments.
 * Extend variables from particular environment e.g. `local` from `common`.
-* Variable value validation.
 * Split system (`$_ENV`) and regular variables from `.env` files.
+* Ability to fill missing variables through console command.
 
 ### Installation
+
+Install composer package:
 
 ```shell
 composer require andriichuk/keepenv
@@ -54,59 +71,77 @@ composer require andriichuk/keepenv
 
 This command allows you to generate a new environment specification file based on your current `.env` structure.
 
-Options:
+Basic usage:
 
-* `env` target environment name (default: `common`)
-* `env-file` paths to DotEnv files (default: project root `./`)
-  * for `vlucas/dotenv` package it should be a path to directory
-  * for `symfony/dotenv` package it should be a path to files
-* `spec` path to the environment specification file that will be generated (default: `./keepenv.yaml`)
-* `env-reader` reader name (default: `auto`). Available values: `auto`, `vlucas/phpdotenv`, `symfony/dotenv`.
-* `preset` preset alias (default: `null`). Available values: `laravel`, `symfony`.
+```shell
+./vendor/bin/keepenv init
+```
+
+This will create a specification file (`keepenv.yaml`) in your root directory with `common` environment. 
+
+Using preset (available presets: `laravel`, `symfony`):
+
+```shell
+./vendor/bin/keepenv init --preset=laravel
+```
+
+Using custom `.env` files for `vlucas/dotenv` (paths to the folders with `.env` file):
+
+```shell
+./vendor/bin/keepenv init --env-file=./ --env-file=./config/
+```
+
+Using custom `.env` files for `symfony/dotenv` (direct file paths):
+
+```shell
+./vendor/bin/keepenv init --env-file=./.env --env-file=./.env.local
+```
+
+Environment file reader will be detected automatically, but you can customize it:
+
+```shell
+./vendor/bin/keepenv init --env-reader=symfony/dotenv --env-file=./.env
+```
+
+### Validation
+
+Using this command you can check your environment variables according to the specification file `keepenv.yaml`.
 
 Basic usage:
 
 ```shell
-./keepenv init
+./vendor/bin/keepenv validate common
 ```
 
-Using preset:
+Check only system variables (`$_ENV`) without looking at the `.env` file:
 
 ```shell
-./keepenv init --preset=laravel
+./vendor/bin/keepenv validate common --env-provider=system
 ```
 
-For custom `.env` files (`vlucas/dotenv`):
+Use `--help` option to check other parameters.
 
-```shell
-./keepenv init --env-file=./ --env-file=./config/
-```
+### Filling
 
-For custom `.env` files (`symfony/dotenv`):
-
-```shell
-./keepenv init --env-file=./.env --env-file=./.env.local
-```
-
-
-
-### Verification
+This command allows you to fill in and validate missing variable values from your `.env` file (use `--help` for list of all options). 
 
 Command:
 
 ```shell
-./keepenv verify local
+./vendor/bin/keepenv fill
 ```
 
-To customize:
+For specific environment:
 
 ```shell
-./keepenv verify local --env-file=./.env --spec=./env.spec.yaml
+./vendor/bin/keepenv fill --env=common
 ```
 
 ### Syntax
 
-Environments:
+Currently, only the YAML syntax format is supported.
+
+Environments definition:
 
 ```yaml
 version: '1.0'
@@ -119,66 +154,66 @@ environments:
         variables:
         # ...
     testing:
-      variables:
-      # ...
+        variables:
+        # ...
 ```
 
-Variable
+Variables definition:
 
-* `description` (string) variable description
+* Describe the purpose of variables:
 ```yaml
 SESSION_LIFETIME:
     description: 'Session lifetime in minutes.'
 ```
-* `export` (boolean)
+* Mark that variable should be followed by `export` keyword in `.env` file (`export APP_LOCALE=en`):
 ```yaml
-SESSION_LIFETIME: # TODO
-    description: 'Session lifetime in minutes.'
+APP_LOCALE:
+    export: true
 ```
-* `system` (boolean)
+* Mark that variable should be set on the server-side (`$_ENV` or `$_SERVER`) not from `.env` file:
 ```yaml
 APP_TIMEZONE:
     system: true
 ```
-* `default` (mixed)
+* Specify default value (please use this only for non-sensitive data):
 ```yaml
 REDIS_PORT:
     default: 6379
 ```
-* `rules` (array) validation rules, available rules
-  * `required` (boolean)
+* Describe validation rules:
+  * Mark variable as required:
   ```yaml
   APP_ENV:
       rules:
           required: true
   ```
-  * `string` (boolean)
+  * Check that variable value is a string (can usually be omitted because all values in the `.env` file are read as strings by default):
   ```yaml
   APP_ENV:
       rules:
           string: true
   ```
-  * `string` (array) with range
+  * String with length range
   ```yaml
-  APP_ENV:
+  APP_KEY:
       rules:
           string:
-              min: 2
-              max: 10
+              min: 32
+              max: 60
   ```
-  * `numeric: true`
+  * Numeric
   ```yaml
-  APP_ENV:
+  REDIS_PORT:
       rules:
           numeric: true
   ```
-  * `email` (boolean)
+  * Email address
   ```yaml
   MAIL_FROM_ADDRESS:
       rules:
           email: true
   ```
-  * `enum` (array)
+  * Enumeration (also can be used for boolean options):
   ```yaml
   APP_ENV:
       rules:
@@ -186,18 +221,19 @@ REDIS_PORT:
               - local
               - production
   ```
-  * `equals` (mixed)
+  * Means that the value of the variable must be equal (`==`) to a specific value.
   ```yaml
   APP_ENV:
       rules:
           equals: local
   ```
-  * `ip` (string)
+  * IP address
   ```yaml
   DB_HOST:
       rules:
           ip: true
   ```
+
 Full example:
 
 ```yaml
@@ -208,7 +244,7 @@ environments:
             APP_NAME:
                 description: 'Application name.'
             APP_ENV:
-                description: 'Application environment.'
+                description: 'Application environment name.'
                 default: local
                 rules:
                     required: true
@@ -223,7 +259,7 @@ environments:
                     ip: true
             DB_PORT:
                 description: 'Database port.'
-                default: '3306'
+                default: 3306
                 rules:
                     required: true
                     numeric: true
@@ -233,7 +269,7 @@ environments:
         variables:
             APP_ENV:
                 rules:
-                    equals: 'local'
+                    equals: local
 
     testing:
         variables:
@@ -250,6 +286,65 @@ environments:
                 description: 'Database password.'
                 rules:
                     required: true
+```
+
+### Tips
+
+Use `equals` rule to check for a specific value for the environment, e.g., a useful example for `APP_ENV`:
+
+```yaml
+version: '1.0'
+environments:
+    common:
+        variables:
+            APP_ENV:
+                rules:
+                    required: true
+                    enum:
+                        - local
+                        - production
+            # ...
+    production:
+        extends: common
+        variables:
+            APP_ENV:
+                rules:
+                    equals: production
+```
+
+Boolean type is not supported yet, so for now you can use `enum` rule ([true, false,], [yes, no], [on, off], [1, 0]): 
+
+```yaml
+APP_PAYMENT_FEATURE:
+    rules:
+        enum:
+            - on
+            - off
+```
+
+You can add a composer script for the new environment variables filling and validation: 
+
+```json
+"scripts": {
+    "keepenv": "./vendor/bin/keepenv fill && ./vendor/bin/keepenv validate",
+},
+```
+
+Then use:
+
+```shell
+composer keepenv common
+```
+
+You can also define `keepenv` common on `post-update-cmd` composer event, so environment filling and validation will be running after each `composer update`:
+
+```json
+"scripts": {
+    // ... 
+    "post-update-cmd": [
+        "@keepenv common"
+    ]
+},
 ```
 
 ### Contributing

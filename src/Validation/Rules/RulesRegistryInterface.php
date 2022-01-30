@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\KeepEnv\Validation;
+namespace Andriichuk\KeepEnv\Validation\Rules;
 
 /**
  * @author Serhii Andriichuk <andriichuk29@gmail.com>

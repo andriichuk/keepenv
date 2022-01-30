@@ -83,7 +83,7 @@ class EnumRuleTest extends TestCase
 
     public function testValidatorThrowsExceptionOnInvalidOption(): void
     {
-        $this->expectException(\Andriichuk\KeepEnv\Validation\Exceptions\RuleOptionsException::class);
+        $this->expectException(\Andriichuk\KeepEnv\Validation\Rules\Exceptions\RuleOptionsException::class);
 
         $validator = new EnumRule();
         $validator->validate('local', []);

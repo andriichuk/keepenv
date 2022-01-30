@@ -16,7 +16,7 @@ class LaravelPreset implements PresetInterface
         return [
             'APP_ENV' => new Variable(
                 'APP_ENV',
-                'Application environment.',
+                'Application environment name.',
                 false,
                 false,
                 [
@@ -27,7 +27,7 @@ class LaravelPreset implements PresetInterface
             ),
             'APP_KEY' => new Variable(
                 'APP_KEY',
-                'Application key.',
+                'Application key for data encryption.',
                 false,
                 false,
                 [
@@ -75,7 +75,6 @@ class LaravelPreset implements PresetInterface
                 [
                     'required' => true,
                 ],
-                '127.0.0.1',
             ),
             'DB_HOST' => new Variable(
                 'DB_HOST',
@@ -84,7 +83,6 @@ class LaravelPreset implements PresetInterface
                 false,
                 [
                     'required' => true,
-                    'ip' => true,
                 ],
                 '127.0.0.1',
             ),
@@ -117,7 +115,6 @@ class LaravelPreset implements PresetInterface
                 false,
                 [
                     'required' => true,
-                    'ip' => true,
                 ],
                 '127.0.0.1',
             ),
@@ -167,7 +164,7 @@ class LaravelPreset implements PresetInterface
             ),
             'SESSION_LIFETIME' => new Variable(
                 'SESSION_LIFETIME',
-                'Session lifetime.',
+                'Session lifetime in minutes.',
                 false,
                 false,
                 [
@@ -183,7 +180,6 @@ class LaravelPreset implements PresetInterface
                 false,
                 [
                     'required' => true,
-                    'ip' => true,
                 ],
                 '127.0.0.1',
             ),

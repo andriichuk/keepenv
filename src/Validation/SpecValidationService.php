@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\KeepEnv\Verification;
+namespace Andriichuk\KeepEnv\Validation;
 
 use Andriichuk\KeepEnv\Environment\Loader\EnvLoaderInterface;
 use Andriichuk\KeepEnv\Specification\Reader\SpecificationReaderInterface;
@@ -10,42 +10,42 @@ use Andriichuk\KeepEnv\Specification\Reader\SpecificationReaderInterface;
 /**
  * @author Serhii Andriichuk <andriichuk29@gmail.com>
  */
-class SpecVerificationService
+class SpecValidationService
 {
     private EnvLoaderInterface $envFileLoader;
     private SpecificationReaderInterface $specificationReader;
-    private VariableVerification $variableVerification;
+    private VariableValidationInterface $variableValidation;
 
     public function __construct(
         SpecificationReaderInterface $specificationReader,
         EnvLoaderInterface $envFileLoader,
-        VariableVerification $variableVerification
+        VariableValidationInterface $variableValidation
     ) {
         $this->envFileLoader = $envFileLoader;
         $this->specificationReader = $specificationReader;
-        $this->variableVerification = $variableVerification;
+        $this->variableValidation = $variableValidation;
     }
 
-    public function verify(
+    public function validate(
         string $envName,
-        array  $envPaths,
+        array $envPaths,
         string $specPath,
-        bool   $overrideExistingVariables
-    ): VerificationReport {
+        bool $overrideExistingVariables
+    ): ValidationReport {
         $envVariables = $this->specificationReader->read($specPath)->get($envName);
         $variableValues = $this->envFileLoader->load($envPaths, $overrideExistingVariables);
 
-        $verificationReport = new VerificationReport();
-        $verificationReport->setVariablesCount($envVariables->count());
+        $validationReport = new ValidationReport();
+        $validationReport->setVariablesCount($envVariables->count());
 
         foreach ($envVariables->all() as $variable) {
-            $report = $this->variableVerification->validate($variable, $variableValues[$variable->name] ?? null);
+            $report = $this->variableValidation->validate($variable, $variableValues[$variable->name] ?? null);
 
             foreach ($report as $reportItem) {
-                $verificationReport->add($reportItem);
+                $validationReport->add($reportItem);
             }
         }
 
-        return $verificationReport;
+        return $validationReport;
     }
 }

@@ -25,13 +25,13 @@
         }
     },
     "require": {
-        "php": "^7.4|^8.0",
+        "php": "^7.4 || ^8.0",
         "ext-mbstring": "*",
-        "symfony/console": "^5.4",
-        "symfony/yaml": "^5.4"
+        "ext-json": "*",
+        "symfony/yaml": "^5.4",
+        "symfony/console": "^5.0 || ^6.0"
     },
     "require-dev": {
-        "roave/security-advisories": "dev-latest",
         "symfony/var-dumper": "^v5.4",
         "phpunit/phpunit": "^9.5",
         "vimeo/psalm": "^4.16",

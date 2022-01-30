@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace Andriichuk\KeepEnv\Validation\Rules;
 
-use Andriichuk\KeepEnv\Validation\Exceptions\RuleOptionsException;
-use Andriichuk\KeepEnv\Validation\RuleInterface;
+use Andriichuk\KeepEnv\Validation\Rules\Exceptions\RuleOptionsException;
 
 /**
  * @author Serhii Andriichuk <andriichuk29@gmail.com>
@@ -41,7 +40,7 @@ class EnumRule implements RuleInterface
      */
     public function validate($value, $options): bool
     {
-        if (empty($options)) {
+        if (empty($options) || !is_array($options)) {
             throw RuleOptionsException::invalidCasesForEnum();
         }
 

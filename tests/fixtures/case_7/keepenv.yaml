@@ -6,33 +6,23 @@ environments:
                 description: 'Application name.'
                 rules:
                     required: true
+                    string: true
             APP_ENV:
-                description: 'Application environment name.'
-                default: local
+                description: 'Application environment.'
                 rules:
                     required: true
                     enum:
                         - local
                         - production
             APP_DEBUG:
-                description: 'Application debug mode.'
-                default: 'true'
+                description: 'Application debug.'
                 rules:
                     required: true
                     enum:
                         - 'true'
                         - 'false'
-            APP_KEY:
-                description: 'Application key for data encryption.'
-                rules:
-                    required: true
             REDIS_PORT:
-                description: 'Redis connection port.'
-                default: 6379
+                description: 'Redis port.'
                 rules:
                     required: true
                     numeric: true
-            MAIL_FROM_ADDRESS:
-                description: 'Mail from address.'
-                rules:
-                    required: true

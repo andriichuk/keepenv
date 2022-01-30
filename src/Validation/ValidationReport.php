@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\KeepEnv\Verification;
+namespace Andriichuk\KeepEnv\Validation;
 
 /**
  * @author Serhii Andriichuk <andriichuk29@gmail.com>
  */
-class VerificationReport
+class ValidationReport
 {
     /**
      * @var VariableReport[]

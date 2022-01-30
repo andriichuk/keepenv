@@ -2,15 +2,8 @@
 
 declare(strict_types=1);
 
-namespace Andriichuk\KeepEnv\Validation;
+namespace Andriichuk\KeepEnv\Validation\Rules;
 
-use Andriichuk\KeepEnv\Validation\Rules\EmailRule;
-use Andriichuk\KeepEnv\Validation\Rules\EnumRule;
-use Andriichuk\KeepEnv\Validation\Rules\EqualsRule;
-use Andriichuk\KeepEnv\Validation\Rules\IpRule;
-use Andriichuk\KeepEnv\Validation\Rules\NumericRule;
-use Andriichuk\KeepEnv\Validation\Rules\RequiredRule;
-use Andriichuk\KeepEnv\Validation\Rules\StringRule;
 use OutOfRangeException;
 
 /**

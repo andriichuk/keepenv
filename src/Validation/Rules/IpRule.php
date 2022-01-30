@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Andriichuk\KeepEnv\Validation\Rules;
 
-use Andriichuk\KeepEnv\Validation\RuleInterface;
-
 /**
  * @author Serhii Andriichuk <andriichuk29@gmail.com>
  */
