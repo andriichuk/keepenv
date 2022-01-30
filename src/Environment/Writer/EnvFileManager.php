@@ -41,7 +41,7 @@ class EnvFileManager implements EnvFileManagerInterface
             throw EnvFileManagerException::fileNotExists($this->filePath);
         }
 
-        if (file_put_contents($this->filePath, $content) === false) {
+        if (!is_writable($this->filePath) || file_put_contents($this->filePath, $content) === false) {
             throw EnvFileManagerException::cannotWrite($this->filePath);
         }
     }

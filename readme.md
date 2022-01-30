@@ -31,6 +31,7 @@
 * [Initialization](#initialization)
 * [Validation](#validation)
 * [Filling](#filling)
+* [Dumping](#dumping)
 * [Syntax](#syntax)
 * [Tips](#tips)
 * [Contributing](#contributing)
@@ -135,6 +136,28 @@ For specific environment:
 
 ```shell
 ./vendor/bin/keepenv fill --env=common
+```
+
+### Dumping
+
+Using this command you can export all your variables defined in `keepenv.yaml` file into the custom `.env` file.
+
+Create a new `.env` file according to variables defined in the `keepenv.yaml` (same as `cp .env.example .env`). Variables will be filled in only with default values. Perhaps now you can delete the `.env.example` file:
+
+```shell
+./vendor/bin/keepenv dump
+```
+
+Dump system variables into the file:
+
+```shell
+./vendor/bin/keepenv dump --target-env-file=./.env.system --env-provider=system --with-values=true
+```
+
+Create a new `.env.stage` file based on `production` environment specification and current `.env` file:
+
+```shell
+./vendor/bin/keepenv dump --env=production --target-env-file=./.env.stage --env-file=./ --with-values=true
 ```
 
 ### Syntax

@@ -33,8 +33,8 @@ class DumpCommand extends Command
             ->addOption('env-provider', 'p', InputOption::VALUE_REQUIRED, 'Application environment state provider.', 'auto')
             ->addOption('spec', 's', InputOption::VALUE_REQUIRED, 'DotEnv specification file path.', 'keepenv.yaml')
             ->addOption('with-values', 'wv', InputOption::VALUE_REQUIRED, 'DotEnv specification file path.', false)
-            ->setDescription('Application environment variables filling.')
-            ->setHelp('This command allows you to fill empty environment variables according to specification.');
+            ->setDescription('Application environment variables dumping.')
+            ->setHelp('This command allows you to fill dump environment variables to the file.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

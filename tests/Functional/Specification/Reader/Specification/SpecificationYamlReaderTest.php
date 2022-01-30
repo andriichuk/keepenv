@@ -32,7 +32,7 @@ class SpecificationYamlReaderTest extends TestCase
         );
     }
 
-    public function testExceptionThrownOnAttemptToReadMissingFile(): void
+    public function testReaderCanThrowExceptionOnAttemptToReadMissingFile(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -40,7 +40,7 @@ class SpecificationYamlReaderTest extends TestCase
         $reader->read('not-exists-keepenv.yaml');
     }
 
-    public function testReadingFlow(): void
+    public function testReaderCanReadFile(): void
     {
         $reader = new SpecificationYamlReader(new SpecificationArrayBuilder());
         $specification = $reader->read($this->rootFolder->getChild('keepenv.yaml')->url());

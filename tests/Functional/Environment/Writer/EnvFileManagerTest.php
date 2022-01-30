@@ -72,6 +72,21 @@ class EnvFileManagerTest extends TestCase
         $manager->write('test');
     }
 
+    public function testManagerCannotWriteContent(): void
+    {
+        $this->expectException(EnvFileManagerException::class);
+        $this->expectExceptionMessage('Cannot write new content to the environment file [vfs://src/.env].');
+
+        $file = new vfsStreamFile('.env');
+        $file->setContent('');
+        $file->chmod(0444);
+
+        $this->rootFolder->addChild($file);
+
+        $manager = new EnvFileManager('vfs://src/.env');
+        $manager->write('test');
+    }
+
     public function testManagerCanCreateFileIfItDoesNotExists(): void
     {
         $this->rootFolder->addChild((new vfsStreamFile('.env'))->setContent(''));
