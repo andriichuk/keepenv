@@ -13,7 +13,7 @@ use Symfony\Component\Yaml\Yaml;
 /**
  * @author Serhii Andriichuk <andriichuk29@gmail.com>
  */
-class SpecificationYamlReader implements SpecificationReaderInterface
+class SpecYamlReader implements SpecReaderInterface
 {
     private SpecificationBuilderInterface $builder;
 

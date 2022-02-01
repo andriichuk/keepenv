@@ -8,7 +8,7 @@ use Andriichuk\KeepEnv\Environment\Reader\VlucasPhpDotEnvFileReader;
 use Andriichuk\KeepEnv\Environment\Writer\EnvFileManager;
 use Andriichuk\KeepEnv\Environment\Writer\EnvFileWriter;
 use Andriichuk\KeepEnv\Filling\EnvFileFillingService;
-use Andriichuk\KeepEnv\Specification\Reader\SpecificationYamlReader;
+use Andriichuk\KeepEnv\Specification\Reader\SpecYamlReader;
 use Andriichuk\KeepEnv\Specification\SpecificationArrayBuilder;
 use Andriichuk\KeepEnv\Specification\Variable;
 use Andriichuk\KeepEnv\Validation\Rules\RulesRegistry;
@@ -44,7 +44,7 @@ class EnvFileFillingServiceTest extends TestCase
         );
 
         $this->service = new EnvFileFillingService(
-            new SpecificationYamlReader(new SpecificationArrayBuilder()),
+            new SpecYamlReader(new SpecificationArrayBuilder()),
             new VlucasPhpDotEnvFileReader(),
             new EnvFileWriter(new EnvFileManager($this->rootFolder->getChild('.env')->url())),
             new VariableValidation(RulesRegistry::default()),
