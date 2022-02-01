@@ -38,7 +38,7 @@ class SymfonyDotEnvStateLoaderTest extends TestCase
 
     protected function tearDown(): void
     {
-        unset($_ENV['APP_ENV'], $_ENV['APP_RANDOM_KEY']);
+        $_ENV = [];
     }
 
     public function testLoaderCanProvideVariablesWithoutOverriding(): void
