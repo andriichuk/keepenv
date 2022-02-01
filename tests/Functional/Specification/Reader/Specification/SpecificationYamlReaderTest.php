@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Andriichuk\KeepEnv\Tests\Functional\Specification\Reader\Specification;
 
-use Andriichuk\KeepEnv\Specification\Reader\SpecificationYamlReader;
+use Andriichuk\KeepEnv\Specification\Reader\SpecYamlReader;
 use Andriichuk\KeepEnv\Specification\SpecificationArrayBuilder;
 use InvalidArgumentException;
 use org\bovigo\vfs\vfsStream;
@@ -36,13 +36,13 @@ class SpecificationYamlReaderTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
 
-        $reader = new SpecificationYamlReader(new SpecificationArrayBuilder());
+        $reader = new SpecYamlReader(new SpecificationArrayBuilder());
         $reader->read('not-exists-keepenv.yaml');
     }
 
     public function testReaderCanReadFile(): void
     {
-        $reader = new SpecificationYamlReader(new SpecificationArrayBuilder());
+        $reader = new SpecYamlReader(new SpecificationArrayBuilder());
         $specification = $reader->read($this->rootFolder->getChild('keepenv.yaml')->url());
 
         $this->assertEquals(

@@ -8,7 +8,7 @@ use Andriichuk\KeepEnv\Dump\Exceptions\EnvFileAlreadyExistsException;
 use Andriichuk\KeepEnv\Environment\Loader\EnvLoaderInterface;
 use Andriichuk\KeepEnv\Environment\Writer\EnvFileManagerInterface;
 use Andriichuk\KeepEnv\Environment\Writer\EnvWriterInterface;
-use Andriichuk\KeepEnv\Specification\Reader\SpecificationReaderInterface;
+use Andriichuk\KeepEnv\Specification\Reader\SpecReaderInterface;
 use Andriichuk\KeepEnv\Utils\Stringify;
 use JsonException;
 
@@ -17,14 +17,14 @@ use JsonException;
  */
 class DumpService
 {
-    private SpecificationReaderInterface $specReader;
+    private SpecReaderInterface $specReader;
     private EnvLoaderInterface $envLoader;
     private EnvFileManagerInterface $envFileManager;
     private EnvWriterInterface $envWriter;
     private Stringify $stringify;
 
     public function __construct(
-        SpecificationReaderInterface $specReader,
+        SpecReaderInterface $specReader,
         EnvLoaderInterface $envLoader,
         EnvFileManagerInterface $envFileManager,
         EnvWriterInterface $envWriter,

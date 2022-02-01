@@ -34,6 +34,9 @@ class EnvLoaderFactory
             case class_exists(\Symfony\Component\Dotenv\Dotenv::class):
                 return new SymfonyDotEnvStateLoader();
 
+            case class_exists(\josegonzalez\Dotenv\Loader::class):
+                return new JoseGonzalezDotEnvStateLoader();
+
             default:
                 throw new RuntimeException('DotEnv library not found.');
         }

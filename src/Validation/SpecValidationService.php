@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Andriichuk\KeepEnv\Validation;
 
 use Andriichuk\KeepEnv\Environment\Loader\EnvLoaderInterface;
-use Andriichuk\KeepEnv\Specification\Reader\SpecificationReaderInterface;
+use Andriichuk\KeepEnv\Specification\Reader\SpecReaderInterface;
 
 /**
  * @author Serhii Andriichuk <andriichuk29@gmail.com>
@@ -13,11 +13,11 @@ use Andriichuk\KeepEnv\Specification\Reader\SpecificationReaderInterface;
 class SpecValidationService
 {
     private EnvLoaderInterface $envFileLoader;
-    private SpecificationReaderInterface $specificationReader;
+    private SpecReaderInterface $specificationReader;
     private VariableValidationInterface $variableValidation;
 
     public function __construct(
-        SpecificationReaderInterface $specificationReader,
+        SpecReaderInterface $specificationReader,
         EnvLoaderInterface $envFileLoader,
         VariableValidationInterface $variableValidation
     ) {

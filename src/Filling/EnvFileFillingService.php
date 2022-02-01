@@ -6,7 +6,7 @@ namespace Andriichuk\KeepEnv\Filling;
 
 use Andriichuk\KeepEnv\Environment\Reader\EnvReaderInterface;
 use Andriichuk\KeepEnv\Environment\Writer\EnvWriterInterface;
-use Andriichuk\KeepEnv\Specification\Reader\SpecificationReaderInterface;
+use Andriichuk\KeepEnv\Specification\Reader\SpecReaderInterface;
 use Andriichuk\KeepEnv\Validation\VariableValidationInterface;
 use RuntimeException;
 
@@ -15,13 +15,13 @@ use RuntimeException;
  */
 class EnvFileFillingService
 {
-    private SpecificationReaderInterface $specificationReader;
+    private SpecReaderInterface $specificationReader;
     private EnvReaderInterface $envReader;
     private EnvWriterInterface $envWriter;
     private VariableValidationInterface $variableValidation;
 
     public function __construct(
-        SpecificationReaderInterface $specificationReader,
+        SpecReaderInterface $specificationReader,
         EnvReaderInterface $envReader,
         EnvWriterInterface $envWriter,
         VariableValidationInterface $variableValidation

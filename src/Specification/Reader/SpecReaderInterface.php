@@ -9,7 +9,7 @@ use Andriichuk\KeepEnv\Specification\Specification;
 /**
  * @author Serhii Andriichuk <andriichuk29@gmail.com>
  */
-interface SpecificationReaderInterface
+interface SpecReaderInterface
 {
     public function read(string $source): Specification;
 }
