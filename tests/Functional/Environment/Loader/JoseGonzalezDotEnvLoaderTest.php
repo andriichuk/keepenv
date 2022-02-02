@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @author Serhii Andriichuk <andriichuk29@gmail.com>
  */
-class JoseGonzalezDotEnvFileLoaderTest extends TestCase
+class JoseGonzalezDotEnvLoaderTest extends TestCase
 {
     private vfsStreamDirectory $rootFolder;
     private JoseGonzalezDotEnvStateLoader $loader;
@@ -34,6 +34,8 @@ class JoseGonzalezDotEnvFileLoaderTest extends TestCase
 
         $_ENV['APP_ENV'] = 'dev';
         $_ENV['APP_RANDOM_KEY'] = 'test_123';
+        $_ENV['APP_NEW_NUMERIC_KEY'] = 123;
+        $_ENV['APP_NEW_BOOL_KEY'] = false;
     }
 
     protected function tearDown(): void
@@ -50,6 +52,12 @@ class JoseGonzalezDotEnvFileLoaderTest extends TestCase
 
         $this->assertArrayHasKey('APP_DEBUG', $variables);
         $this->assertEquals(true, $variables['APP_DEBUG']);
+
+        $this->assertArrayHasKey('APP_NEW_NUMERIC_KEY', $variables);
+        $this->assertEquals(123, $variables['APP_NEW_NUMERIC_KEY']);
+
+        $this->assertArrayHasKey('APP_NEW_BOOL_KEY', $variables);
+        $this->assertEquals(false, $variables['APP_NEW_BOOL_KEY']);
     }
 
     public function testLoaderCanProvideVariablesWithOverriding(): void

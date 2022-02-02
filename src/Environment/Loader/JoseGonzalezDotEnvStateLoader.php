@@ -15,7 +15,11 @@ class JoseGonzalezDotEnvStateLoader implements EnvLoaderInterface
     {
         $loader = new Loader($paths);
         $loader->parse();
-        $loader->skipExisting();
+
+        if (!$overrideExisting) {
+            $loader->skipExisting();
+        }
+
         $loader->toEnv($overrideExisting);
 
         return $_ENV;

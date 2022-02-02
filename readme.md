@@ -60,6 +60,12 @@ Features:
 * Split system (`$_ENV`) and regular variables from `.env` files.
 * Ability to fill missing variables through console command.
 
+Supported dotenv file state loaders:
+
+* [vlucas/phpdotenv](https://packagist.org/packages/vlucas/phpdotenv)
+* [symfony/dotenv](https://packagist.org/packages/symfony/dotenv)
+* [josegonzalez/dotenv](https://packagist.org/packages/josegonzalez/dotenv)
+
 ### Installation
 
 Install composer package:
