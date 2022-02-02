@@ -12,14 +12,14 @@ use Andriichuk\KeepEnv\Specification\SpecificationArrayBuilder;
  */
 class SpecificationReaderFactory
 {
-    public function basedOnSource(string $sourcePath): SpecificationReaderInterface
+    public function basedOnSource(string $sourcePath): SpecReaderInterface
     {
         $type = pathinfo($sourcePath, PATHINFO_EXTENSION);
 
         switch ($type) {
             case 'yml':
             case 'yaml':
-                return new SpecificationYamlReader(new SpecificationArrayBuilder());
+                return new SpecYamlReader(new SpecificationArrayBuilder());
 
             default:
                 throw SpecificationReaderException::unsupportedType($sourcePath, $type);

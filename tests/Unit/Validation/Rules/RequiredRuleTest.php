@@ -17,9 +17,10 @@ class RequiredRuleTest extends TestCase
     /**
      * @dataProvider validationCasesProvider
      *
+     * @param string|null|int|bool $subject
      * @param string|bool $required
      */
-    public function testValidationCases(?string $subject, $required, bool $expectedResult, string $message): void
+    public function testValidationCases($subject, $required, bool $expectedResult, string $message): void
     {
         $validator = new RequiredRule();
         $result = $validator->validate($subject, $required);
@@ -59,6 +60,20 @@ class RequiredRuleTest extends TestCase
             'required' => true,
             'expected_result' => true,
             'message' => 'Required normal string',
+        ];
+
+        yield [
+            'subject' => false,
+            'required' => true,
+            'expected_result' => true,
+            'message' => 'Required boolean',
+        ];
+
+        yield [
+            'subject' => 3306,
+            'required' => true,
+            'expected_result' => true,
+            'message' => 'Required integer',
         ];
 
         yield [

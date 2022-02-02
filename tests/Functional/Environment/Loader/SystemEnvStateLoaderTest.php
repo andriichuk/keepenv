@@ -19,7 +19,7 @@ class SystemEnvStateLoaderTest extends TestCase
 
     protected function tearDown(): void
     {
-        unset($_ENV['API_TEST_KEY']);
+        $_ENV = $_SERVER = [];
     }
 
     public function testSystemLoaderCanProvideVariables(): void

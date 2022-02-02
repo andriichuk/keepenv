@@ -10,7 +10,7 @@ use Andriichuk\KeepEnv\Environment\Loader\SystemEnvStateLoader;
 use Andriichuk\KeepEnv\Environment\Loader\VlucasPhpDotEnvStateLoader;
 use Andriichuk\KeepEnv\Environment\Writer\EnvFileManager;
 use Andriichuk\KeepEnv\Environment\Writer\EnvFileWriter;
-use Andriichuk\KeepEnv\Specification\Reader\SpecificationYamlReader;
+use Andriichuk\KeepEnv\Specification\Reader\SpecYamlReader;
 use Andriichuk\KeepEnv\Specification\SpecificationArrayBuilder;
 use Andriichuk\KeepEnv\Utils\Stringify;
 use org\bovigo\vfs\vfsStream;
@@ -51,7 +51,7 @@ class DumpServiceTest extends TestCase
         $fileManager = new EnvFileManager('vfs://src/.env_test_1');
 
         $service = new DumpService(
-            new SpecificationYamlReader(new SpecificationArrayBuilder()),
+            new SpecYamlReader(new SpecificationArrayBuilder()),
             new VlucasPhpDotEnvStateLoader(),
             $fileManager,
             new EnvFileWriter($fileManager),
@@ -77,7 +77,7 @@ class DumpServiceTest extends TestCase
         $fileManager = new EnvFileManager('vfs://src/.env_test_2');
 
         $service = new DumpService(
-            new SpecificationYamlReader(new SpecificationArrayBuilder()),
+            new SpecYamlReader(new SpecificationArrayBuilder()),
             new SystemEnvStateLoader(),
             $fileManager,
             new EnvFileWriter($fileManager),
@@ -111,7 +111,7 @@ class DumpServiceTest extends TestCase
         $fileManager = new EnvFileManager('vfs://src/.env');
 
         $service = new DumpService(
-            new SpecificationYamlReader(new SpecificationArrayBuilder()),
+            new SpecYamlReader(new SpecificationArrayBuilder()),
             new VlucasPhpDotEnvStateLoader(),
             $fileManager,
             new EnvFileWriter($fileManager),

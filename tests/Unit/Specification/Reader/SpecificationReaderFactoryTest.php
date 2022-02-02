@@ -6,7 +6,7 @@ namespace Andriichuk\KeepEnv\Tests\Unit\Specification\Reader;
 
 use Andriichuk\KeepEnv\Specification\Reader\Exceptions\SpecificationReaderException;
 use Andriichuk\KeepEnv\Specification\Reader\SpecificationReaderFactory;
-use Andriichuk\KeepEnv\Specification\Reader\SpecificationYamlReader;
+use Andriichuk\KeepEnv\Specification\Reader\SpecYamlReader;
 use Generator;
 use PHPUnit\Framework\TestCase;
 
@@ -30,13 +30,13 @@ class SpecificationReaderFactoryTest extends TestCase
     {
         yield [
             'source_path' => '/home/user/keepenv_laravel.yaml',
-            'expected_type' => SpecificationYamlReader::class,
+            'expected_type' => SpecYamlReader::class,
             'message' => 'Yaml source file.',
         ];
 
         yield [
             'source_path' => '/home/user/env.spec.yml',
-            'expected_type' => SpecificationYamlReader::class,
+            'expected_type' => SpecYamlReader::class,
             'message' => 'Yml source file.',
         ];
     }

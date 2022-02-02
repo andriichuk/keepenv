@@ -39,10 +39,10 @@ class RequiredRule implements RuleInterface
             return true;
         }
 
-        if ($value === null) {
-            return false;
+        if (is_string($value)) {
+            return trim($value) !== '';
         }
 
-        return is_string($value) && trim($value) !== '';
+        return $value !== null;
     }
 }
