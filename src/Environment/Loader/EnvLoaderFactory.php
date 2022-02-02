@@ -20,6 +20,15 @@ class EnvLoaderFactory
             case 'auto':
                 return $this->baseOnAvailability();
 
+            case 'vlucas/phpdotenv':
+                return new VlucasPhpDotEnvStateLoader();
+
+            case 'symfony/dotenv':
+                return new SymfonyDotEnvStateLoader();
+
+            case 'josegonzalez/dotenv':
+                return new JoseGonzalezDotEnvStateLoader();
+
             default:
                 throw new RuntimeException("DotEnv loader type `$type` not found.");
         }
