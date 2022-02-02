@@ -19,7 +19,7 @@ class SystemEnvStateLoaderTest extends TestCase
 
     protected function tearDown(): void
     {
-        $_ENV = [];
+        $_ENV = $_SERVER = [];
     }
 
     public function testSystemLoaderCanProvideVariables(): void

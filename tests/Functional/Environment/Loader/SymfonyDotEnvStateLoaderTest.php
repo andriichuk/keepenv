@@ -23,46 +23,45 @@ class SymfonyDotEnvStateLoaderTest extends TestCase
         $this->rootFolder = vfsStream::setup('src');
         $this->rootFolder->addChild(
             (new vfsStreamFile('.env'))
-                ->setContent(
-                    file_get_contents(
-                        dirname(__DIR__, 3) . '/fixtures/common/.env',
-                    ),
-                ),
+                ->setContent("SECOND_APP_ENV=production\nSECOND_APP_DEBUG=true"),
         );
 
         $this->loader = new SymfonyDotEnvStateLoader();
 
-        $_ENV['APP_ENV'] = 'dev';
-        $_ENV['APP_RANDOM_KEY'] = 'test_123';
+        $_ENV['SECOND_APP_ENV'] = 'dev';
+        $_ENV['SECOND_APP_RANDOM_KEY'] = 'test_123';
     }
 
     protected function tearDown(): void
     {
-        $_ENV = [];
+        $_ENV = $_SERVER = [];
     }
 
     public function testLoaderCanProvideVariablesWithoutOverriding(): void
     {
         $variables = $this->loader->load([$this->rootFolder->getChild('.env')->url()], false);
 
-        $this->assertArrayHasKey('APP_ENV', $variables);
-        $this->assertEquals('dev', $variables['APP_ENV']);
+        $this->assertArrayHasKey('SECOND_APP_ENV', $variables);
+        $this->assertEquals('dev', $variables['SECOND_APP_ENV']);
 
-        $this->assertArrayHasKey('APP_DEBUG', $variables);
-        $this->assertEquals('true', $variables['APP_DEBUG']);
+        $this->assertArrayHasKey('SECOND_APP_RANDOM_KEY', $variables);
+        $this->assertEquals('test_123', $variables['SECOND_APP_RANDOM_KEY']);
+
+        $this->assertArrayHasKey('SECOND_APP_DEBUG', $variables);
+        $this->assertEquals('true', $variables['SECOND_APP_DEBUG']);
     }
 
     public function testLoaderCanProvideVariablesWithOverriding(): void
     {
         $variables = $this->loader->load([$this->rootFolder->getChild('.env')->url()], true);
 
-        $this->assertArrayHasKey('APP_ENV', $variables);
-        $this->assertEquals('production', $variables['APP_ENV']);
+        $this->assertArrayHasKey('SECOND_APP_ENV', $variables);
+        $this->assertEquals('production', $variables['SECOND_APP_ENV']);
 
-        $this->assertArrayHasKey('APP_KEY', $variables);
-        $this->assertEquals('', $variables['APP_KEY']);
+        $this->assertArrayHasKey('SECOND_APP_RANDOM_KEY', $variables);
+        $this->assertEquals('test_123', $variables['SECOND_APP_RANDOM_KEY']);
 
-        $this->assertArrayHasKey('APP_RANDOM_KEY', $variables);
-        $this->assertEquals('test_123', $variables['APP_RANDOM_KEY']);
+        $this->assertArrayHasKey('SECOND_APP_DEBUG', $variables);
+        $this->assertEquals('true', $variables['SECOND_APP_DEBUG']);
     }
 }
