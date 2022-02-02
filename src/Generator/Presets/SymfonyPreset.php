@@ -43,6 +43,30 @@ class SymfonyPreset implements PresetInterface
                     'required' => true,
                 ],
             ),
+            'TRUSTED_PROXIES' => new Variable(
+                'TRUSTED_PROXIES',
+                'Trusted proxies.',
+                false,
+                false,
+                [],
+                '127.0.0.0/8,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16'
+            ),
+            'TRUSTED_HOSTS' => new Variable(
+                'TRUSTED_HOSTS',
+                'Trusted hosts.',
+                false,
+                false,
+                [],
+                '"^(localhost|example\.com)$"'
+            ),
+            'MAILER_DSN' => new Variable(
+                'MAILER_DSN',
+                'Mailer DSN.',
+                false,
+                false,
+                [],
+                'smtp://localhost'
+            ),
         ];
     }
 }
