@@ -15,7 +15,9 @@ class JoseGonzalezDotEnvFileReader implements EnvReaderInterface
     {
         $loader = new Loader($paths);
         $loader->parse();
+        /** @var mixed $list */
+        $list = $loader->toArray();
 
-        return $loader->toArray();
+        return is_array($list) ? $list : [];
     }
 }
