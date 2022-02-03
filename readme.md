@@ -60,6 +60,12 @@ Features:
 * Split system (`$_ENV`) and regular variables from `.env` files.
 * Ability to fill missing variables through console command.
 
+Supported dotenv file state loaders:
+
+* [vlucas/phpdotenv](https://packagist.org/packages/vlucas/phpdotenv)
+* [symfony/dotenv](https://packagist.org/packages/symfony/dotenv)
+* [josegonzalez/dotenv](https://packagist.org/packages/josegonzalez/dotenv)
+
 ### Installation
 
 Install composer package:
@@ -236,13 +242,27 @@ REDIS_PORT:
       rules:
           numeric: true
   ```
+  * Boolean (true/false, on/off, yes/no, 1/0)
+  ```yaml
+  APP_DEBUG:
+      rules:
+          boolean: true
+  ```
+  * Boolean with custom options
+  ```yaml
+  PAYMENT_FEATURE:
+      rules:
+          boolean:
+              true: Y
+              false: N
+  ```
   * Email address
   ```yaml
   MAIL_FROM_ADDRESS:
       rules:
           email: true
   ```
-  * Enumeration (also can be used for boolean options):
+  * Enumeration:
   ```yaml
   APP_ENV:
       rules:
@@ -280,6 +300,9 @@ environments:
                     enum:
                         - local
                         - production
+            APP_DEBUG:
+                rules:
+                    boolean: true
             DB_HOST:
                 description: 'Database host.'
                 default: 127.0.0.1
@@ -339,16 +362,6 @@ environments:
             APP_ENV:
                 rules:
                     equals: production
-```
-
-Boolean type is not supported yet, so for now you can use `enum` rule ([true, false,], [yes, no], [on, off], [1, 0]): 
-
-```yaml
-APP_PAYMENT_FEATURE:
-    rules:
-        enum:
-            - on
-            - off
 ```
 
 You can add a composer script for the new environment variables filling and validation: 

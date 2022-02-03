@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Andriichuk\KeepEnv\Tests\Unit\Environment;
 
 use Andriichuk\KeepEnv\Environment\Reader\EnvReaderFactory;
+use Andriichuk\KeepEnv\Environment\Reader\JoseGonzalezDotEnvFileReader;
 use Andriichuk\KeepEnv\Environment\Reader\SymfonyDotEnvFileReader;
 use Andriichuk\KeepEnv\Environment\Reader\VlucasPhpDotEnvFileReader;
 use Generator;
@@ -51,6 +52,12 @@ class EnvReaderFactoryTest extends TestCase
             'type' => 'symfony/dotenv',
             'instance_of' => SymfonyDotEnvFileReader::class,
             'message' => 'Reader based on `symfony/dotenv`',
+        ];
+
+        yield [
+            'type' => 'josegonzalez/dotenv',
+            'instance_of' => JoseGonzalezDotEnvFileReader::class,
+            'message' => 'Reader based on `josegonzalez/dotenv`',
         ];
     }
 

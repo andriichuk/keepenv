@@ -23,6 +23,9 @@ class EnvReaderFactory
             case 'symfony/dotenv':
                 return new SymfonyDotEnvFileReader();
 
+            case 'josegonzalez/dotenv':
+                return new JoseGonzalezDotEnvFileReader();
+
             default:
                 throw new RuntimeException('DotEnv library not found.');
         }
@@ -36,6 +39,9 @@ class EnvReaderFactory
 
             case class_exists(\Symfony\Component\Dotenv\Dotenv::class):
                 return new SymfonyDotEnvFileReader();
+
+            case class_exists(\josegonzalez\Dotenv\Loader::class):
+                return new JoseGonzalezDotEnvFileReader();
 
             default:
                 throw new RuntimeException('DotEnv library not found.');

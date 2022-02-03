@@ -62,7 +62,7 @@ class SpecificationYamlReaderTest extends TestCase
                                 'description' => 'Application debug.',
                                 'rules' => [
                                     'required' => true,
-                                    'enum' => ['true', 'false'],
+                                    'boolean' => true,
                                 ],
                             ],
                         ],

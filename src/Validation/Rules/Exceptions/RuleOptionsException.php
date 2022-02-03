@@ -18,6 +18,11 @@ class RuleOptionsException extends Exception
         return new self('Cases for the `enum` validator cannot be empty. It should be an array of values.');
     }
 
+    public static function invalidOptionsForBoolean(): self
+    {
+        return new self('Cases for the `boolean` validator cannot be empty or equal to each other.');
+    }
+
     public static function invalidStringOptions(): self
     {
         return new self('Invalid option value for string rule. It must be a `true` or min/max ranges.');

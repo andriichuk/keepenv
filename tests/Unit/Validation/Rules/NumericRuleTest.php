@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Andriichuk\KeepEnv\Tests\Unit\Validation\Rules;
 
+use Andriichuk\KeepEnv\Validation\Rules\NumericRule;
 use Generator;
 use PHPUnit\Framework\TestCase;
 
@@ -19,7 +20,7 @@ class NumericRuleTest extends TestCase
      */
     public function testValidationCases($subject, bool $expectedResult, string $message): void
     {
-        $validator = new \Andriichuk\KeepEnv\Validation\Rules\NumericRule();
+        $validator = new NumericRule();
         $result = $validator->validate($subject, true);
 
         $this->assertEquals($expectedResult, $result, $message);

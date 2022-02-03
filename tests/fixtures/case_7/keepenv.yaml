@@ -18,9 +18,7 @@ environments:
                 description: 'Application debug.'
                 rules:
                     required: true
-                    enum:
-                        - 'true'
-                        - 'false'
+                    boolean: true
             REDIS_PORT:
                 description: 'Redis port.'
                 rules:

@@ -16,9 +16,7 @@ environments:
                 description: 'Application debug.'
                 rules:
                     required: true
-                    enum:
-                        - 'true'
-                        - 'false'
+                    boolean: true
             APP_KEY:
                 description: 'Application key.'
             REDIS_PORT:
