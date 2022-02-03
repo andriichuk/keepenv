@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Andriichuk\KeepEnv\Generator;
 
 use Andriichuk\KeepEnv\Environment\Reader\EnvReaderInterface;
+use Andriichuk\KeepEnv\Generator\Exceptions\SpecGeneratorException;
 use Andriichuk\KeepEnv\Generator\Presets\PresetFactory;
 use Andriichuk\KeepEnv\Specification\EnvVariables;
 use Andriichuk\KeepEnv\Specification\Specification;
 use Andriichuk\KeepEnv\Specification\Variable;
 use Andriichuk\KeepEnv\Specification\Writer\SpecWriterInterface;
-use RuntimeException;
 
 /**
  * @author Serhii Andriichuk <andriichuk29@gmail.com>
@@ -42,7 +42,7 @@ class SpecGenerator
             $override = (bool) $shouldOverrideSpec();
 
             if (!$override) {
-                throw new RuntimeException('Specification file already exists and was not modified.');
+                throw SpecGeneratorException::alreadyExists();
             }
         }
 
