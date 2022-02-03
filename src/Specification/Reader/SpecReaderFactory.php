@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Andriichuk\KeepEnv\Specification\Reader;
 
-use Andriichuk\KeepEnv\Specification\Reader\Exceptions\SpecificationReaderException;
+use Andriichuk\KeepEnv\Specification\Reader\Exceptions\SpecReaderException;
 use Andriichuk\KeepEnv\Specification\SpecificationArrayBuilder;
 
 /**
  * @author Serhii Andriichuk <andriichuk29@gmail.com>
  */
-class SpecificationReaderFactory
+class SpecReaderFactory
 {
     public function basedOnSource(string $sourcePath): SpecReaderInterface
     {
@@ -22,7 +22,7 @@ class SpecificationReaderFactory
                 return new SpecYamlReader(new SpecificationArrayBuilder());
 
             default:
-                throw SpecificationReaderException::unsupportedType($sourcePath, $type);
+                throw SpecReaderException::unsupportedType($sourcePath, $type);
         }
     }
 }

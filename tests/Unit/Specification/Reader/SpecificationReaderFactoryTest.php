@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Andriichuk\KeepEnv\Tests\Unit\Specification\Reader;
 
-use Andriichuk\KeepEnv\Specification\Reader\Exceptions\SpecificationReaderException;
-use Andriichuk\KeepEnv\Specification\Reader\SpecificationReaderFactory;
+use Andriichuk\KeepEnv\Specification\Reader\Exceptions\SpecReaderException;
+use Andriichuk\KeepEnv\Specification\Reader\SpecReaderFactory;
 use Andriichuk\KeepEnv\Specification\Reader\SpecYamlReader;
 use Generator;
 use PHPUnit\Framework\TestCase;
@@ -20,7 +20,7 @@ class SpecificationReaderFactoryTest extends TestCase
      */
     public function testFactoryCanCreateReaderBasedOnSourceType(string $sourcePath, string $expectedType, string $message): void
     {
-        $factory = new SpecificationReaderFactory();
+        $factory = new SpecReaderFactory();
         $reader = $factory->basedOnSource($sourcePath);
 
         $this->assertInstanceOf($expectedType, $reader, $message);
@@ -43,9 +43,9 @@ class SpecificationReaderFactoryTest extends TestCase
 
     public function testFactoryThrowExceptionOnWrongSourceType(): void
     {
-        $this->expectException(SpecificationReaderException::class);
+        $this->expectException(SpecReaderException::class);
 
-        $factory = new SpecificationReaderFactory();
+        $factory = new SpecReaderFactory();
         $factory->basedOnSource('/home/user/env.spec.cvs');
     }
 }

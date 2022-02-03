@@ -8,7 +8,7 @@ use Andriichuk\KeepEnv\Dump\DumpService;
 use Andriichuk\KeepEnv\Environment\Loader\EnvLoaderFactory;
 use Andriichuk\KeepEnv\Environment\Writer\EnvFileManager;
 use Andriichuk\KeepEnv\Environment\Writer\EnvFileWriter;
-use Andriichuk\KeepEnv\Specification\Reader\SpecificationReaderFactory;
+use Andriichuk\KeepEnv\Specification\Reader\SpecReaderFactory;
 use Andriichuk\KeepEnv\Utils\Stringify;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -57,7 +57,7 @@ class DumpCommand extends Command
             }
         }
 
-        $specReaderFactory = new SpecificationReaderFactory();
+        $specReaderFactory = new SpecReaderFactory();
         $envLoaderFactory = new EnvLoaderFactory();
 
         $specFile = (string) $input->getOption('spec');

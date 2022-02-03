@@ -4,12 +4,16 @@ declare(strict_types=1);
 
 namespace Andriichuk\KeepEnv\Application\Command;
 
+use Andriichuk\KeepEnv\Environment\Reader\EnvReaderFactory;
 use Andriichuk\KeepEnv\Manager\AddNewVariableManager;
 use Andriichuk\KeepEnv\Manager\AddVariableCommand;
-use Andriichuk\KeepEnv\Specification\Reader\SpecificationReaderFactory;
+use Andriichuk\KeepEnv\Specification\Reader\SpecReaderFactory;
 use Andriichuk\KeepEnv\Specification\Variable;
 use Andriichuk\KeepEnv\Environment\Writer\EnvFileWriter;
 use Andriichuk\KeepEnv\Specification\Writer\SpecWriterFactory;
+use Andriichuk\KeepEnv\Validation\Rules\RulesRegistry;
+use Andriichuk\KeepEnv\Validation\VariableReport;
+use Andriichuk\KeepEnv\Validation\VariableValidation;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -41,42 +45,78 @@ class AddCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $name = $this->askForName($input, $output);
-        $description = $this->askForDescription($input, $output);
-        $required = $io->confirm('Variable is required?', true);
-        $export = $io->confirm('Should `contain` export keyword?', false);
-        $system = $io->confirm('Variable is system?', false);
-        $type = $this->askForType($input, $output);
-        $value = $this->askForValue($input, $output);
+        $rulesRegistry = RulesRegistry::default();
+        $validator = new VariableValidation($rulesRegistry);
 
-        // TODO check default
-        $variable = new Variable(
-            $name,
-            $description,
-            $export,
-            $system,
-            array_filter([$type]),
-            $required,
-        );
+        $specWriterFactory = new SpecWriterFactory();
+        $specReaderFactory = new SpecReaderFactory();
 
-        $writerFactory = new SpecWriterFactory();
-        $readerFactory = new SpecificationReaderFactory();
+        $envReaderFactory = new EnvReaderFactory();
+        $envReader = $envReaderFactory->make((string) $input->getOption('env-reader'));
 
         $manager = new AddNewVariableManager(
             new EnvFileWriter($input->getOption('env-file')),
-            $readerFactory->basedOnSource($input->getOption('spec-file')),
-            $writerFactory->basedOnResource($input->getOption('spec-file')),
+            $specReaderFactory->basedOnSource($input->getOption('spec-file')),
+            $specWriterFactory->basedOnResource($input->getOption('spec-file')),
         );
 
-        $manager->add(
-            new AddVariableCommand(
-                $variable,
-                $value,
-                $input->getOption('env'),
-                $input->getOption('env-file'),
-                $input->getOption('spec-file'),
-            )
-        );
+        $wantToAddMoreVariables = true;
+
+        while ($wantToAddMoreVariables) {
+            $name = $this->askForName($input, $output);
+            $description = $this->askForDescription($input, $output);
+            $required = $io->confirm('Is the variable required?', true);
+            $export = $io->confirm('Should contain `export` keyword?', false);
+            $system = $io->confirm('Is it a system variable (from $_ENV or $_SERVER)?', false);
+            $type = $this->askForType($input, $output);
+            $value = $this->askForValue($input, $output);
+
+            $variable = new Variable(
+                $name,
+                $description,
+                $export,
+                $system,
+                array_filter([
+                    'required' => $required,
+                    $type,
+                ]),
+            );
+
+            $variableIsValid = false;
+
+            while (!$variableIsValid) {
+                $report = $validator->validate($variable, $value);
+                $variableIsValid = $report === [];
+
+                if (!$variableIsValid) {
+                    $io->error('Variables is not valid:');
+                    $io->listing(
+                        array_map(
+                            static fn (VariableReport $variableReport): string => $variableReport->message,
+                            $report,
+                        ),
+                    );
+                    $value = $this->askForValue($input, $output);
+                }
+            }
+
+            $manager->add(
+                new AddVariableCommand(
+                    $variable,
+                    $value,
+                    $input->getOption('env'),
+                    $input->getOption('env-file'),
+                    $input->getOption('spec-file'),
+                )
+            );
+
+            $io->success('Variable was successfully added to specification.');
+            $io->text(
+                'List of available validators: ' . implode(', ', $rulesRegistry->listOfAliases(['string', 'numeric', 'boolean', 'enum']))
+            );
+
+            $wantToAddMoreVariables = $io->confirm('Do you want to add more variables?', false);
+        }
 
         return Command::SUCCESS;
     }
@@ -86,7 +126,7 @@ class AddCommand extends Command
         $helper = $this->getHelper('question');
         $question = new Question('Please enter variable name: ');
         $question->setNormalizer(static function (string $value): string {
-            return mb_strtoupper(str_replace(' ', '_', trim($value)));
+            return str_replace(' ', '_', trim($value));
         });
         $question->setMaxAttempts(2);
 
@@ -96,7 +136,7 @@ class AddCommand extends Command
     private function askForDescription(InputInterface $input, OutputInterface $output): string
     {
         $helper = $this->getHelper('question');
-        $question = new Question('Please enter variable description: ');
+        $question = new Question('Enter variable description: ');
         $question->setNormalizer(static function (string $value): string {
             return trim($value);
         });
@@ -109,8 +149,8 @@ class AddCommand extends Command
     {
         $helper = $this->getHelper('question');
         $question = new ChoiceQuestion(
-            'Please select variable type',
-            ['string', 'int', 'boolean', 'enum'],
+            'Select variable type',
+            ['string', 'numeric', 'boolean', 'enum'],
             0
         );
         $question->setErrorMessage('Type %s is invalid.');
@@ -121,7 +161,7 @@ class AddCommand extends Command
     private function askForValue(InputInterface $input, OutputInterface $output): string
     {
         $helper = $this->getHelper('question');
-        $question = new Question('Please enter value: ');
+        $question = new Question('Enter variable value: ');
         $question->setNormalizer(static function (string $value): string {
             return trim($value);
         });
