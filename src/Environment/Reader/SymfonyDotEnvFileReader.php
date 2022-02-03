@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Andriichuk\KeepEnv\Environment\Reader;
 
+use Andriichuk\KeepEnv\Environment\Reader\Exceptions\EnvReaderException;
 use Symfony\Component\Dotenv\Dotenv;
 
 /**
@@ -24,7 +25,7 @@ class SymfonyDotEnvFileReader implements EnvReaderInterface
 
         foreach ($paths as $path) {
             if (!is_readable($path) || is_dir($path)) {
-                throw new \RuntimeException('Unable to read env file ' . $path);
+                throw EnvReaderException::notReadable($path);
             }
 
             $variables = array_merge(

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Andriichuk\KeepEnv\Environment\Reader;
 
-use RuntimeException;
+use Andriichuk\KeepEnv\Environment\Reader\Exceptions\EnvReaderFactoryException;
 
 /**
  * @author Serhii Andriichuk <andriichuk29@gmail.com>
@@ -27,7 +27,7 @@ class EnvReaderFactory
                 return new JoseGonzalezDotEnvFileReader();
 
             default:
-                throw new RuntimeException('DotEnv library not found.');
+                throw EnvReaderFactoryException::notFound();
         }
     }
 
@@ -44,7 +44,7 @@ class EnvReaderFactory
                 return new JoseGonzalezDotEnvFileReader();
 
             default:
-                throw new RuntimeException('DotEnv library not found.');
+                throw EnvReaderFactoryException::notFound();
         }
     }
 }
