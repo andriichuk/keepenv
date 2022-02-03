@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Andriichuk\KeepEnv\Validation\Rules;
 
+use Andriichuk\KeepEnv\Validation\Rules\Exceptions\RuleOptionsException;
+
 /**
  * @author Serhii Andriichuk <andriichuk29@gmail.com>
  */
@@ -34,7 +36,7 @@ class BooleanRule implements RuleInterface
             $false = isset($options['false']) ? (string) $options['false'] : null;
 
             if (!isset($true, $false) || $true === '' || $true === $false) {
-                throw new \InvalidArgumentException('Invalid arguments');
+                throw RuleOptionsException::invalidOptionsForBoolean();
             }
 
             return in_array($value, [$true, $false], true);
