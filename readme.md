@@ -262,7 +262,7 @@ REDIS_PORT:
       rules:
           email: true
   ```
-  * Enumeration (also can be used for boolean options):
+  * Enumeration:
   ```yaml
   APP_ENV:
       rules:
