@@ -43,7 +43,7 @@ class LaravelPreset implements PresetInterface
                 false,
                 [
                     'required' => true,
-                    'enum' => ['true', 'false'],
+                    'boolean' => true,
                 ],
                 'true',
             ),

@@ -62,6 +62,7 @@ class DumpService
         $variablesToWrite = [];
 
         foreach ($envSpec->all() as $variable) {
+            /** @var mixed $value */
             $value = $variablesFromState[$variable->name] ?? $variable->default;
 
             try {

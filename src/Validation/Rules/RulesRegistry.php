@@ -21,6 +21,7 @@ class RulesRegistry implements RulesRegistryInterface
         $validatorRegistry = new self();
         $validatorRegistry->add(new StringRule());
         $validatorRegistry->add(new NumericRule());
+        $validatorRegistry->add(new BooleanRule());
         $validatorRegistry->add(new EmailRule());
         $validatorRegistry->add(new IpRule());
         $validatorRegistry->add(new EnumRule());

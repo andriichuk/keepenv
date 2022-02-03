@@ -23,9 +23,7 @@ environments:
                 default: 'true'
                 rules:
                     required: true
-                    enum:
-                        - 'true'
-                        - 'false'
+                    boolean: true
             APP_URL:
                 description: 'Application URL.'
                 rules:
@@ -234,9 +232,7 @@ environments:
                 description: 'AWS use path style endpoint.'
                 rules:
                     required: true
-                    enum:
-                        - 'true'
-                        - 'false'
+                    boolean: true
             PUSHER_APP_ID:
                 description: 'Pusher application ID.'
             PUSHER_APP_KEY:

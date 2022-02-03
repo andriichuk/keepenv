@@ -75,7 +75,7 @@ class SpecGenerator
                 $rules['required'] = true;
             }
 
-            $rules = array_merge($rules, $this->guessType($key, $value ?? ''));
+            $rules = array_merge($rules, $this->guessType($key, $value));
 
             $envSpec->add(
                 new Variable($key, $this->toSentence($key), false, false, $rules, null)
@@ -128,39 +128,10 @@ class SpecGenerator
             return ['numeric' => true];
         }
 
-        $boolean = $this->guessBooleanType($value);
-
-        if ($boolean !== null) {
-            return $boolean;
+        if (is_bool($value) || (!empty($value) && filter_var($value, FILTER_VALIDATE_BOOL, FILTER_NULL_ON_FAILURE) !== null)) {
+            return ['boolean' => true];
         }
 
         return [];
-    }
-
-    /**
-     * @param mixed $value
-     */
-    private function guessBooleanType($value): ?array
-    {
-        /** @var mixed $value */
-        $value = is_string($value) ? strtolower($value) : $value;
-
-        if (in_array($value, ['true', 'false'], true)) {
-            return ['enum' => ['true', 'false']];
-        }
-
-        if (in_array($value, ['on', 'off'], true)) {
-            return ['enum' => ['on', 'off']];
-        }
-
-        if (in_array($value, ['yes', 'no'], true)) {
-            return ['enum' => ['yes', 'no']];
-        }
-
-        if (in_array($value, ['1', '0'], true)) {
-            return ['enum' => ['1', '0']];
-        }
-
-        return null;
     }
 }
