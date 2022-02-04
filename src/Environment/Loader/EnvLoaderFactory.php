@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Andriichuk\KeepEnv\Environment\Loader;
 
-use RuntimeException;
+use Andriichuk\KeepEnv\Environment\Loader\Exceptions\EnvLoaderFactoryException;
 
 /**
  * @author Serhii Andriichuk <andriichuk29@gmail.com>
@@ -30,7 +30,7 @@ class EnvLoaderFactory
                 return new JoseGonzalezDotEnvStateLoader();
 
             default:
-                throw new RuntimeException("DotEnv loader type `$type` not found.");
+                throw EnvLoaderFactoryException::undefined($type);
         }
     }
 
@@ -47,7 +47,7 @@ class EnvLoaderFactory
                 return new JoseGonzalezDotEnvStateLoader();
 
             default:
-                throw new RuntimeException('DotEnv library not found.');
+                throw EnvLoaderFactoryException::notFound();
         }
     }
 }

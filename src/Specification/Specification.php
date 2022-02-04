@@ -52,7 +52,7 @@ class Specification implements ArraySerializable
 
     public function toArray(): array
     {
-        $envVariables = [];
+        $envVariablesSerialized = [];
 
         foreach ($this->envVariables as $envSpecification) {
             $extends = $envSpecification->getExtends();
@@ -70,12 +70,12 @@ class Specification implements ArraySerializable
                 $serialized = $envSpecification->toArray();
             }
 
-            $envVariables[$envSpecification->getEnvName()] = $serialized;
+            $envVariablesSerialized[$envSpecification->getEnvName()] = $serialized;
         }
 
         return [
             'version' => $this->version,
-            'environments' => $envVariables,
+            'environments' => $envVariablesSerialized,
         ];
     }
 

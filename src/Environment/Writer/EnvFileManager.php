@@ -51,10 +51,8 @@ class EnvFileManager implements EnvFileManagerInterface
 
     public function createIfNotExists(): void
     {
-        if (!$this->exists()) {
-            if (file_put_contents($this->filePath, '') === false) {
-                throw EnvFileManagerException::cannotCreateFile($this->filePath);
-            }
+        if (!$this->exists() && file_put_contents($this->filePath, '') === false) {
+            throw EnvFileManagerException::cannotCreateFile($this->filePath);
         }
     }
 }

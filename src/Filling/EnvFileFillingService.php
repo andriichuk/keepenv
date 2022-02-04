@@ -7,8 +7,8 @@ namespace Andriichuk\KeepEnv\Filling;
 use Andriichuk\KeepEnv\Environment\Reader\EnvReaderInterface;
 use Andriichuk\KeepEnv\Environment\Writer\EnvWriterInterface;
 use Andriichuk\KeepEnv\Specification\Reader\SpecReaderInterface;
+use Andriichuk\KeepEnv\Validation\Exceptions\ValidationReportException;
 use Andriichuk\KeepEnv\Validation\VariableValidationInterface;
-use RuntimeException;
 
 /**
  * @author Serhii Andriichuk <andriichuk29@gmail.com>
@@ -60,7 +60,7 @@ class EnvFileFillingService
                     $report = $this->variableValidation->validate($variable, $value);
 
                     if ($report !== []) {
-                        throw new RuntimeException(reset($report)->message);
+                        throw ValidationReportException::variableIsNotValid(reset($report)->message);
                     }
 
                     return $value;

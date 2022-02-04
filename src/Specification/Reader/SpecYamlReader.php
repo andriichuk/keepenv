@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Andriichuk\KeepEnv\Specification\Reader;
 
+use Andriichuk\KeepEnv\Specification\Reader\Exceptions\SpecificationReaderException;
 use Andriichuk\KeepEnv\Specification\Specification;
 use Andriichuk\KeepEnv\Specification\SpecificationBuilderInterface;
 use InvalidArgumentException;
-use RuntimeException;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -31,7 +31,7 @@ class SpecYamlReader implements SpecReaderInterface
         $spec = Yaml::parseFile($source);
 
         if (!is_array($spec)) {
-            throw new RuntimeException('Unable to parse Yaml specification.');
+            throw SpecificationReaderException::cannotParse($source);
         }
 
         return $this->builder->build($spec);
