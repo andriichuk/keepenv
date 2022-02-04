@@ -112,9 +112,9 @@ class EnvFileWriterTest extends TestCase
     public function testWriterCanAddBatchOfVariables(): void
     {
         $this->writer->addBatch([
-            'TEST_NUMERIC_KEY' => '12345',
-            'TEST_EMPTY_STRING_KEY' => '',
-            'TEST_STRING_WITH_SPACE_KEY' => 'string with space',
+            'TEST_NUMERIC_KEY' => ['value' => '12345', 'export' => false],
+            'TEST_EMPTY_STRING_KEY' => ['value' => '', 'export' => false],
+            'TEST_STRING_WITH_SPACE_KEY' => ['value' => 'string with space', 'export' => true],
         ]);
 
         $this->assertTrue($this->writer->has('TEST_NUMERIC_KEY'));
@@ -125,7 +125,7 @@ class EnvFileWriterTest extends TestCase
 
         $this->assertIsInt(mb_strpos($content, 'TEST_NUMERIC_KEY=12345'));
         $this->assertIsInt(mb_strpos($content, 'TEST_EMPTY_STRING_KEY='));
-        $this->assertIsInt(mb_strpos($content, 'TEST_STRING_WITH_SPACE_KEY="string with space"'));
+        $this->assertIsInt(mb_strpos($content, 'export TEST_STRING_WITH_SPACE_KEY="string with space"'));
     }
 
     public function testWriterThrowsExceptionWhenKeyAlreadyExists(): void

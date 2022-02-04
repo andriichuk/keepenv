@@ -37,63 +37,60 @@ class EnvFileWriter implements EnvWriterInterface
         self::$content = $content;
     }
 
-    public function save(string $key, string $value): void
+    public function save(string $key, string $value, bool $export = false): void
     {
         if ($this->has($key)) {
-            $this->update($key, $value);
+            $this->update($key, $value, $export);
         } else {
-            $this->add($key, $value);
+            $this->add($key, $value, $export);
         }
     }
 
-    public function add(string $key, string $value): void
+    public function add(string $key, string $value, bool $export = false): void
     {
         if ($this->has($key)) {
             throw EnvFileWriterException::keyAlreadyDefined($key);
         }
 
-        $this->write($this->content() . $this->prepareLine($key, $value));
+        $this->write($this->content() . $this->prepareNewLine($key, $value));
     }
 
     public function addBatch(array $variables): void
     {
         $batch = '';
 
-        foreach ($variables as $key => $value) {
-            $batch .= $this->prepareLine($key, $value);
+        foreach ($variables as $key => ['value' => $value, 'export' => $export]) {
+            $batch .= $this->prepareNewLine($key, (string) $value, (bool) $export);
         }
 
         $this->write($batch);
     }
 
-    private function prepareLine(string $key, string $value): string
-    {
-        $value = $this->quote($value);
-
-        return "$key=$value" . PHP_EOL;
-    }
-
     public function has(string $key): bool
     {
-        return preg_match("#^($key=([^\n]+)?)#miu", $this->content()) === 1;
+        return preg_match("#^(export[\s]+)?($key=([^\n]+)?)#miu", $this->content()) === 1;
     }
 
-    public function update(string $key, string $value): void
+    public function update(string $key, string $value, bool $export = false): void
     {
-        $value = $this->quote($value);
         $newContent = preg_replace(
-            "#^$key=([^\n]+)?#miu",
-            "$key=$value",
+            "#^(export[\s]+)?$key=([^\n]+)?#miu",
+            $this->prepareLine($key, $value, $export),
             $this->content(),
         );
 
         $this->write($newContent);
     }
 
-    private function quote(string $value): string
+    private function prepareNewLine(string $key, string $value, bool $export = false): string
     {
-        return mb_strpos($value, ' ') !== false
-            ? "\"$value\""
-            : $value;
+        return $this->prepareLine($key, $value, $export) . PHP_EOL;
+    }
+
+    private function prepareLine(string $key, string $value, bool $export = false): string
+    {
+        $value = mb_strpos($value, ' ') !== false ? "\"$value\"" : $value;
+
+        return ($export ? 'export ' : '') . "$key=$value";
     }
 }

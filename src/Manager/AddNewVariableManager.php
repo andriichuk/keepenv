@@ -41,7 +41,7 @@ class AddNewVariableManager
         $envSpec->add($variable);
         $spec->add($envSpec);
 
-        $this->envFileWriter->add($variable->name, $value);
+        $this->envFileWriter->add($variable->name, $value, $variable->export);
         $this->specWriter->write($specificationFilePath, $spec);
     }
 }

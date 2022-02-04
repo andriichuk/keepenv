@@ -62,8 +62,8 @@ class AddCommand extends Command
         $wantToAddMoreVariables = true;
 
         while ($wantToAddMoreVariables) {
-            // str_replace(' ', '_', trim($value));
             $name = (string) $io->ask('Please enter variable name');
+            $name = str_replace(' ', '_', trim($name));
             $description = (string) $io->ask('Enter variable description');
             $required = $io->confirm('Is the variable required?', true);
             $export = $io->confirm('Should contain `export` keyword?', false);
@@ -138,7 +138,7 @@ class AddCommand extends Command
         $options = [];
 
         while ($addMoreOptions) {
-            $options[] = (string) $io->ask('Enter enum option: ');
+            $options[] = (string) $io->ask('Enter enum option');
             $addMoreOptions = $io->confirm('Want to add more options?', true);
         }
 

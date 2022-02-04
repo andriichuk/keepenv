@@ -67,7 +67,7 @@ class EnvFileFillingService
                 });
             }
 
-            $this->envWriter->save($variable->name, $value);
+            $this->envWriter->save($variable->name, $value, $variable->export);
             $successHandler("Added $variable->name=$value");
             $variables++;
         }
