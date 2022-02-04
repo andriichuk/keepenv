@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Andriichuk\KeepEnv\Specification\Reader;
 
-use Andriichuk\KeepEnv\Specification\Reader\Exceptions\SpecificationReaderException;
+use Andriichuk\KeepEnv\Specification\Reader\Exceptions\SpecReaderException;
 use Andriichuk\KeepEnv\Specification\Specification;
 use Andriichuk\KeepEnv\Specification\SpecificationBuilderInterface;
 use InvalidArgumentException;
@@ -31,7 +31,7 @@ class SpecYamlReader implements SpecReaderInterface
         $spec = Yaml::parseFile($source);
 
         if (!is_array($spec)) {
-            throw SpecificationReaderException::cannotParse($source);
+            throw SpecReaderException::cannotParse($source);
         }
 
         return $this->builder->build($spec);
