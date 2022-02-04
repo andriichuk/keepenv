@@ -4,11 +4,11 @@
   <img width="700" align="center" src="https://github.com/andriichuk/keepenv/blob/main/art/logo.jpeg" alt="Logo"/>
 </p>
 <p align="center">
-  <a href="https://github.com/andriichuk/keepenv/blob/master/LICENSE">
-    <img alt="License: MIT" src="https://poser.pugx.org/andriichuk/keepenv/license?format=flat" target="_blank" />
+  <a href="https://github.com/andriichuk/keepenv/blob/master/LICENSE" target="_blank">
+    <img alt="License: MIT" src="https://poser.pugx.org/andriichuk/keepenv/license?format=flat" />
   </a>
-  <a href="https://github.com/andriichuk/keepenv/actions">
-    <img alt="Tests" src="https://github.com/andriichuk/keepenv/actions/workflows/test.yml/badge.svg" target="_blank" />
+  <a href="https://github.com/andriichuk/keepenv/actions" target="_blank">
+    <img alt="Tests" src="https://github.com/andriichuk/keepenv/actions/workflows/test.yml/badge.svg" />
   </a>
   <a href="https://codecov.io/gh/andriichuk/keepenv">
     <img alt="Code coverage" src="https://codecov.io/gh/andriichuk/keepenv/branch/main/graph/badge.svg?token=07FR1W9XVE"/>
@@ -20,7 +20,10 @@
     <img alt="Psalm level" src="https://shepherd.dev/github/andriichuk/keepenv/level.svg" />
   </a>
   <a href="https://github.com/andriichuk/keepenv">
-    <img alt="Stars" src="https://img.shields.io/github/stars/andriichuk/keepenv?color=blue" target="_blank" />
+    <img alt="Stars" src="https://img.shields.io/github/stars/andriichuk/keepenv?color=blue" />
+  </a>
+  <a href="https://sonarcloud.io/summary/new_code?id=andriichuk_keepenv" target="_blank">
+    <img alt="Quality Gate Status" src="https://sonarcloud.io/api/project_badges/measure?project=andriichuk_keepenv&metric=alert_status" target="_blank" />
   </a>
 </p>
 
@@ -253,8 +256,8 @@ REDIS_PORT:
   PAYMENT_FEATURE:
       rules:
           boolean:
-              true: Y
-              false: N
+              'true': Y
+              'false': N
   ```
   * Email address
   ```yaml

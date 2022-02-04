@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Andriichuk\KeepEnv\Manager;
 
+use Andriichuk\KeepEnv\Manager\Exceptions\NewVariablesManagerException;
 use Andriichuk\KeepEnv\Specification\Reader\SpecReaderInterface;
 use Andriichuk\KeepEnv\Environment\Writer\EnvFileWriter;
+use Andriichuk\KeepEnv\Specification\Variable;
 use Andriichuk\KeepEnv\Specification\Writer\SpecWriterInterface;
-use InvalidArgumentException;
 
 /**
  * @author Serhii Andriichuk <andriichuk29@gmail.com>
@@ -28,20 +29,19 @@ class AddNewVariableManager
         $this->specWriter = $specWriter;
     }
 
-    public function add(AddVariableCommand $command): void
+    public function add(Variable $variable, string $value, string $environment, string $specificationFilePath): void
     {
-        $specification = $this->specReader->read($command->specificationFilePath);
-        $envSpecification = $specification->get($command->environment);
+        $spec = $this->specReader->read($specificationFilePath);
+        $envSpec = $spec->get($environment);
 
-        if ($envSpecification->get($command->variable->name)) {
-            throw new InvalidArgumentException("Variable with name `{$command->variable->name} already defined.`");
+        if ($envSpec->get($variable->name)) {
+            throw NewVariablesManagerException::variableAlreadyDefined($variable->name);
         }
 
-        $envSpecification->add($command->variable);
-        $specification->add($envSpecification);
+        $envSpec->add($variable);
+        $spec->add($envSpec);
 
-        $this->envFileWriter->add($command->variable->name, $command->value);
-
-        $this->specWriter->write($command->specificationFilePath, $specification);
+        $this->envFileWriter->add($variable->name, $value);
+        $this->specWriter->write($specificationFilePath, $spec);
     }
 }

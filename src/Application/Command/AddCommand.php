@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Andriichuk\KeepEnv\Application\Command;
 
-use Andriichuk\KeepEnv\Environment\Reader\EnvReaderFactory;
+use Andriichuk\KeepEnv\Environment\Writer\EnvFileManager;
 use Andriichuk\KeepEnv\Manager\AddNewVariableManager;
-use Andriichuk\KeepEnv\Manager\AddVariableCommand;
+use Andriichuk\KeepEnv\Manager\Exceptions\NewVariablesManagerException;
 use Andriichuk\KeepEnv\Specification\Reader\SpecReaderFactory;
 use Andriichuk\KeepEnv\Specification\Variable;
 use Andriichuk\KeepEnv\Environment\Writer\EnvFileWriter;
@@ -19,6 +19,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
+use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
@@ -44,20 +45,21 @@ class AddCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
+        $io->title('Adding a new variable');
 
         $rulesRegistry = RulesRegistry::default();
         $validator = new VariableValidation($rulesRegistry);
 
         $specWriterFactory = new SpecWriterFactory();
-        $specReaderFactory = new SpecReaderFactory();
+        $specWriter = $specWriterFactory->basedOnResource($input->getOption('spec'));
 
-        $envReaderFactory = new EnvReaderFactory();
-        $envReader = $envReaderFactory->make((string) $input->getOption('env-reader'));
+        $specReaderFactory = new SpecReaderFactory();
+        $specReader = $specReaderFactory->basedOnSource($input->getOption('spec'));
 
         $manager = new AddNewVariableManager(
-            new EnvFileWriter($input->getOption('env-file')),
-            $specReaderFactory->basedOnSource($input->getOption('spec-file')),
-            $specWriterFactory->basedOnResource($input->getOption('spec-file')),
+            new EnvFileWriter(new EnvFileManager($input->getOption('target-env-file'))),
+            $specReader,
+            $specWriter,
         );
 
         $wantToAddMoreVariables = true;
@@ -76,10 +78,7 @@ class AddCommand extends Command
                 $description,
                 $export,
                 $system,
-                array_filter([
-                    'required' => $required,
-                    $type,
-                ]),
+                array_filter(['required' => $required] + $type),
             );
 
             $variableIsValid = false;
@@ -89,7 +88,7 @@ class AddCommand extends Command
                 $variableIsValid = $report === [];
 
                 if (!$variableIsValid) {
-                    $io->error('Variables is not valid:');
+                    $io->error('Variable value is not valid:');
                     $io->listing(
                         array_map(
                             static fn (VariableReport $variableReport): string => $variableReport->message,
@@ -100,22 +99,26 @@ class AddCommand extends Command
                 }
             }
 
-            $manager->add(
-                new AddVariableCommand(
+            try {
+                $manager->add(
                     $variable,
                     $value,
-                    $input->getOption('env'),
-                    $input->getOption('env-file'),
-                    $input->getOption('spec-file'),
-                )
-            );
+                    (string) $input->getOption('env'),
+                    (string) $input->getOption('spec'),
+                );
 
-            $io->success('Variable was successfully added to specification.');
-            $io->text(
-                'List of available validators: ' . implode(', ', $rulesRegistry->listOfAliases(['string', 'numeric', 'boolean', 'enum']))
-            );
-
-            $wantToAddMoreVariables = $io->confirm('Do you want to add more variables?', false);
+                $io->success('Variable was successfully added to specification.');
+                $io->text(
+                    sprintf(
+                        'List of available rules that you can manually add to variable: %s.',
+                        implode(', ', $rulesRegistry->listOfAliases(['string', 'numeric', 'boolean', 'enum', 'required']))
+                    ),
+                );
+            } catch (NewVariablesManagerException $exception) {
+                $io->warning($exception->getMessage());
+            } finally {
+                $wantToAddMoreVariables = $io->confirm('Do you want to add more variables?', false);
+            }
         }
 
         return Command::SUCCESS;
@@ -145,7 +148,7 @@ class AddCommand extends Command
         return $helper->ask($input, $output, $question);
     }
 
-    private function askForType(InputInterface $input, OutputInterface $output): string
+    private function askForType(InputInterface $input, OutputInterface $output): array
     {
         $helper = $this->getHelper('question');
         $question = new ChoiceQuestion(
@@ -155,7 +158,24 @@ class AddCommand extends Command
         );
         $question->setErrorMessage('Type %s is invalid.');
 
-        return $helper->ask($input, $output, $question);
+        $type = $helper->ask($input, $output, $question);
+
+        if ($type !== 'enum') {
+            return [$type => true];
+        }
+
+        $addMoreOptions = true;
+        $options = [];
+
+        while ($addMoreOptions) {
+            $enumQuestion = new Question('Enter enum option: ');
+            $options[] = $helper->ask($input, $output, $enumQuestion);
+
+            $confirm = new ConfirmationQuestion('Want to add more options?', true);
+            $addMoreOptions = $helper->ask($input, $output, $confirm);
+        }
+
+        return ['enum' => array_unique($options)];
     }
 
     private function askForValue(InputInterface $input, OutputInterface $output): string

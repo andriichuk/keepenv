@@ -6,7 +6,6 @@ namespace Andriichuk\KeepEnv\Tests\Functional\Manager;
 
 use Andriichuk\KeepEnv\Environment\Writer\EnvFileManager;
 use Andriichuk\KeepEnv\Manager\AddNewVariableManager;
-use Andriichuk\KeepEnv\Manager\AddVariableCommand;
 use Andriichuk\KeepEnv\Specification\Reader\SpecYamlReader;
 use Andriichuk\KeepEnv\Specification\SpecificationArrayBuilder;
 use Andriichuk\KeepEnv\Specification\Variable;
@@ -51,22 +50,19 @@ class AddNewVariableManagerTest extends TestCase
     public function testManager(): void
     {
         $this->manager->add(
-            new AddVariableCommand(
-                new Variable(
-                    'APP_TEST_KEY',
-                    'Application test key.',
-                    false,
-                    false,
-                    [
-                        'required' => true,
-                        'string' => true,
-                    ]
-                ),
-                '123qwe',
-                'common',
-                $this->rootFolder->getChild('.env')->url(),
-                $this->rootFolder->getChild('keepenv.yaml')->url(),
+            new Variable(
+                'APP_TEST_KEY',
+                'Application test key.',
+                false,
+                false,
+                [
+                    'required' => true,
+                    'string' => true,
+                ]
             ),
+            '123qwe',
+            'common',
+            $this->rootFolder->getChild('keepenv.yaml')->url(),
         );
 
         $specReader = new SpecYamlReader(new SpecificationArrayBuilder());
