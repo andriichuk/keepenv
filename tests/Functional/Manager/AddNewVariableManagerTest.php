@@ -6,6 +6,7 @@ namespace Andriichuk\KeepEnv\Tests\Functional\Manager;
 
 use Andriichuk\KeepEnv\Environment\Writer\EnvFileManager;
 use Andriichuk\KeepEnv\Manager\AddNewVariableManager;
+use Andriichuk\KeepEnv\Manager\Exceptions\NewVariablesManagerException;
 use Andriichuk\KeepEnv\Specification\Reader\SpecYamlReader;
 use Andriichuk\KeepEnv\Specification\SpecificationArrayBuilder;
 use Andriichuk\KeepEnv\Specification\Variable;
@@ -47,7 +48,7 @@ class AddNewVariableManagerTest extends TestCase
         );
     }
 
-    public function testManager(): void
+    public function testManagerCanAddNewVariable(): void
     {
         $this->manager->add(
             new Variable(
@@ -77,6 +78,18 @@ class AddNewVariableManagerTest extends TestCase
                 ],
             ],
             $specification->get('common')->get('APP_TEST_KEY')->toArray(),
+        );
+    }
+
+    public function testManagerThrowsExceptionWhenVariableAlreadyDefined(): void
+    {
+        $this->expectException(NewVariablesManagerException::class);
+
+        $this->manager->add(
+            new Variable('APP_NAME', 'Application name.'),
+            '123qwe',
+            'common',
+            $this->rootFolder->getChild('keepenv.yaml')->url(),
         );
     }
 }

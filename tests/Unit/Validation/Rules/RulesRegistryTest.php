@@ -38,4 +38,26 @@ class RulesRegistryTest extends TestCase
 
         $registry->get('email_check');
     }
+
+    public function testRegistryCanProvideListOfRuleAliases(): void
+    {
+        $registry = new RulesRegistry();
+
+        $registry->add(
+            $this->createConfiguredMock(RuleInterface::class, [
+                'alias' => 'email',
+            ])
+        );
+
+        $registry->add(
+            $this->createConfiguredMock(RuleInterface::class, [
+                'alias' => 'numeric',
+            ])
+        );
+
+        $this->assertEquals(
+            ['email'],
+            $registry->listOfAliases(['numeric']),
+        );
+    }
 }
