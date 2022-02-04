@@ -29,7 +29,7 @@ class AddNewVariableManager
         $this->specWriter = $specWriter;
     }
 
-    public function add(Variable $variable, string $value, string $environment, string $specificationFilePath): void
+    public function add(Variable $variable, ?string $value, string $environment, string $specificationFilePath): void
     {
         $spec = $this->specReader->read($specificationFilePath);
         $envSpec = $spec->get($environment);
@@ -41,7 +41,11 @@ class AddNewVariableManager
         $envSpec->add($variable);
         $spec->add($envSpec);
 
-        $this->envFileWriter->add($variable->name, $value, $variable->export);
+        if (!$variable->system && $value !== null) {
+            $this->envFileWriter->add($variable->name, $value, $variable->export);
+        }
+
         $this->specWriter->write($specificationFilePath, $spec);
+
     }
 }

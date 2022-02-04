@@ -69,7 +69,7 @@ class AddCommand extends Command
             $export = $io->confirm('Should contain `export` keyword?', false);
             $system = $io->confirm('Is it a system variable (from $_ENV or $_SERVER)?', false);
             $type = $this->askForType($io);
-            $value = $this->askForValue($io);
+            $value = $system ? null : $this->askForValue($io);
 
             $variable = new Variable(
                 $name,
@@ -79,7 +79,7 @@ class AddCommand extends Command
                 array_filter(['required' => $required] + $type),
             );
 
-            $variableIsValid = false;
+            $variableIsValid = $variable->system;
 
             while (!$variableIsValid) {
                 $report = $validator->validate($variable, $value);
