@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Andriichuk\KeepEnv\Environment\Writer;
 
 use Andriichuk\KeepEnv\Environment\Writer\Exceptions\EnvFileWriterException;
-use RuntimeException;
 
 /**
  * @author Serhii Andriichuk <andriichuk29@gmail.com>

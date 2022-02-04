@@ -52,7 +52,7 @@ class SpecGeneratorTest extends TestCase
 
         $this->assertFileEquals(
             dirname(__DIR__, 2) . '/fixtures/case_1/keepenv.yaml',
-            'vfs://src/keepenv.yaml',
+            $this->rootFolder->getChild('keepenv.yaml')->url(),
         );
     }
 
@@ -83,7 +83,7 @@ class SpecGeneratorTest extends TestCase
 
         $this->assertFileEquals(
             dirname(__DIR__, 2) . '/fixtures/case_2/keepenv_laravel.yaml',
-            'vfs://src/keepenv_laravel.yaml',
+            $this->rootFolder->getChild('keepenv_laravel.yaml')->url(),
         );
     }
 
@@ -114,7 +114,7 @@ class SpecGeneratorTest extends TestCase
 
         $this->assertFileEquals(
             dirname(__DIR__, 2) . '/fixtures/case_2/keepenv_symfony.yaml',
-            'vfs://src/keepenv_symfony.yaml',
+            $this->rootFolder->getChild('keepenv_symfony.yaml')->url(),
         );
     }
 
