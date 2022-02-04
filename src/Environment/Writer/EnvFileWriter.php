@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Andriichuk\KeepEnv\Environment\Writer;
 
-use RuntimeException;
+use Andriichuk\KeepEnv\Environment\Writer\Exceptions\EnvFileWriterException;
 
 /**
  * @author Serhii Andriichuk <andriichuk29@gmail.com>
@@ -49,7 +49,7 @@ class EnvFileWriter implements EnvWriterInterface
     public function add(string $key, string $value): void
     {
         if ($this->has($key)) {
-            throw new RuntimeException("$key is already defined.");
+            throw EnvFileWriterException::keyAlreadyDefined($key);
         }
 
         $this->write($this->content() . $this->prepareLine($key, $value));
@@ -81,13 +81,13 @@ class EnvFileWriter implements EnvWriterInterface
     public function update(string $key, string $value): void
     {
         $value = $this->quote($value);
-        $content = preg_replace(
+        $newContent = preg_replace(
             "#^$key=([^\n]+)?#miu",
             "$key=$value",
             $this->content(),
         );
 
-        $this->write($content);
+        $this->write($newContent);
     }
 
     private function quote(string $value): string

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Andriichuk\KeepEnv\Tests\Functional\Specification\Reader\Specification;
 
+use Andriichuk\KeepEnv\Specification\Reader\Exceptions\SpecificationReaderException;
 use Andriichuk\KeepEnv\Specification\Reader\SpecYamlReader;
 use Andriichuk\KeepEnv\Specification\SpecificationArrayBuilder;
 use InvalidArgumentException;
@@ -38,6 +39,16 @@ class SpecificationYamlReaderTest extends TestCase
 
         $reader = new SpecYamlReader(new SpecificationArrayBuilder());
         $reader->read('not-exists-keepenv.yaml');
+    }
+
+    public function testReaderCanThrowExceptionOnAttemptToReadEmptyFile(): void
+    {
+        $this->expectException(SpecificationReaderException::class);
+
+        $this->rootFolder->addChild((new vfsStreamFile('keepenv-empty.yaml'))->setContent(''));
+
+        $reader = new SpecYamlReader(new SpecificationArrayBuilder());
+        $reader->read($this->rootFolder->getChild('keepenv-empty.yaml')->url());
     }
 
     public function testReaderCanReadFile(): void

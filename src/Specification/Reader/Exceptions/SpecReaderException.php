@@ -15,4 +15,9 @@ class SpecReaderException extends RuntimeException
     {
         return new self("Unsupported specification source type `$type`, file `$sourcePath`");
     }
+
+    public static function cannotParse(string $source): self
+    {
+        return new self("Unable to parse Yaml specification [$source].");
+    }
 }

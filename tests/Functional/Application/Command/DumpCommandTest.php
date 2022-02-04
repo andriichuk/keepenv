@@ -52,7 +52,7 @@ class DumpCommandTest extends TestCase
         $this->commandTester->assertCommandIsSuccessful();
         $this->assertFileEquals(
             dirname(__DIR__, 3) . '/fixtures/case_8/.env.command',
-            'vfs://src/.env.command_test',
+            $this->rootFolder->getChild('.env.command_test')->url(),
         );
     }
 
