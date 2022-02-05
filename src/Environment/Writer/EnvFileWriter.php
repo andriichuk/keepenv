@@ -52,7 +52,7 @@ class EnvFileWriter implements EnvWriterInterface
             throw EnvFileWriterException::keyAlreadyDefined($key);
         }
 
-        $this->write($this->content() . $this->prepareNewLine($key, $value));
+        $this->write($this->content() . $this->prepareNewLine($key, $value, $export));
     }
 
     public function addBatch(array $variables): void

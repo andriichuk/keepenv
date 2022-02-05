@@ -22,62 +22,70 @@ use PHPUnit\Framework\TestCase;
  */
 class AddNewVariableManagerTest extends TestCase
 {
-    private AddNewVariableManager $manager;
     private vfsStreamDirectory $rootFolder;
 
     protected function setUp(): void
     {
         $this->rootFolder = vfsStream::setup('src');
-        $this->rootFolder->addChild(
-            (new vfsStreamFile('.env'))
-                ->setContent(
-                    file_get_contents(dirname(__DIR__, 2) . '/fixtures/common/.env'),
-                ),
-        );
+    }
+
+    public function testManagerCanAddSystemVariable(): void
+    {
+        $envContent = 'APP_ENV=production';
+
+        $this->rootFolder->addChild((new vfsStreamFile('.env'))->setContent($envContent));
         $this->rootFolder->addChild(
             (new vfsStreamFile('keepenv.yaml'))
                 ->setContent(
-                    file_get_contents(dirname(__DIR__, 2) . '/fixtures/common/keepenv.yaml'),
+                    <<<SPEC
+version: '1.0'
+environments:
+    common:
+        variables:
+            APP_NAME:
+                description: 'Application name.'
+
+SPEC
                 ),
         );
 
-        $this->manager = new AddNewVariableManager(
+        $manager = new AddNewVariableManager(
             new EnvFileWriter(new EnvFileManager($this->rootFolder->getChild('.env')->url())),
             new SpecYamlReader(new SpecificationArrayBuilder()),
             new SpecYamlWriter(),
         );
-    }
 
-    public function testManagerCanAddNewVariable(): void
-    {
-        $this->manager->add(
+        $manager->add(
             new Variable(
-                'APP_TEST_KEY',
-                'Application test key.',
+                'APP_SYSTEM_KEY',
+                'Application system key.',
                 false,
-                false,
-                [
-                    'required' => true,
-                    'string' => true,
-                ]
+                true,
             ),
-            '123qwe',
+            'qwe123',
             'common',
             $this->rootFolder->getChild('keepenv.yaml')->url(),
         );
 
-        $specReader = new SpecYamlReader(new SpecificationArrayBuilder());
-        $specification = $specReader->read($this->rootFolder->getChild('keepenv.yaml')->url());
+        $this->assertEquals(
+            $envContent,
+            file_get_contents($this->rootFolder->getChild('.env')->url()),
+        );
 
         $this->assertEquals(
-            [
-                'description' => 'Application test key.',
-                'rules' => [
-                    'required' => true,
-                    'string' => true,
-                ],
-            ],
-            $specification->get('common')->get('APP_TEST_KEY')->toArray(),
+            <<<SPEC
+version: '1.0'
+environments:
+    common:
+        variables:
+            APP_NAME:
+                description: 'Application name.'
+            APP_SYSTEM_KEY:
+                description: 'Application system key.'
+                system: true
+
+SPEC,
+            file_get_contents($this->rootFolder->getChild('keepenv.yaml')->url()),
         );
     }
 
@@ -85,7 +93,28 @@ class AddNewVariableManagerTest extends TestCase
     {
         $this->expectException(NewVariablesManagerException::class);
 
-        $this->manager->add(
+        $this->rootFolder->addChild((new vfsStreamFile('.env'))->setContent(''));
+        $this->rootFolder->addChild(
+            (new vfsStreamFile('keepenv.yaml'))
+                ->setContent(
+                    <<<SPEC
+version: '1.0'
+environments:
+    common:
+        variables:
+            APP_NAME:
+                description: 'Application name.'
+SPEC
+                ),
+        );
+
+        $manager = new AddNewVariableManager(
+            new EnvFileWriter(new EnvFileManager($this->rootFolder->getChild('.env')->url())),
+            new SpecYamlReader(new SpecificationArrayBuilder()),
+            new SpecYamlWriter(),
+        );
+
+        $manager->add(
             new Variable('APP_NAME', 'Application name.'),
             '123qwe',
             'common',

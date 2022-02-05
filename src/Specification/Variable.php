@@ -53,7 +53,7 @@ class Variable implements ArraySerializable
         return array_filter([
             'description' => $this->description,
             'export' => $this->export ?: null,
-            'system' => $this->export ?: null,
+            'system' => $this->system ?: null,
             'default' => $this->default,
             'rules' => $this->rules ?: null,
         ]);

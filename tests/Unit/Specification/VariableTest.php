@@ -80,7 +80,7 @@ class VariableTest extends TestCase
         $variable = new Variable(
             'APP_ENV',
             'Application environment.',
-            true,
+            false,
             true,
             [
                 'required' => true,
@@ -93,12 +93,32 @@ class VariableTest extends TestCase
             [
                 'description' => 'Application environment.',
                 'default' => 'production',
-                'export' => true,
                 'system' => true,
                 'rules' => [
                     'required' => true,
                     'enum' => ['local', 'production'],
                 ],
+            ],
+            $variable->toArray()
+        );
+    }
+
+    public function testVariableCanBeMarkedAsExport(): void
+    {
+        $variable = new Variable(
+            'APP_ENV',
+            'Application environment.',
+            true,
+            false,
+            [],
+            'production',
+        );
+
+        $this->assertEquals(
+            [
+                'description' => 'Application environment.',
+                'default' => 'production',
+                'export' => true,
             ],
             $variable->toArray()
         );

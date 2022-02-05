@@ -46,6 +46,5 @@ class AddNewVariableManager
         }
 
         $this->specWriter->write($specificationFilePath, $spec);
-
     }
 }
