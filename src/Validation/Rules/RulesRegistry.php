@@ -48,7 +48,7 @@ class RulesRegistry implements RulesRegistryInterface
     /**
      * @param string[] $except
      *
-     * @return string[]
+     * @return array<int, array-key>
      */
     public function listOfAliases(array $except): array
     {

@@ -128,7 +128,7 @@ class SpecGenerator
             return ['numeric' => true];
         }
 
-        if (is_bool($value) || (!empty($value) && filter_var($value, FILTER_VALIDATE_BOOL, FILTER_NULL_ON_FAILURE) !== null)) {
+        if (is_bool($value) || (!empty($value) && filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) !== null)) {
             return ['boolean' => true];
         }
 
