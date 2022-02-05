@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Andriichuk\KeepEnv\Tests\Unit\Environment;
 
 use Andriichuk\KeepEnv\Environment\Loader\EnvLoaderFactory;
+use Andriichuk\KeepEnv\Environment\Loader\Exceptions\EnvLoaderFactoryException;
 use Andriichuk\KeepEnv\Environment\Loader\JoseGonzalezDotEnvStateLoader;
 use Andriichuk\KeepEnv\Environment\Loader\SymfonyDotEnvStateLoader;
 use Andriichuk\KeepEnv\Environment\Loader\SystemEnvStateLoader;
 use Andriichuk\KeepEnv\Environment\Loader\VlucasPhpDotEnvStateLoader;
 use Generator;
 use PHPUnit\Framework\TestCase;
-use RuntimeException;
 
 /**
  * @author Serhii Andriichuk <andriichuk29@gmail.com>
@@ -70,7 +70,7 @@ class EnvLoaderFactoryTest extends TestCase
 
     public function testFactoryThrowsExceptionOnWrongType(): void
     {
-        $this->expectException(RuntimeException::class);
+        $this->expectException(EnvLoaderFactoryException::class);
         $this->factory->make('wrong');
     }
 }

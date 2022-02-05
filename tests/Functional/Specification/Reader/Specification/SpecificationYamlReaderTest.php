@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Andriichuk\KeepEnv\Tests\Functional\Specification\Reader\Specification;
 
-use Andriichuk\KeepEnv\Specification\Reader\Exceptions\SpecificationReaderException;
+use Andriichuk\KeepEnv\Specification\Reader\Exceptions\SpecReaderException;
 use Andriichuk\KeepEnv\Specification\Reader\SpecYamlReader;
 use Andriichuk\KeepEnv\Specification\SpecificationArrayBuilder;
 use InvalidArgumentException;
@@ -43,7 +43,7 @@ class SpecificationYamlReaderTest extends TestCase
 
     public function testReaderCanThrowExceptionOnAttemptToReadEmptyFile(): void
     {
-        $this->expectException(SpecificationReaderException::class);
+        $this->expectException(SpecReaderException::class);
 
         $this->rootFolder->addChild((new vfsStreamFile('keepenv-empty.yaml'))->setContent(''));
 

@@ -1,0 +1,13 @@
+version: '1.0'
+environments:
+    common:
+        variables:
+            APP_NAME:
+                description: 'Application name.'
+            APP_ENV:
+                description: 'Application environment name.'
+                rules:
+                    required: true
+                    enum:
+                        - dev
+                        - prod

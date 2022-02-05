@@ -58,7 +58,7 @@ class DumpService
 
         $envSpec = $this->specReader->read($specFile)->get($envName);
 
-        /** @var array<string, string> $variablesToWrite */
+        /** @var array<string, array<string, mixed>> $variablesToWrite */
         $variablesToWrite = [];
 
         foreach ($envSpec->all() as $variable) {
@@ -73,9 +73,12 @@ class DumpService
                 $value = '';
             }
 
-            $variablesToWrite[$variable->name] = $value;
+            $variablesToWrite[$variable->name] = [
+                'value' => $value,
+                'export' => $variable->export,
+            ];
         }
 
-        $this->envWriter->addBatch($variablesToWrite);
+        $this->envWriter->addBatch($variablesToWrite, true);
     }
 }

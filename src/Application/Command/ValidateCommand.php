@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Andriichuk\KeepEnv\Application\Command;
 
 use Andriichuk\KeepEnv\Environment\Loader\EnvLoaderFactory;
-use Andriichuk\KeepEnv\Specification\Reader\SpecificationReaderFactory;
+use Andriichuk\KeepEnv\Specification\Reader\SpecReaderFactory;
 use Andriichuk\KeepEnv\Validation\Rules\RulesRegistry;
 use Andriichuk\KeepEnv\Validation\SpecValidationService;
 use Andriichuk\KeepEnv\Validation\ValidationReport;
@@ -64,9 +64,8 @@ class ValidateCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $io->title('Environment validation');
 
-        $specReaderFactory = new SpecificationReaderFactory();
+        $specReaderFactory = new SpecReaderFactory();
         $envLoaderFactory = new EnvLoaderFactory();
 
         $specFile = (string) $input->getOption('spec');

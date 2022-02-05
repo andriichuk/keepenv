@@ -41,9 +41,14 @@ class Specification implements ArraySerializable
         $this->envVariables[$envVariables->getEnvName()] = $envVariables;
     }
 
+    public function has(string $envName): bool
+    {
+        return isset($this->envVariables[$envName]);
+    }
+
     public function get(string $envName): EnvVariables
     {
-        if (!isset($this->envVariables[$envName])) {
+        if (!$this->has($envName)) {
             throw new OutOfRangeException("Environment with name `$envName` is not defined in the specification.");
         }
 

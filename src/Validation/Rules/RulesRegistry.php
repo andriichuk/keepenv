@@ -14,7 +14,7 @@ class RulesRegistry implements RulesRegistryInterface
     /**
      * @var array<RuleInterface>
      */
-    private array $validators = [];
+    private array $rules = [];
 
     public static function default(): self
     {
@@ -33,15 +33,25 @@ class RulesRegistry implements RulesRegistryInterface
 
     public function add(RuleInterface $rule): void
     {
-        $this->validators[$rule->alias()] = $rule;
+        $this->rules[$rule->alias()] = $rule;
     }
 
     public function get(string $alias): RuleInterface
     {
-        if (!isset($this->validators[$alias])) {
+        if (!isset($this->rules[$alias])) {
             throw new OutOfRangeException("Undefined validation rule with alias `{$alias}`.");
         }
 
-        return $this->validators[$alias];
+        return $this->rules[$alias];
+    }
+
+    /**
+     * @param string[] $except
+     *
+     * @return array<int, array-key>
+     */
+    public function listOfAliases(array $except): array
+    {
+        return array_diff(array_keys($this->rules), $except);
     }
 }

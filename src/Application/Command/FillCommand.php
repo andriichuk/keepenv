@@ -8,7 +8,7 @@ use Andriichuk\KeepEnv\Environment\Reader\EnvReaderFactory;
 use Andriichuk\KeepEnv\Environment\Writer\EnvFileManager;
 use Andriichuk\KeepEnv\Environment\Writer\EnvFileWriter;
 use Andriichuk\KeepEnv\Filling\EnvFileFillingService;
-use Andriichuk\KeepEnv\Specification\Reader\SpecificationReaderFactory;
+use Andriichuk\KeepEnv\Specification\Reader\SpecReaderFactory;
 use Andriichuk\KeepEnv\Specification\Variable;
 use Andriichuk\KeepEnv\Utils\Stringify;
 use Andriichuk\KeepEnv\Validation\Rules\RulesRegistry;
@@ -41,9 +41,8 @@ class FillCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $io->title('Environment variables filling and validating.');
 
-        $specReaderFactory = new SpecificationReaderFactory();
+        $specReaderFactory = new SpecReaderFactory();
         $envReaderFactory = new EnvReaderFactory();
 
         $specFile = (string) $input->getOption('spec');

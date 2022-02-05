@@ -9,7 +9,7 @@ use RuntimeException;
 /**
  * @author Serhii Andriichuk <andriichuk29@gmail.com>
  */
-class SpecificationReaderException extends RuntimeException
+class SpecReaderException extends RuntimeException
 {
     public static function unsupportedType(string $sourcePath, string $type): self
     {

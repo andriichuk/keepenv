@@ -6,11 +6,11 @@ namespace Andriichuk\KeepEnv\Tests\Functional\Environment\Writer;
 
 use Andriichuk\KeepEnv\Environment\Writer\EnvFileManager;
 use Andriichuk\KeepEnv\Environment\Writer\EnvFileWriter;
+use Andriichuk\KeepEnv\Environment\Writer\Exceptions\EnvFileWriterException;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
 use org\bovigo\vfs\vfsStreamFile;
 use PHPUnit\Framework\TestCase;
-use RuntimeException;
 
 /**
  * @author Serhii Andriichuk <andriichuk29@gmail.com>
@@ -112,10 +112,10 @@ class EnvFileWriterTest extends TestCase
     public function testWriterCanAddBatchOfVariables(): void
     {
         $this->writer->addBatch([
-            'TEST_NUMERIC_KEY' => '12345',
-            'TEST_EMPTY_STRING_KEY' => '',
-            'TEST_STRING_WITH_SPACE_KEY' => 'string with space',
-        ]);
+            'TEST_NUMERIC_KEY' => ['value' => '12345', 'export' => false],
+            'TEST_EMPTY_STRING_KEY' => ['value' => '', 'export' => false],
+            'TEST_STRING_WITH_SPACE_KEY' => ['value' => 'string with space', 'export' => true],
+        ], true);
 
         $this->assertTrue($this->writer->has('TEST_NUMERIC_KEY'));
         $this->assertTrue($this->writer->has('TEST_EMPTY_STRING_KEY'));
@@ -125,12 +125,22 @@ class EnvFileWriterTest extends TestCase
 
         $this->assertIsInt(mb_strpos($content, 'TEST_NUMERIC_KEY=12345'));
         $this->assertIsInt(mb_strpos($content, 'TEST_EMPTY_STRING_KEY='));
-        $this->assertIsInt(mb_strpos($content, 'TEST_STRING_WITH_SPACE_KEY="string with space"'));
+        $this->assertIsInt(mb_strpos($content, 'export TEST_STRING_WITH_SPACE_KEY="string with space"'));
+    }
+
+    public function testWriterThrowExceptionOnExistingKeyInBatch(): void
+    {
+        $this->expectException(EnvFileWriterException::class);
+
+        $this->writer->addBatch([
+            'TEST_NUMERIC_KEY' => ['value' => '12345', 'export' => false],
+            'APP_NAME' => ['value' => 'dev', 'export' => false],
+        ], false);
     }
 
     public function testWriterThrowsExceptionWhenKeyAlreadyExists(): void
     {
-        $this->expectException(RuntimeException::class);
+        $this->expectException(EnvFileWriterException::class);
         $this->writer->add('APP_ENV', 'new value');
     }
 }

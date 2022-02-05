@@ -46,6 +46,6 @@ class BooleanRule implements RuleInterface
             return false;
         }
 
-        return filter_var($value, FILTER_VALIDATE_BOOL, FILTER_NULL_ON_FAILURE) !== null;
+        return filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) !== null;
     }
 }

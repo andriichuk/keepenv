@@ -1,0 +1,11 @@
+version: '1.0'
+environments:
+    common:
+        variables:
+            APP_NAME:
+                description: 'Application name.'
+            DEMO_MODE:
+                description: 'Demo mode.'
+                rules:
+                    required: true
+                    boolean: true

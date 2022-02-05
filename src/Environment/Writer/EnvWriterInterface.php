@@ -9,16 +9,16 @@ namespace Andriichuk\KeepEnv\Environment\Writer;
  */
 interface EnvWriterInterface
 {
-    public function save(string $key, string $value): void;
+    public function save(string $key, string $value, bool $export = false): void;
 
-    public function add(string $key, string $value): void;
+    public function add(string $key, string $value, bool $export = false): void;
 
     /**
-     * @param array<string, string> $variables
+     * @param array<string, array<string, mixed>> $variables
      */
-    public function addBatch(array $variables): void;
+    public function addBatch(array $variables, bool $skipExisting): void;
 
     public function has(string $key): bool;
 
-    public function update(string $key, string $value): void;
+    public function update(string $key, string $value, bool $export = false): void;
 }
