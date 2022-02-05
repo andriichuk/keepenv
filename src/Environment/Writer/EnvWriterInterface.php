@@ -16,7 +16,7 @@ interface EnvWriterInterface
     /**
      * @param array<string, array<string, mixed>> $variables
      */
-    public function addBatch(array $variables): void;
+    public function addBatch(array $variables, bool $skipExisting): void;
 
     public function has(string $key): bool;
 

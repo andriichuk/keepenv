@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Andriichuk\KeepEnv\Tests\Functional\Generator;
 
 use Andriichuk\KeepEnv\Environment\Reader\EnvReaderFactory;
+use Andriichuk\KeepEnv\Generator\Exceptions\SpecGeneratorException;
 use Andriichuk\KeepEnv\Generator\Presets\PresetFactory;
 use Andriichuk\KeepEnv\Generator\SpecGenerator;
 use Andriichuk\KeepEnv\Specification\Writer\SpecWriterFactory;
@@ -12,7 +13,6 @@ use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
 use org\bovigo\vfs\vfsStreamFile;
 use PHPUnit\Framework\TestCase;
-use RuntimeException;
 
 /**
  * @author Serhii Andriichuk <andriichuk29@gmail.com>
@@ -120,7 +120,7 @@ class SpecGeneratorTest extends TestCase
 
     public function testGeneratorThrowsExceptionOnAlreadyExistingSpecFile(): void
     {
-        $this->expectException(RuntimeException::class);
+        $this->expectException(SpecGeneratorException::class);
 
         $this->rootFolder->addChild((new vfsStreamFile('.env'))->setContent(''));
         $this->rootFolder->addChild((new vfsStreamFile('keepenv.yaml'))->setContent(''));

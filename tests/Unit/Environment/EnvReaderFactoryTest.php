@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Andriichuk\KeepEnv\Tests\Unit\Environment;
 
 use Andriichuk\KeepEnv\Environment\Reader\EnvReaderFactory;
+use Andriichuk\KeepEnv\Environment\Reader\Exceptions\EnvReaderFactoryException;
 use Andriichuk\KeepEnv\Environment\Reader\JoseGonzalezDotEnvFileReader;
 use Andriichuk\KeepEnv\Environment\Reader\SymfonyDotEnvFileReader;
 use Andriichuk\KeepEnv\Environment\Reader\VlucasPhpDotEnvFileReader;
 use Generator;
 use PHPUnit\Framework\TestCase;
-use RuntimeException;
 
 /**
  * @author Serhii Andriichuk <andriichuk29@gmail.com>
@@ -63,7 +63,7 @@ class EnvReaderFactoryTest extends TestCase
 
     public function testReaderThrowsExceptionForUndefinedType(): void
     {
-        $this->expectException(RuntimeException::class);
+        $this->expectException(EnvReaderFactoryException::class);
 
         $this->factory->make('not_exists');
     }

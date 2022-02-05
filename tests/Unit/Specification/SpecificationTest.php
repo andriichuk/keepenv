@@ -120,4 +120,13 @@ class SpecificationTest extends TestCase
         $specification->add(new EnvVariables('production', 'common'));
         $specification->toArray();
     }
+
+    public function testSpecificationCanCheckIfEnvIsDefined(): void
+    {
+        $specification = Specification::default();
+        $specification->add(new EnvVariables('production', 'common'));
+
+        $this->assertTrue($specification->has('production'));
+        $this->assertFalse($specification->has('develop'));
+    }
 }

@@ -1,0 +1,9 @@
+version: '1.0'
+environments:
+    common:
+        variables:
+            APP_NAME:
+                description: 'Application name.'
+            PAYMENT_FEATURE_ENABLED:
+                description: 'Payment feature flag'
+                export: true

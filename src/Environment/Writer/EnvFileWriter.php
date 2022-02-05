@@ -52,18 +52,24 @@ class EnvFileWriter implements EnvWriterInterface
             throw EnvFileWriterException::keyAlreadyDefined($key);
         }
 
-        $this->write($this->content() . $this->prepareNewLine($key, $value, $export));
+        $this->write(
+            $this->append($this->content(), $this->prepareNewLine($key, $value, $export))
+        );
     }
 
-    public function addBatch(array $variables): void
+    public function addBatch(array $variables, bool $skipExisting): void
     {
         $batch = '';
 
         foreach ($variables as $key => ['value' => $value, 'export' => $export]) {
+            if (!$skipExisting && $this->has($key)) {
+                throw EnvFileWriterException::keyAlreadyDefined($key);
+            }
+
             $batch .= $this->prepareNewLine($key, (string) $value, (bool) $export);
         }
 
-        $this->write($batch);
+        $this->write($this->append($this->content(), $batch));
     }
 
     public function has(string $key): bool
@@ -80,6 +86,17 @@ class EnvFileWriter implements EnvWriterInterface
         );
 
         $this->write($newContent);
+    }
+
+    private function append(string $content, string $newContent): string
+    {
+        $content = rtrim($content);
+
+        if ($content === '') {
+            return $newContent;
+        }
+
+        return $content . PHP_EOL . $newContent;
     }
 
     private function prepareNewLine(string $key, string $value, bool $export = false): string

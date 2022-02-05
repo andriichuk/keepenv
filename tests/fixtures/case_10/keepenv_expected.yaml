@@ -4,8 +4,8 @@ environments:
         variables:
             APP_NAME:
                 description: 'Application name.'
+            DEMO_MODE:
+                description: 'Demo mode.'
                 rules:
                     required: true
-            APP_SYSTEM_KEY:
-                description: 'Application system key.'
-                system: true
+                    boolean: true

@@ -29,6 +29,45 @@ class AddNewVariableManagerTest extends TestCase
         $this->rootFolder = vfsStream::setup('src');
     }
 
+    public function testManagerCanAddRegularVariableWithExport(): void
+    {
+        $this->rootFolder->addChild((new vfsStreamFile('.env'))->setContent('APP_ENV=production'));
+        $this->rootFolder->addChild(
+            (new vfsStreamFile('keepenv.yaml'))
+                ->setContent(
+                    file_get_contents(dirname(__DIR__, 2) . '/fixtures/case_9/keepenv_regular_var_init.yaml'),
+                ),
+        );
+
+        $manager = new AddNewVariableManager(
+            new EnvFileWriter(new EnvFileManager($this->rootFolder->getChild('.env')->url())),
+            new SpecYamlReader(new SpecificationArrayBuilder()),
+            new SpecYamlWriter(),
+        );
+
+        $manager->add(
+            new Variable(
+                'PAYMENT_FEATURE_ENABLED',
+                'Payment feature flag',
+                true,
+                false,
+            ),
+            'true',
+            'common',
+            $this->rootFolder->getChild('keepenv.yaml')->url(),
+        );
+
+        $this->assertEquals(
+            "APP_ENV=production\nexport PAYMENT_FEATURE_ENABLED=true\n",
+            file_get_contents($this->rootFolder->getChild('.env')->url()),
+        );
+
+        $this->assertFileEquals(
+            dirname(__DIR__, 2) . '/fixtures/case_9/keepenv_regular_var_expected.yaml',
+            $this->rootFolder->getChild('keepenv.yaml')->url(),
+        );
+    }
+
     public function testManagerCanAddSystemVariable(): void
     {
         $envContent = 'APP_ENV=production';
@@ -37,15 +76,7 @@ class AddNewVariableManagerTest extends TestCase
         $this->rootFolder->addChild(
             (new vfsStreamFile('keepenv.yaml'))
                 ->setContent(
-                    <<<SPEC
-version: '1.0'
-environments:
-    common:
-        variables:
-            APP_NAME:
-                description: 'Application name.'
-
-SPEC
+                    file_get_contents(dirname(__DIR__, 2) . '/fixtures/case_9/keepenv_system_var_init.yaml'),
                 ),
         );
 
@@ -72,20 +103,9 @@ SPEC
             file_get_contents($this->rootFolder->getChild('.env')->url()),
         );
 
-        $this->assertEquals(
-            <<<SPEC
-version: '1.0'
-environments:
-    common:
-        variables:
-            APP_NAME:
-                description: 'Application name.'
-            APP_SYSTEM_KEY:
-                description: 'Application system key.'
-                system: true
-
-SPEC,
-            file_get_contents($this->rootFolder->getChild('keepenv.yaml')->url()),
+        $this->assertFileEquals(
+            dirname(__DIR__, 2) . '/fixtures/case_9/keepenv_system_var_expected.yaml',
+            $this->rootFolder->getChild('keepenv.yaml')->url(),
         );
     }
 
@@ -97,14 +117,7 @@ SPEC,
         $this->rootFolder->addChild(
             (new vfsStreamFile('keepenv.yaml'))
                 ->setContent(
-                    <<<SPEC
-version: '1.0'
-environments:
-    common:
-        variables:
-            APP_NAME:
-                description: 'Application name.'
-SPEC
+                    file_get_contents(dirname(__DIR__, 2) . '/fixtures/case_9/keepenv_system_var_init.yaml'),
                 ),
         );
 
@@ -118,6 +131,47 @@ SPEC
             new Variable('APP_NAME', 'Application name.'),
             '123qwe',
             'common',
+            $this->rootFolder->getChild('keepenv.yaml')->url(),
+        );
+    }
+
+    public function testManagerCanAddNewVariableWithNewEnvironment(): void
+    {
+        $this->rootFolder->addChild((new vfsStreamFile('.env'))->setContent('APP_ENV=production'));
+        $this->rootFolder->addChild(
+            (new vfsStreamFile('keepenv.yaml'))
+                ->setContent(
+                    file_get_contents(dirname(__DIR__, 2) . '/fixtures/case_9/keepenv_new_env_init.yaml'),
+                ),
+        );
+
+        $manager = new AddNewVariableManager(
+            new EnvFileWriter(new EnvFileManager($this->rootFolder->getChild('.env')->url())),
+            new SpecYamlReader(new SpecificationArrayBuilder()),
+            new SpecYamlWriter(),
+        );
+
+        $manager->add(
+            new Variable(
+                'SALES_FEATURE_ENABLED',
+                'Sales feature flag.',
+                false,
+                false,
+                [],
+                'OFF',
+            ),
+            'true',
+            'local',
+            $this->rootFolder->getChild('keepenv.yaml')->url(),
+        );
+
+        $this->assertEquals(
+            "APP_ENV=production\nSALES_FEATURE_ENABLED=true\n",
+            file_get_contents($this->rootFolder->getChild('.env')->url()),
+        );
+
+        $this->assertFileEquals(
+            dirname(__DIR__, 2) . '/fixtures/case_9/keepenv_new_env_expected.yaml',
             $this->rootFolder->getChild('keepenv.yaml')->url(),
         );
     }

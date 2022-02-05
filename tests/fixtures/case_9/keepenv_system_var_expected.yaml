@@ -1,0 +1,9 @@
+version: '1.0'
+environments:
+    common:
+        variables:
+            APP_NAME:
+                description: 'Application name.'
+            APP_SYSTEM_KEY:
+                description: 'Application system key.'
+                system: true

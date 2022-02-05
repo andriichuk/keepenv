@@ -11,6 +11,7 @@ use Andriichuk\KeepEnv\Filling\EnvFileFillingService;
 use Andriichuk\KeepEnv\Specification\Reader\SpecYamlReader;
 use Andriichuk\KeepEnv\Specification\SpecificationArrayBuilder;
 use Andriichuk\KeepEnv\Specification\Variable;
+use Andriichuk\KeepEnv\Validation\Exceptions\ValidationReportException;
 use Andriichuk\KeepEnv\Validation\Rules\RulesRegistry;
 use Andriichuk\KeepEnv\Validation\VariableValidation;
 use org\bovigo\vfs\vfsStream;
@@ -83,7 +84,7 @@ class EnvFileFillingServiceTest extends TestCase
 
     public function testServiceCanThrowExceptionOnInvalidInput(): void
     {
-        $this->expectException(RuntimeException::class);
+        $this->expectException(ValidationReportException::class);
         $this->expectExceptionMessage('The value is required.');
 
         $valueProviders = [

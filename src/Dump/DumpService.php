@@ -79,6 +79,6 @@ class DumpService
             ];
         }
 
-        $this->envWriter->addBatch($variablesToWrite);
+        $this->envWriter->addBatch($variablesToWrite, true);
     }
 }

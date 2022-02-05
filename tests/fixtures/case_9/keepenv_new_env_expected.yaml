@@ -1,0 +1,11 @@
+version: '1.0'
+environments:
+    common:
+        variables:
+            APP_NAME:
+                description: 'Application name.'
+    local:
+        variables:
+            SALES_FEATURE_ENABLED:
+                description: 'Sales feature flag.'
+                default: 'OFF'

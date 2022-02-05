@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Andriichuk\KeepEnv\Manager;
 
 use Andriichuk\KeepEnv\Manager\Exceptions\NewVariablesManagerException;
+use Andriichuk\KeepEnv\Specification\EnvVariables;
 use Andriichuk\KeepEnv\Specification\Reader\SpecReaderInterface;
 use Andriichuk\KeepEnv\Environment\Writer\EnvFileWriter;
 use Andriichuk\KeepEnv\Specification\Variable;
@@ -29,10 +30,10 @@ class AddNewVariableManager
         $this->specWriter = $specWriter;
     }
 
-    public function add(Variable $variable, ?string $value, string $environment, string $specificationFilePath): void
+    public function add(Variable $variable, ?string $value, string $envName, string $specificationFilePath): void
     {
         $spec = $this->specReader->read($specificationFilePath);
-        $envSpec = $spec->get($environment);
+        $envSpec = $spec->has($envName) ? $spec->get($envName) : new EnvVariables($envName);
 
         if ($envSpec->get($variable->name)) {
             throw NewVariablesManagerException::variableAlreadyDefined($variable->name);
@@ -42,7 +43,7 @@ class AddNewVariableManager
         $spec->add($envSpec);
 
         if (!$variable->system && $value !== null) {
-            $this->envFileWriter->add($variable->name, $value, $variable->export);
+            $this->envFileWriter->save($variable->name, $value, $variable->export);
         }
 
         $this->specWriter->write($specificationFilePath, $spec);
