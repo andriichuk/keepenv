@@ -1,0 +1,16 @@
+version: '1.0'
+environments:
+    common:
+        variables:
+            APP_NAME:
+                description: 'Application name.'
+            APP_LOCALE:
+                description: 'Application default locale.'
+                rules:
+                    required: true
+                    string: true
+            APP_TIMEZONE:
+                description: 'Application default timezone.'
+                rules:
+                    required: true
+                    string: true
