@@ -34,6 +34,7 @@
 * [Initialization](#initialization)
 * [Validation](#validation)
 * [Filling](#filling)
+* [Adding](#adding)
 * [Dumping](#dumping)
 * [Syntax](#syntax)
 * [Tips](#tips)
@@ -151,6 +152,14 @@ For specific environment:
 
 ```shell
 ./vendor/bin/keepenv fill --env=common
+```
+
+### Adding
+
+The following command can help you to add a new variable definition to specification and dotenv files: 
+
+```shell
+./vendor/bin/keepenv add
 ```
 
 ### Dumping

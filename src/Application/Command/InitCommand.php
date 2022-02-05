@@ -66,7 +66,6 @@ class InitCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $io->title('Environment specification generation');
 
         $envReaderFactory = new EnvReaderFactory();
         $writerFactory = new SpecWriterFactory();

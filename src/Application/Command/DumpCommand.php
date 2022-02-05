@@ -40,8 +40,6 @@ class DumpCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $io->title('Dump environment state to the file.');
-
         $targetEnvFile = (string) $input->getOption('target-env-file');
 
         $envFileManager = new EnvFileManager((string) $input->getOption('target-env-file'));

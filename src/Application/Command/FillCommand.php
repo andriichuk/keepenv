@@ -41,7 +41,6 @@ class FillCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $io->title('Environment variables filling and validating.');
 
         $specReaderFactory = new SpecReaderFactory();
         $envReaderFactory = new EnvReaderFactory();

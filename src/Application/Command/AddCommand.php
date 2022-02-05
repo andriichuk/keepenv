@@ -30,11 +30,11 @@ class AddCommand extends Command
     protected function configure(): void
     {
         $this
-            ->addOption('env', 'e', InputOption::VALUE_REQUIRED, 'The name of the environment to be filled.', 'common')
+            ->addOption('env', 'e', InputOption::VALUE_REQUIRED, 'The name of the environment for new variable.', 'common')
             ->addOption('target-env-file', 't', InputOption::VALUE_REQUIRED, 'DotEnv file path for filling.', './.env')
             ->addOption('spec', 's', InputOption::VALUE_REQUIRED, 'DotEnv specification file path.', 'keepenv.yaml')
-            ->setDescription('Application environment variables filling.')
-            ->setHelp('This command allows you to fill empty environment variables according to specification.');
+            ->setDescription('Application environment variables adding.')
+            ->setHelp('This command allows you to add new environment variables to specification and dotenv file.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -60,11 +60,11 @@ class AddCommand extends Command
         $wantToAddMoreVariables = true;
 
         while ($wantToAddMoreVariables) {
-            $name = (string) $io->ask('Please enter variable name');
+            $name = (string) $io->ask('Please enter the name of the variable');
             $name = str_replace(' ', '_', trim($name));
-            $description = (string) $io->ask('Enter variable description');
+            $description = (string) $io->ask('Enter a description of the variable');
             $required = $io->confirm('Is the variable required?', true);
-            $export = $io->confirm('Should contain `export` keyword?', false);
+            $export = $io->confirm('Should contain `export` prefix in dotenv file?', false);
             $system = $io->confirm('Is it a system variable (from $_ENV or $_SERVER)?', false);
             $type = $this->askForType($io);
             $value = $system ? null : $this->askForValue($io);
@@ -123,7 +123,7 @@ class AddCommand extends Command
     private function askForType(SymfonyStyle $io): array
     {
         $type = (string) $io->choice(
-            'Select variable type',
+            'Select the type of variable',
             ['string', 'numeric', 'boolean', 'enum'],
             0
         );
@@ -136,7 +136,7 @@ class AddCommand extends Command
         $options = [];
 
         while ($addMoreOptions) {
-            $options[] = (string) $io->ask('Enter enum option');
+            $options[] = (string) $io->ask('Enter the enum option');
             $addMoreOptions = $io->confirm('Want to add more options?', true);
         }
 
@@ -145,6 +145,6 @@ class AddCommand extends Command
 
     private function askForValue(SymfonyStyle $io): string
     {
-        return (string) $io->ask('Enter variable value');
+        return (string) $io->ask('Enter the value of the variable');
     }
 }
