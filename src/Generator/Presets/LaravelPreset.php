@@ -22,6 +22,9 @@ class LaravelPreset implements PresetInterface
         );
     }
 
+    /**
+     * @return array<string, Variable>
+     */
     private function appSection(): array
     {
         return [
@@ -59,6 +62,9 @@ class LaravelPreset implements PresetInterface
         ];
     }
 
+    /**
+     * @return array<string, Variable>
+     */
     private function loggerSection(): array
     {
         return [
@@ -87,6 +93,9 @@ class LaravelPreset implements PresetInterface
         ];
     }
 
+    /**
+     * @return array<string, Variable>
+     */
     private function databaseSection(): array
     {
         return [
@@ -123,6 +132,9 @@ class LaravelPreset implements PresetInterface
         ];
     }
 
+    /**
+     * @return array<string, Variable>
+     */
     private function cacheSection(): array
     {
         return [
@@ -160,6 +172,9 @@ class LaravelPreset implements PresetInterface
         ];
     }
 
+    /**
+     * @return array<string, Variable>
+     */
     private function miscellaneous(): array
     {
         return [
