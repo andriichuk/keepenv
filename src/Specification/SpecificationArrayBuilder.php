@@ -79,42 +79,48 @@ class SpecificationArrayBuilder implements SpecificationBuilderInterface
              * @var mixed $definition
              */
             foreach ($variables as $name => $definition) {
-                if (empty($definition) || !is_array($definition)) {
-                    throw InvalidStructureException::emptyOrInvalidVariableDefinition();
-                }
-
-                $description = $definition['description'] ?? '';
-
-                if (!is_string($description)) {
-                    throw InvalidStructureException::invalidVariableDefinition('Variable `description` field value must be a string.');
-                }
-
-                $export = $definition['export'] ?? false;
-
-                if (!is_bool($export)) {
-                    throw InvalidStructureException::invalidVariableDefinition('Variable `export` field value must be a boolean.');
-                }
-
-                $system = $definition['system'] ?? false;
-
-                if (!is_bool($system)) {
-                    throw InvalidStructureException::invalidVariableDefinition('Variable `system` field value must be a boolean.');
-                }
-
-                $rules = $definition['rules'] ?? [];
-
-                if (!is_array($rules)) {
-                    throw InvalidStructureException::invalidVariableDefinition('Variable `rules` field value must be an array.');
-                }
-
-                $envVariables->add(
-                    new Variable($name, $description, $export, $system, $rules, $definition['default'] ?? null)
-                );
+                $envVariables->add($this->resolveVariable($name, $definition));
             }
 
             $specification->add($envVariables);
         }
 
         return $specification;
+    }
+
+    /**
+     * @param mixed $definition
+     */
+    private function resolveVariable(string $name, $definition): Variable
+    {
+        if (empty($definition) || !is_array($definition)) {
+            throw InvalidStructureException::emptyOrInvalidVariableDefinition();
+        }
+
+        $description = $definition['description'] ?? '';
+
+        if (!is_string($description)) {
+            throw InvalidStructureException::invalidVariableDefinition('Variable `description` field value must be a string.');
+        }
+
+        $export = $definition['export'] ?? false;
+
+        if (!is_bool($export)) {
+            throw InvalidStructureException::invalidVariableDefinition('Variable `export` field value must be a boolean.');
+        }
+
+        $system = $definition['system'] ?? false;
+
+        if (!is_bool($system)) {
+            throw InvalidStructureException::invalidVariableDefinition('Variable `system` field value must be a boolean.');
+        }
+
+        $rules = $definition['rules'] ?? [];
+
+        if (!is_array($rules)) {
+            throw InvalidStructureException::invalidVariableDefinition('Variable `rules` field value must be an array.');
+        }
+
+        return new Variable($name, $description, $export, $system, $rules, $definition['default'] ?? null);
     }
 }

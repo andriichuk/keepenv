@@ -7,13 +7,22 @@ namespace Andriichuk\KeepEnv\Generator\Presets;
 use Andriichuk\KeepEnv\Specification\Variable;
 
 /**
- * TODO: Analyze and describe all typical environment variables for Symfony app
- *
  * @author Serhii Andriichuk <andriichuk29@gmail.com>
  */
 class LaravelPreset implements PresetInterface
 {
     public function provide(): array
+    {
+        return array_merge(
+            $this->appSection(),
+            $this->loggerSection(),
+            $this->databaseSection(),
+            $this->cacheSection(),
+            $this->miscellaneous(),
+        );
+    }
+
+    private function appSection(): array
     {
         return [
             'APP_ENV' => new Variable(
@@ -47,6 +56,12 @@ class LaravelPreset implements PresetInterface
                 ],
                 'true',
             ),
+        ];
+    }
+
+    private function loggerSection(): array
+    {
+        return [
             'LOG_CHANNEL' => new Variable(
                 'LOG_CHANNEL',
                 'Channel for logging.',
@@ -69,6 +84,12 @@ class LaravelPreset implements PresetInterface
                 ],
                 'debug',
             ),
+        ];
+    }
+
+    private function databaseSection(): array
+    {
+        return [
             'DB_DATABASE' => new Variable(
                 'DB_DATABASE',
                 'Database name.',
@@ -99,16 +120,32 @@ class LaravelPreset implements PresetInterface
                 ],
                 '3306',
             ),
-            'QUEUE_CONNECTION' => new Variable(
-                'QUEUE_CONNECTION',
-                'Queue connection.',
+        ];
+    }
+
+    private function cacheSection(): array
+    {
+        return [
+            'REDIS_HOST' => new Variable(
+                'REDIS_HOST',
+                'Redis connection host.',
                 false,
                 false,
                 [
                     'required' => true,
-                    'enum' => ['sync', 'database', 'beanstalkd', 'sqs', 'redis', 'null'],
                 ],
-                'sync',
+                '127.0.0.1',
+            ),
+            'REDIS_PORT' => new Variable(
+                'REDIS_PORT',
+                'Redis connection port.',
+                false,
+                false,
+                [
+                    'required' => true,
+                    'numeric' => true,
+                ],
+                6379,
             ),
             'MEMCACHED_HOST' => new Variable(
                 'MEMCACHED_HOST',
@@ -119,6 +156,23 @@ class LaravelPreset implements PresetInterface
                     'required' => true,
                 ],
                 '127.0.0.1',
+            ),
+        ];
+    }
+
+    private function miscellaneous(): array
+    {
+        return [
+            'QUEUE_CONNECTION' => new Variable(
+                'QUEUE_CONNECTION',
+                'Queue connection.',
+                false,
+                false,
+                [
+                    'required' => true,
+                    'enum' => ['sync', 'database', 'beanstalkd', 'sqs', 'redis', 'null'],
+                ],
+                'sync',
             ),
             'BROADCAST_DRIVER' => new Variable(
                 'BROADCAST_DRIVER',
@@ -174,27 +228,6 @@ class LaravelPreset implements PresetInterface
                     'numeric' => true,
                 ],
                 120,
-            ),
-            'REDIS_HOST' => new Variable(
-                'REDIS_HOST',
-                'Redis connection host.',
-                false,
-                false,
-                [
-                    'required' => true,
-                ],
-                '127.0.0.1',
-            ),
-            'REDIS_PORT' => new Variable(
-                'REDIS_PORT',
-                'Redis connection port.',
-                false,
-                false,
-                [
-                    'required' => true,
-                    'numeric' => true,
-                ],
-                6379,
             ),
             'MAIL_MAILER' => new Variable(
                 'MAIL_MAILER',
