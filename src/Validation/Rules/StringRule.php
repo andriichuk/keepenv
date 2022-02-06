@@ -66,9 +66,7 @@ class StringRule implements RuleInterface
         }
 
         $length = mb_strlen($value);
-        /** @var int|null $min */
         $min = isset($options['min']) ? (int) $options['min'] : null;
-        /** @var int|null $max */
         $max = isset($options['max']) ? (int) $options['max'] : null;
 
         if ($min === null && $max === null) {
