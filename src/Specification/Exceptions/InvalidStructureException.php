@@ -46,11 +46,6 @@ class InvalidStructureException extends RuntimeException
         return new self("No environment found with name `$environment`.");
     }
 
-    public static function extendsEnvNameIsNotString(): self
-    {
-        return new self('Environment name in `extends` field must be a string.');
-    }
-
     public static function extendsFromItself(): self
     {
         return new self('You cannot extends from itself. Please remove `extends` field or define different environment.');

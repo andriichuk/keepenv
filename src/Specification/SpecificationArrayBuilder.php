@@ -13,20 +13,8 @@ class SpecificationArrayBuilder implements SpecificationBuilderInterface
 {
     public function build(array $rawDefinition): Specification
     {
-        $version = (string) ($rawDefinition['version'] ?? '');
-
-        if (empty($version)) {
-            throw InvalidStructureException::missingVersion();
-        }
-
-        if (!isset($rawDefinition['environments'])) {
-            throw InvalidStructureException::missingEnvironments();
-        }
-
-        if (!is_array($rawDefinition['environments']) || empty($rawDefinition['environments'])) {
-            throw InvalidStructureException::invalidOrEmptyEnvironments();
-        }
-
+        $version = $this->resolveVersion($rawDefinition);
+        $this->ensureEnvironmentsDefinitionIsValid($rawDefinition);
         $specification = new Specification($version);
 
         /**
@@ -40,36 +28,10 @@ class SpecificationArrayBuilder implements SpecificationBuilderInterface
                 throw InvalidStructureException::missingVariables($environment);
             }
 
-            $extends = $envDefinition['extends'] ?? null;
+            $extends = isset($envDefinition['extends']) ? (string) $envDefinition['extends'] : null;
 
             if ($extends !== null) {
-                if (!is_string($extends)) {
-                    throw InvalidStructureException::extendsEnvNameIsNotString();
-                }
-
-                if (!isset($rawDefinition['environments'][$extends])) {
-                    throw InvalidStructureException::extendsEnvironmentNotFound($extends);
-                }
-
-                if ($rawDefinition['environments'][$extends] === $environment) {
-                    throw InvalidStructureException::extendsFromItself();
-                }
-
-                if (isset($rawDefinition['environments'][$extends]['extends'])) {
-                    throw InvalidStructureException::nestedExtends();
-                }
-
-                if (!is_array($envDefinition['variables'])) {
-                    throw InvalidStructureException::missingVariables($environment);
-                }
-
-                $variablesFromParentEnv = $rawDefinition['environments'][$extends]['variables'] ?? [];
-
-                if (!is_array($variablesFromParentEnv)) {
-                    throw InvalidStructureException::missingVariables($extends);
-                }
-
-                $variables = array_replace_recursive($variablesFromParentEnv, $envDefinition['variables']);
+                $variables = $this->resolveExtends($rawDefinition, $envDefinition, $environment, $extends);
             }
 
             $envVariables = new EnvVariables($environment, $extends);
@@ -86,6 +48,55 @@ class SpecificationArrayBuilder implements SpecificationBuilderInterface
         }
 
         return $specification;
+    }
+
+    private function resolveVersion(array $rawDefinition): string
+    {
+        $version = (string) ($rawDefinition['version'] ?? '');
+
+        if (empty($version)) {
+            throw InvalidStructureException::missingVersion();
+        }
+
+        return $version;
+    }
+
+    private function ensureEnvironmentsDefinitionIsValid(array $rawDefinition): void
+    {
+        if (!isset($rawDefinition['environments'])) {
+            throw InvalidStructureException::missingEnvironments();
+        }
+
+        if (!is_array($rawDefinition['environments']) || empty($rawDefinition['environments'])) {
+            throw InvalidStructureException::invalidOrEmptyEnvironments();
+        }
+    }
+
+    private function resolveExtends(array $rawDefinition, array $envDefinition, string $environment, string $extends): array
+    {
+        if (!isset($rawDefinition['environments'][$extends])) {
+            throw InvalidStructureException::extendsEnvironmentNotFound($extends);
+        }
+
+        if ($rawDefinition['environments'][$extends] === $environment) {
+            throw InvalidStructureException::extendsFromItself();
+        }
+
+        if (isset($rawDefinition['environments'][$extends]['extends'])) {
+            throw InvalidStructureException::nestedExtends();
+        }
+
+        if (!is_array($envDefinition['variables'])) {
+            throw InvalidStructureException::missingVariables($environment);
+        }
+
+        $variablesFromParentEnv = $rawDefinition['environments'][$extends]['variables'] ?? [];
+
+        if (!is_array($variablesFromParentEnv)) {
+            throw InvalidStructureException::missingVariables($extends);
+        }
+
+        return array_replace_recursive($variablesFromParentEnv, $envDefinition['variables']);
     }
 
     /**

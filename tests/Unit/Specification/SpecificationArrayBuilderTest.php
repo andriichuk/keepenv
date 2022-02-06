@@ -141,23 +141,6 @@ class SpecificationArrayBuilderTest extends TestCase
             [
                 'version' => '1.0',
                 'environments' => [
-                    'local' => [
-                        'extends' => 123,
-                        'variables' => [
-                            'APP_ENV' => [
-                                'description' => 'Application environment.',
-                            ],
-                        ],
-                    ],
-                ],
-            ],
-            'Environment name in `extends` field must be a string.',
-        ];
-
-        yield [
-            [
-                'version' => '1.0',
-                'environments' => [
                     'common' => [],
                     'local' => [
                         'extends' => 'common',
