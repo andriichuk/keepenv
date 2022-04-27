@@ -4,7 +4,7 @@
 
 <h2 align="center">Track Your Environment Variable Changes Using Specification<h2>
 <p align="center">
-  <img width="700" align="center" src="https://github.com/andriichuk/laracash/blob/master/docs/logo.png" alt="Logo"/>
+  <img width="700" align="center" src="https://github.com/andriichuk/keepenv/blob/main/art/logo.jpeg" alt="Logo"/>
 </p>
 <p align="center">
   <a href="https://github.com/andriichuk/keepenv/blob/master/LICENSE" target="_blank">
