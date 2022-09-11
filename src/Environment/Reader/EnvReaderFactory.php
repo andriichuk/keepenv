@@ -14,16 +14,19 @@ class EnvReaderFactory
     public function make(string $type): EnvReaderInterface
     {
         switch ($type) {
-            case 'auto':
+            case EnvReaderType::AUTO:
                 return $this->baseOnAvailability();
 
-            case 'vlucas/phpdotenv':
+            case EnvReaderType::SYSTEM:
+                return new SystemEnvReader();
+
+            case EnvReaderType::VLUCAS:
                 return new VlucasPhpDotEnvFileReader();
 
-            case 'symfony/dotenv':
+            case EnvReaderType::SYMFONY:
                 return new SymfonyDotEnvFileReader();
 
-            case 'josegonzalez/dotenv':
+            case EnvReaderType::JOSEGONZALEZ:
                 return new JoseGonzalezDotEnvFileReader();
 
             default:

@@ -32,6 +32,7 @@ class VlucasPhpDotEnvFileReaderTest extends TestCase
 
         $this->reader = new VlucasPhpDotEnvFileReader();
 
+        // Check that environment variables cannot affect the file reading
         $_ENV['APP_ENV'] = 'dev';
         $_ENV['APP_RANDOM_KEY'] = 'test_123';
     }
@@ -53,6 +54,11 @@ class VlucasPhpDotEnvFileReaderTest extends TestCase
                 'APP_KEY' => '',
                 'REDIS_PORT' => '6379',
                 'MAIL_FROM_ADDRESS' => 'test@test.com',
+                'PAYMENT_FEATURE_ENABLED' => 'false',
+                'REDIS_PASSWORD' => 'null',
+                'PROFILING_LIMIT' => '2.50',
+                'DEBUG_IP' => '127.0.0.1',
+                'MAINTENANCE' => 'on',
             ],
             $variables,
         );
