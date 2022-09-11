@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Andriichuk\KeepEnv\Tests\Functional\Generator;
 
 use Andriichuk\KeepEnv\Environment\Reader\EnvReaderFactory;
+use Andriichuk\KeepEnv\Environment\Reader\EnvReaderType;
 use Andriichuk\KeepEnv\Generator\Exceptions\SpecGeneratorException;
 use Andriichuk\KeepEnv\Generator\Presets\PresetFactory;
 use Andriichuk\KeepEnv\Generator\SpecGenerator;
@@ -26,7 +27,12 @@ class SpecGeneratorTest extends TestCase
         $this->rootFolder = vfsStream::setup('src');
     }
 
-    public function testEnvironmentSpecificationGeneration(): void
+    protected function tearDown(): void
+    {
+        $_ENV = [];
+    }
+
+    public function testGeneratorCanAutomaticallyDetectReaderBasedOnAvailablePackage(): void
     {
         $this->rootFolder->addChild(
             (new vfsStreamFile('.env'))
@@ -38,7 +44,7 @@ class SpecGeneratorTest extends TestCase
         );
 
         $specGenerator = new SpecGenerator(
-            (new EnvReaderFactory())->make('auto'),
+            (new EnvReaderFactory())->make(EnvReaderType::AUTO),
             (new SpecWriterFactory())->basedOnResource('vfs://src/keepenv.yaml'),
             new PresetFactory(),
         );
@@ -51,24 +57,24 @@ class SpecGeneratorTest extends TestCase
         );
 
         $this->assertFileEquals(
-            dirname(__DIR__, 2) . '/fixtures/case_1/keepenv.yaml',
+            dirname(__DIR__, 2) . '/fixtures/common/keepenv.yaml',
             $this->rootFolder->getChild('keepenv.yaml')->url(),
         );
     }
 
-    public function testEnvironmentSpecificationWithLaravelPresetGeneration(): void
+    public function testGeneratorCanCreateSpecUsingLaravelPreset(): void
     {
         $this->rootFolder->addChild(
             (new vfsStreamFile('.env'))
                 ->setContent(
                     file_get_contents(
-                        dirname(__DIR__, 2) . '/fixtures/case_2/.env',
+                        dirname(__DIR__, 2) . '/fixtures/generator/laravel_preset/.env',
                     ),
                 ),
         );
 
         $specGenerator = new SpecGenerator(
-            (new EnvReaderFactory())->make('auto'),
+            (new EnvReaderFactory())->make(EnvReaderType::AUTO),
             (new SpecWriterFactory())->basedOnResource('vfs://src/keepenv_laravel.yaml'),
             new PresetFactory(),
         );
@@ -76,45 +82,74 @@ class SpecGeneratorTest extends TestCase
         $specGenerator->generate(
             'common',
             [dirname($this->rootFolder->getChild('.env')->url())],
-            'vfs://src/keepenv_laravel.yaml',
+            'vfs://src/keepenv.yaml',
             static fn () => true,
             'laravel'
         );
 
         $this->assertFileEquals(
-            dirname(__DIR__, 2) . '/fixtures/case_2/keepenv_laravel.yaml',
-            $this->rootFolder->getChild('keepenv_laravel.yaml')->url(),
+            dirname(__DIR__, 2) . '/fixtures/generator/laravel_preset/keepenv.yaml',
+            $this->rootFolder->getChild('keepenv.yaml')->url(),
         );
     }
 
-    public function testEnvironmentSpecificationWithSymfonyPresetGeneration(): void
+    public function testGeneratorCanCreateSpecUsingSymfonyPreset(): void
     {
         $this->rootFolder->addChild(
-            (new vfsStreamFile('.env.symfony'))
+            (new vfsStreamFile('.env'))
                 ->setContent(
                     file_get_contents(
-                        dirname(__DIR__, 2) . '/fixtures/case_2/.env.symfony',
+                        dirname(__DIR__, 2) . '/fixtures/generator/symfony_preset/.env',
                     ),
                 ),
         );
 
         $specGenerator = new SpecGenerator(
-            (new EnvReaderFactory())->make('symfony/dotenv'),
-            (new SpecWriterFactory())->basedOnResource('vfs://src/keepenv_symfony.yaml'),
+            (new EnvReaderFactory())->make(EnvReaderType::SYMFONY),
+            (new SpecWriterFactory())->basedOnResource('vfs://src/keepenv.yaml'),
             new PresetFactory(),
         );
 
         $specGenerator->generate(
             'common',
-            [$this->rootFolder->getChild('.env.symfony')->url()],
-            'vfs://src/keepenv_symfony.yaml',
+            [$this->rootFolder->getChild('.env')->url()],
+            'vfs://src/keepenv.yaml',
             static fn () => true,
             'symfony'
         );
 
         $this->assertFileEquals(
-            dirname(__DIR__, 2) . '/fixtures/case_2/keepenv_symfony.yaml',
-            $this->rootFolder->getChild('keepenv_symfony.yaml')->url(),
+            dirname(__DIR__, 2) . '/fixtures/generator/symfony_preset/keepenv.yaml',
+            $this->rootFolder->getChild('keepenv.yaml')->url(),
+        );
+    }
+
+    public function testGeneratorCanCreateSpecUsingSystemVariables(): void
+    {
+        $_ENV['APP_NAME'] = 'KeepEnv';
+        $_ENV['APP_ENV'] = 'production';
+        $_ENV['APP_DEBUG'] = true;
+        $_ENV['APP_KEY'] = '';
+        $_ENV['REDIS_PORT'] = 6379;
+        $_ENV['REDIS_PASSWORD'] = null;
+        $_ENV['MAIL_FROM_ADDRESS'] = 'test@test.com';
+
+        $specGenerator = new SpecGenerator(
+            (new EnvReaderFactory())->make(EnvReaderType::SYSTEM),
+            (new SpecWriterFactory())->basedOnResource('vfs://src/keepenv.yaml'),
+            new PresetFactory(),
+        );
+
+        $specGenerator->generate(
+            'common',
+            [],
+            'vfs://src/keepenv.yaml',
+            static fn (): bool => true,
+        );
+
+        $this->assertFileEquals(
+            dirname(__DIR__, 2) . '/fixtures/common/keepenv.yaml',
+            $this->rootFolder->getChild('keepenv.yaml')->url(),
         );
     }
 
@@ -126,7 +161,7 @@ class SpecGeneratorTest extends TestCase
         $this->rootFolder->addChild((new vfsStreamFile('keepenv.yaml'))->setContent(''));
 
         $specGenerator = new SpecGenerator(
-            (new EnvReaderFactory())->make('auto'),
+            (new EnvReaderFactory())->make(EnvReaderType::AUTO),
             (new SpecWriterFactory())->basedOnResource('vfs://src/keepenv.yaml'),
             new PresetFactory(),
         );

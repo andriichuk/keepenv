@@ -53,6 +53,11 @@ class SymfonyDotEnvFileReaderTest extends TestCase
                 'APP_KEY' => '',
                 'REDIS_PORT' => '6379',
                 'MAIL_FROM_ADDRESS' => 'test@test.com',
+                'PAYMENT_FEATURE_ENABLED' => 'false',
+                'REDIS_PASSWORD' => 'null',
+                'PROFILING_LIMIT' => '2.50',
+                'DEBUG_IP' => '127.0.0.1',
+                'MAINTENANCE' => 'on',
             ],
             $variables,
         );

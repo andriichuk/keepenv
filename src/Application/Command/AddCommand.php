@@ -23,7 +23,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 /**
  * @author Serhii Andriichuk <andriichuk29@gmail.com>
  */
-class AddCommand extends Command
+final class AddCommand extends Command
 {
     protected static $defaultName = 'add';
 

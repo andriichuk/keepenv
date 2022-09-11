@@ -68,13 +68,9 @@ class SpecGenerator
                 continue;
             }
 
-            $required = trim((string) $value) !== '';
-            $rules = [];
-
-            if ($required) {
-                $rules['required'] = true;
-            }
-
+            $rules = [
+                'required' => trim((string) $value) !== ''
+            ];
             $rules = array_merge($rules, $this->guessType($key, $value));
 
             $envSpec->add(

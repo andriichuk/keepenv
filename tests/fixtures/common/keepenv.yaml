@@ -17,10 +17,26 @@ environments:
                 rules:
                     required: true
                     boolean: true
+            PAYMENT_FEATURE_ENABLED:
+                description: 'Payment feature enabled.'
+                rules:
+                    required: true
+                    boolean: true
             APP_KEY:
                 description: 'Application key.'
+                rules:
+                    required: false
             REDIS_PORT:
                 description: 'Redis port.'
+                rules:
+                    required: true
+                    numeric: true
+            REDIS_PASSWORD:
+                description: 'Redis password.'
+                rules:
+                    required: false
+            PROFILING_LIMIT:
+                description: 'Profiling limit.'
                 rules:
                     required: true
                     numeric: true
@@ -28,3 +44,13 @@ environments:
                 description: 'Mail from address.'
                 rules:
                     required: true
+            DEBUG_IP:
+                description: 'Debug ip.'
+                rules:
+                    required: true
+                    ip: true
+            MAINTENANCE:
+                description: Maintenance.
+                rules:
+                    required: true
+                    boolean: true
